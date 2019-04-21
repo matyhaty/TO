@@ -1,0 +1,249 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, socle, body, zap1, zap2, ring, boule, sleeve,
+       flare, p1, emit;
+
+static-var  Static_Var_1, Static_Var_2, restore_delay;
+
+// Signal definitions
+#define SIG_AIM				2
+
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from socle;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+zaps(Func_Var_1)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 500;
+	}
+	while( TRUE )
+	{
+		Func_Var_1 = 300 + Rand( 50, 1000 );
+		sleep Func_Var_1;
+		show zap1;
+		sleep 75;
+		show zap2;
+		sleep 100;
+		hide zap1;
+		sleep 50;
+		hide zap2;
+		sleep 100;
+		show zap1;
+		sleep 75;
+		show zap2;
+		sleep 100;
+		hide zap1;
+		sleep 50;
+		hide zap2;
+		sleep 100;
+	}
+}
+
+glow(Func_Var_1)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 500;
+	}
+	while( TRUE )
+	{
+		emit-sfx 1024 + 0 from emit;
+		Func_Var_1 = 300 + Rand( 50, 1000 );
+		sleep Func_Var_1;
+	}
+}
+
+flotte()
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 500;
+	}
+	while( TRUE )
+	{
+		sleep 100;
+		move boule to y-axis [0.500000] speed [3.000000];
+		wait-for-move boule along y-axis;
+		move boule to y-axis [1.000000] speed [2.000000];
+		wait-for-move boule along y-axis;
+		move boule to y-axis [-0.500000] speed [3.000000];
+		wait-for-move boule along y-axis;
+		move boule to y-axis [-1.000000] speed [2.000000];
+		wait-for-move boule along y-axis;
+	}
+}
+
+tourne()
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 500;
+	}
+	while( TRUE )
+	{
+		sleep 100;
+		turn p1 to z-axis <15.000000> speed <20.000000>;
+		wait-for-turn p1 around z-axis;
+		turn p1 to z-axis <20.000000> speed <10.000000>;
+		wait-for-turn p1 around z-axis;
+		turn p1 to z-axis <25.000000> speed <5.000000>;
+		wait-for-turn p1 around z-axis;
+		turn p1 to z-axis <-15.000000> speed <20.000000>;
+		wait-for-turn p1 around z-axis;
+		turn p1 to z-axis <-20.000000> speed <10.000000>;
+		wait-for-turn p1 around z-axis;
+		turn p1 to z-axis <-25.000000> speed <5.000000>;
+		wait-for-turn p1 around z-axis;
+	}
+}
+
+Create()
+{
+	hide flare;
+	hide zap1;
+	hide zap2;
+	hide boule;
+	dont-cache flare;
+	dont-cache boule;
+	dont-cache ring;
+	dont-cache body;
+	dont-cache zap1;
+	dont-cache zap2;
+	dont-cache p1;
+	Static_Var_1 = 0;
+	Static_Var_2 = 1;
+	restore_delay = 3000;
+	start-script SmokeUnit();
+	start-script glow();
+	start-script flotte();
+	start-script tourne();
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 1000;
+	}
+	spin boule around y-axis speed <80.000000>;
+	spin body around y-axis speed <10.000000>;
+	spin ring around z-axis speed <20.000000>;
+	spin flare around z-axis speed <500.000000>;
+	spin zap1 around x-axis speed <250.000000>;
+	spin zap2 around x-axis speed <150.000000>;
+}
+
+SetMaxReloadTime(Func_Var_1)
+{
+	restore_delay = Func_Var_1 * 2;
+}
+
+RestoreAfterDelay()
+{
+	sleep restore_delay;
+}
+
+AimPrimary(heading, pitch)
+{
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+	turn sleeve to y-axis heading speed <100.000000>;
+	turn sleeve to x-axis <0.000000> - pitch speed <150.000000>;
+	wait-for-turn sleeve around y-axis;
+	wait-for-turn sleeve around x-axis;
+	while( !Static_Var_2 )
+	{
+		sleep 500;
+	}
+	start-script RestoreAfterDelay();
+	return (1);
+}
+
+FirePrimary()
+{
+	emit-sfx 1024 + 0 from emit;
+	emit-sfx 1024 + 1 from emit;
+	emit-sfx 1024 + 1 from emit;
+	sleep 33;
+	emit-sfx 1024 + 1 from emit;
+}
+
+QueryPrimary(piecenum)
+{
+	piecenum = flare;
+}
+
+AimFromPrimary(piecenum)
+{
+	piecenum = sleeve;
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = base;
+}
+
+Killed(severity, corpsetype)
+{
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		explode socle type NOHEATCLOUD;
+		explode body type NOHEATCLOUD;
+		explode boule type NOHEATCLOUD;
+		explode p1 type NOHEATCLOUD;
+		return (corpsetype);
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		explode socle type NOHEATCLOUD | FALL;
+		explode boule type NOHEATCLOUD | SHATTER;
+		explode ring type NOHEATCLOUD | SHATTER;
+		explode zap1 type NOHEATCLOUD | FALL;
+		explode zap2 type NOHEATCLOUD | FALL;
+		return (corpsetype);
+	}
+	if( severity <= 99 )
+	{
+		corpsetype = 3;
+		explode socle type NOHEATCLOUD | SHATTER;
+		explode boule type NOHEATCLOUD | SHATTER;
+		explode ring type NOHEATCLOUD | SHATTER;
+		explode zap1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode p1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		return (corpsetype);
+	}
+	corpsetype = 3;
+	explode socle type NOHEATCLOUD | SHATTER;
+	explode boule type NOHEATCLOUD | SHATTER;
+	explode ring type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode zap1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode p1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	return (corpsetype);
+}

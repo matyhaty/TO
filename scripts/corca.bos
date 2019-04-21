@@ -1,0 +1,190 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, winga, wingb, doora, doorb, thrusta1, thrusta2, thrustb;
+
+static-var  statechg_DesiredState, statechg_StateChanging, Static_Var_3;
+
+
+activatescr()
+{
+	if( TRUE )
+	{
+		turn winga to z-axis <0.000000> now;
+		turn winga to z-axis <-90.137363> speed <61.868132>;
+		turn wingb to z-axis <0.000000> now;
+		turn wingb to z-axis <90.137363> speed <61.868132>;
+		sleep 1457;
+	}
+	sleep 12;
+}
+
+deactivatescr()
+{
+	if( TRUE )
+	{
+		turn winga to z-axis <-90.137363> now;
+		turn winga to z-axis <0.000000> speed <61.945055>;
+		turn wingb to z-axis <90.137363> now;
+		turn wingb to z-axis <0.000000> speed <61.945055>;
+		sleep 1455;
+	}
+	sleep 18;
+}
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from base;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+InitState()
+{
+	statechg_DesiredState = TRUE;
+	statechg_StateChanging = FALSE;
+}
+
+RequestState(requestedstate, currentstate)
+{
+	if( statechg_StateChanging )
+	{
+		statechg_DesiredState = requestedstate;
+		return (0);
+	}
+	statechg_StateChanging = TRUE;
+	currentstate = statechg_DesiredState;
+	statechg_DesiredState = requestedstate;
+	while( statechg_DesiredState != currentstate )
+	{
+		if( statechg_DesiredState == 0 )
+		{
+			call-script activatescr();
+			currentstate = 0;
+		}
+		if( statechg_DesiredState == 1 )
+		{
+			if( Static_Var_3 == 0 )
+			{
+				call-script deactivatescr();
+				currentstate = 1;
+			}
+			sleep 100;
+		}
+	}
+	statechg_StateChanging = FALSE;
+}
+
+Create()
+{
+	Static_Var_3 = 0;
+	call-script InitState();
+	start-script SmokeUnit();
+}
+
+Activate()
+{
+	start-script RequestState(0);
+}
+
+Deactivate()
+{
+	start-script RequestState(1);
+}
+
+StartBuilding()
+{
+	Static_Var_3 = 1;
+	set INBUILDSTANCE to 1;
+}
+
+StopBuilding()
+{
+	Static_Var_3 = 0;
+	set INBUILDSTANCE to 0;
+}
+
+QueryNanoPiece(piecenum)
+{
+	piecenum = base;
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = base;
+}
+
+Killed(severity, corpsetype)
+{
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		explode base type NOHEATCLOUD;
+		explode doora type NOHEATCLOUD;
+		explode doorb type NOHEATCLOUD;
+		explode thrusta1 type NOHEATCLOUD;
+		explode thrusta2 type NOHEATCLOUD;
+		explode thrustb type NOHEATCLOUD;
+		explode winga type NOHEATCLOUD;
+		explode wingb type NOHEATCLOUD;
+		return (corpsetype);
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		explode base type NOHEATCLOUD;
+		explode doora type NOHEATCLOUD;
+		explode doorb type NOHEATCLOUD;
+		explode thrusta1 type NOHEATCLOUD | FALL;
+		explode thrusta2 type NOHEATCLOUD | FALL;
+		explode thrustb type NOHEATCLOUD | FALL;
+		explode winga type NOHEATCLOUD | SHATTER;
+		explode wingb type NOHEATCLOUD;
+		return (corpsetype);
+	}
+	if( severity <= 99 )
+	{
+		corpsetype = 3;
+		explode base type NOHEATCLOUD;
+		explode doora type NOHEATCLOUD;
+		explode doorb type NOHEATCLOUD;
+		explode thrusta1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode thrusta2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode thrustb type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode winga type NOHEATCLOUD | SHATTER;
+		explode wingb type NOHEATCLOUD;
+		return (corpsetype);
+	}
+	corpsetype = 3;
+	explode base type NOHEATCLOUD;
+	explode doora type NOHEATCLOUD;
+	explode doorb type NOHEATCLOUD;
+	explode thrusta1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode thrusta2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode thrustb type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode winga type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode wingb type NOHEATCLOUD;
+	return (corpsetype);
+}

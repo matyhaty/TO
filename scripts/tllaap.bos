@@ -1,0 +1,330 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, body, pad, door1, door2, door3, door4, door5,
+       doors, spray1, spray2, nano1, nano2, plate;
+
+static-var  spray, unitviewer, statechg_DesiredState, statechg_StateChanging, Static_Var_5,
+            Static_Var_6;
+
+// Signal definitions
+#define SIG_ACTIVATE			2
+
+
+HitByWeapon(anglex, anglez)
+{
+	var Func_Var_3;
+	Func_Var_3 = get HEALTH;
+	if( Func_Var_3 <= 60 )
+	{
+		if( Static_Var_5 == 0 )
+		{
+			Static_Var_5 = 1;
+			hide door4;
+			explode door4 type NOHEATCLOUD | FALL | SHATTER | SMOKE;
+		}
+	}
+	if( Func_Var_3 <= 50 )
+	{
+		if( Static_Var_6 == 0 )
+		{
+			Static_Var_6 = 1;
+			hide door5;
+			explode door5 type NOHEATCLOUD | FALL | SHATTER | SMOKE;
+		}
+	}
+}
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	Static_Var_5 = 0;
+	Static_Var_6 = 0;
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent >= 60 )
+		{
+			if( Static_Var_6 == 1 )
+			{
+				Static_Var_6 = 0;
+				show door5;
+			}
+		}
+		if( healthpercent >= 75 )
+		{
+			if( Static_Var_5 == 1 )
+			{
+				Static_Var_5 = 0;
+				show door4;
+			}
+		}
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from body;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+activatescr()
+{
+	if( TRUE )
+	{
+		turn door5 to x-axis <30.000000> speed <30.000000>;
+		wait-for-turn door5 around x-axis;
+		move doors to z-axis [3.000000] speed [4.000000];
+	}
+	if( TRUE )
+	{
+		turn door4 to x-axis <30.000000> speed <30.000000>;
+		wait-for-turn door4 around x-axis;
+		turn door3 to x-axis <30.000000> speed <30.000000>;
+		turn nano1 to y-axis <0.000000> speed <50.000000>;
+		turn nano2 to y-axis <0.000000> speed <50.000000>;
+		wait-for-turn door3 around x-axis;
+		turn door2 to x-axis <30.000000> speed <30.000000>;
+		wait-for-turn door2 around x-axis;
+		dont-cache plate;
+	}
+	sleep 26;
+}
+
+deactivatescr()
+{
+	if( TRUE )
+	{
+		cache plate;
+		turn nano1 to y-axis <90.000000> speed <50.000000>;
+		turn nano2 to y-axis <-90.000000> speed <50.000000>;
+		turn door2 to x-axis <0.000000> speed <30.000000>;
+		wait-for-turn door2 around x-axis;
+		turn door3 to x-axis <0.000000> speed <30.000000>;
+		wait-for-turn door3 around x-axis;
+		turn door4 to x-axis <0.000000> speed <30.000000>;
+		wait-for-turn door4 around x-axis;
+	}
+	if( TRUE )
+	{
+		move doors to z-axis [0.000000] speed [3.000000];
+		wait-for-move doors along z-axis;
+		turn door5 to x-axis <0.000000> speed <30.000000>;
+		wait-for-turn door5 around x-axis;
+	}
+	sleep 26;
+}
+
+OpenYard()
+{
+	set YARD_OPEN to 1;
+	while( !get YARD_OPEN )
+	{
+		set BUGGER_OFF to 1;
+		sleep 1500;
+		set YARD_OPEN to 1;
+	}
+	set BUGGER_OFF to 0;
+}
+
+CloseYard()
+{
+	set YARD_OPEN to 0;
+	while( get YARD_OPEN )
+	{
+		set BUGGER_OFF to 1;
+		sleep 1500;
+		set YARD_OPEN to 0;
+	}
+	set BUGGER_OFF to 0;
+}
+
+Go()
+{
+	call-script activatescr();
+	call-script OpenYard();
+	set ARMORED to 0;
+	set INBUILDSTANCE to 1;
+}
+
+Stop()
+{
+	set INBUILDSTANCE to 0;
+	set ARMORED to 1;
+	call-script CloseYard();
+	call-script deactivatescr();
+}
+
+InitState()
+{
+	statechg_DesiredState = TRUE;
+	statechg_StateChanging = FALSE;
+}
+
+RequestState(requestedstate, currentstate)
+{
+	if( statechg_StateChanging )
+	{
+		statechg_DesiredState = requestedstate;
+		return (0);
+	}
+	statechg_StateChanging = TRUE;
+	currentstate = statechg_DesiredState;
+	statechg_DesiredState = requestedstate;
+	while( statechg_DesiredState != currentstate )
+	{
+		if( statechg_DesiredState == 0 )
+		{
+			call-script Go();
+			currentstate = 0;
+		}
+		if( statechg_DesiredState == 1 )
+		{
+			call-script Stop();
+			currentstate = 1;
+		}
+	}
+	statechg_StateChanging = FALSE;
+}
+
+Create()
+{
+	dont-shade plate;
+	dont-shade body;
+	dont-shade door1;
+	dont-shade door2;
+	dont-shade door3;
+	dont-shade door4;
+	dont-shade door5;
+	dont-cache spray1;
+	dont-cache spray2;
+	dont-cache nano1;
+	dont-cache nano2;
+	turn nano1 to y-axis <90.000000> now;
+	turn nano2 to y-axis <-90.000000> now;
+	spray = base;
+	unitviewer = FALSE;
+	set ARMORED to 0;
+	call-script InitState();
+	start-script SmokeUnit();
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 1000;
+	}
+}
+
+QueryNanoPiece(piecenum)
+{
+	if( spray == 0 )
+	{
+		piecenum = spray1;
+	}
+	if( spray == 1 )
+	{
+		piecenum = spray2;
+	}
+	spray = !spray;
+}
+
+Demo()
+{
+	unitviewer = TRUE;
+}
+
+Activate()
+{
+	signal SIG_ACTIVATE;
+	start-script RequestState(0);
+}
+
+Deactivate()
+{
+	signal SIG_ACTIVATE;
+	set-signal-mask SIG_ACTIVATE;
+	if( !unitviewer )
+	{
+		sleep 5000;
+	}
+	set-signal-mask 0;
+	start-script RequestState(1);
+}
+
+StartBuilding()
+{
+	spin pad around y-axis speed <30.000000>;
+}
+
+StopBuilding()
+{
+	stop-spin pad around y-axis;
+}
+
+QueryBuildInfo(piecenum)
+{
+	piecenum = pad;
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = base;
+}
+
+Killed(severity, corpsetype)
+{
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		explode base type NOHEATCLOUD;
+		explode door1 type NOHEATCLOUD;
+		explode body type NOHEATCLOUD | SHATTER;
+		explode pad type NOHEATCLOUD;
+		explode door2 type NOHEATCLOUD;
+		return (corpsetype);
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		explode base type NOHEATCLOUD;
+		explode body type NOHEATCLOUD | SHATTER;
+		explode door1 type NOHEATCLOUD;
+		explode door2 type NOHEATCLOUD;
+		explode pad type NOHEATCLOUD;
+		explode door3 type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		return (corpsetype);
+	}
+	if( severity <= 99 )
+	{
+		corpsetype = 3;
+		explode base type NOHEATCLOUD;
+		explode door2 type NOHEATCLOUD;
+		explode door3 type NOHEATCLOUD;
+		explode plate type NOHEATCLOUD | SHATTER;
+		explode body type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+		explode pad type NOHEATCLOUD;
+		explode door1 type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		explode door2 type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		return (corpsetype);
+	}
+	corpsetype = 3;
+	explode base type NOHEATCLOUD;
+	explode plate type NOHEATCLOUD | SHATTER;
+	explode body type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode pad type NOHEATCLOUD;
+	explode door1 type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	explode door2 type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	return (corpsetype);
+}

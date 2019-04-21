@@ -1,0 +1,464 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  gauss, turret, flash, torso, ruparm, luparm, pelvis, lthigh,
+       rthigh, rleg, rfoot, lleg, lfoot, lloarm, lhand, rloarm,
+       rhand, ground;
+
+static-var  restore_delay, Static_Var_2, gun_2, Static_Var_4, Static_Var_5,
+            Static_Var_6, Static_Var_7, Static_Var_8;
+
+// Signal definitions
+#define SIG_MOVE			2
+#define SIG_AIM				4
+#define SIG_AIM_2			8
+
+
+walk()
+{
+	while( TRUE )
+	{
+		move torso to y-axis [0.000000] now;
+		move ruparm to y-axis [0.000000] now;
+		move ruparm to z-axis [0.000000] now;
+		move luparm to y-axis [-0.119995] speed [1.431323] * Static_Var_7 / [0.000610];
+		move luparm to z-axis [0.119995] speed [1.431323] * Static_Var_7 / [0.000610];
+		turn pelvis to z-axis <-3.582418> speed <42.725275> * Static_Var_7 / <0.549451>;
+		turn torso to z-axis <5.390110> speed <64.291209> * Static_Var_7 / <0.549451>;
+		turn lthigh to x-axis <33.758242> speed <402.653846> * Static_Var_7 / <0.549451>;
+		turn rthigh to x-axis <0.000000> now;
+		turn rleg to x-axis <42.747253> speed <509.873626> * Static_Var_7 / <0.549451>;
+		turn rfoot to x-axis <-31.945055> speed <381.027473> * Static_Var_7 / <0.549451>;
+		turn lleg to x-axis <7.181319> speed <85.653846> * Static_Var_7 / <0.549451>;
+		turn lfoot to x-axis <-11.692308> speed <139.461538> * Static_Var_7 / <0.549451>;
+		turn ruparm to x-axis <22.945055> speed <273.681319> * Static_Var_7 / <0.549451>;
+		turn luparm to x-axis <-51.302198> speed <611.917582> * Static_Var_7 / <0.549451>;
+		turn lloarm to x-axis <21.137363> speed <252.115385> * Static_Var_7 / <0.549451>;
+		turn lhand to x-axis <36.445055> speed <434.703297> * Static_Var_7 / <0.549451>;
+		turn rloarm to x-axis <0.000000> now;
+		turn rhand to x-axis <-5.835165> speed <69.598901> * Static_Var_7 / <0.549451>;
+		sleep Static_Var_8;
+		move torso to y-axis [0.059998] speed [0.715662] * Static_Var_7 / [0.000610];
+		move ruparm to y-axis [0.239996] speed [2.862646] * Static_Var_7 / [0.000610];
+		move ruparm to z-axis [-0.139996] speed [1.669879] * Static_Var_7 / [0.000610];
+		move luparm to y-axis [0.000000] speed [1.431323] * Static_Var_7 / [0.000610];
+		move luparm to z-axis [0.079999] speed [0.477106] * Static_Var_7 / [0.000610];
+		turn pelvis to z-axis <-2.236264> speed <16.054945> * Static_Var_7 / <0.549451>;
+		turn torso to z-axis <2.236264> speed <37.615385> * Static_Var_7 / <0.549451>;
+		turn lthigh to x-axis <47.247253> speed <160.890110> * Static_Var_7 / <0.549451>;
+		turn rthigh to x-axis <6.736264> speed <80.346154> * Static_Var_7 / <0.549451>;
+		turn rleg to x-axis <-28.791209> speed <853.285714> * Static_Var_7 / <0.549451>;
+		turn rfoot to x-axis <16.637363> speed <579.472527> * Static_Var_7 / <0.549451>;
+		turn lleg to x-axis <-5.835165> speed <155.252747> * Static_Var_7 / <0.549451>;
+		turn lfoot to x-axis <0.000000> speed <139.461538> * Static_Var_7 / <0.549451>;
+		turn ruparm to x-axis <7.181319> speed <188.021978> * Static_Var_7 / <0.549451>;
+		turn luparm to x-axis <-29.236264> speed <263.192308> * Static_Var_7 / <0.549451>;
+		turn lloarm to x-axis <13.489011> speed <91.225275> * Static_Var_7 / <0.549451>;
+		turn lhand to x-axis <16.192308> speed <241.565934> * Static_Var_7 / <0.549451>;
+		turn rloarm to x-axis <3.582418> speed <42.725275> * Static_Var_7 / <0.549451>;
+		turn rhand to x-axis <106.214286> speed <1336.489011> * Static_Var_7 / <0.549451>;
+		sleep Static_Var_8;
+		move torso to y-axis [0.139996] speed [0.954211] * Static_Var_7 / [0.000610];
+		move ruparm to z-axis [-0.039996] speed [1.192767] * Static_Var_7 / [0.000610];
+		move luparm to z-axis [0.000000] speed [0.954211] * Static_Var_7 / [0.000610];
+		turn pelvis to z-axis <-0.890110> speed <16.054945> * Static_Var_7 / <0.549451>;
+		turn torso to z-axis <-1.335165> speed <42.598901> * Static_Var_7 / <0.549451>;
+		turn lthigh to x-axis <51.302198> speed <48.362637> * Static_Var_7 / <0.549451>;
+		turn rthigh to x-axis <9.434066> speed <32.175824> * Static_Var_7 / <0.549451>;
+		turn rleg to x-axis <10.791209> speed <472.126374> * Static_Var_7 / <0.549451>;
+		turn rfoot to x-axis <-10.335165> speed <321.719780> * Static_Var_7 / <0.549451>;
+		turn lleg to x-axis <0.000000> speed <69.598901> * Static_Var_7 / <0.549451>;
+		turn lfoot to x-axis <21.137363> speed <252.115385> * Static_Var_7 / <0.549451>;
+		turn luparm to x-axis <0.000000> speed <348.719780> * Static_Var_7 / <0.549451>;
+		turn lloarm to x-axis <0.000000> speed <160.890110> * Static_Var_7 / <0.549451>;
+		turn lhand to x-axis <0.000000> speed <193.131868> * Static_Var_7 / <0.549451>;
+		turn rloarm to x-axis <-40.945055> speed <531.109890> * Static_Var_7 / <0.549451>;
+		turn rhand to x-axis <143.115385> speed <440.142857> * Static_Var_7 / <0.549451>;
+		sleep Static_Var_8;
+		move torso to y-axis [0.079999] speed [0.715662] * Static_Var_7 / [0.000610];
+		move ruparm to z-axis [0.039996] speed [0.954211] * Static_Var_7 / [0.000610];
+		turn pelvis to z-axis <2.236264> speed <37.285714> * Static_Var_7 / <0.549451>;
+		turn torso to z-axis <-4.934066> speed <42.923077> * Static_Var_7 / <0.549451>;
+		turn lthigh to x-axis <0.890110> speed <601.296703> * Static_Var_7 / <0.549451>;
+		turn rthigh to x-axis <20.692308> speed <134.280220> * Static_Var_7 / <0.549451>;
+		turn rleg to x-axis <3.582418> speed <85.983516> * Static_Var_7 / <0.549451>;
+		turn rfoot to x-axis <-14.835165> speed <53.670330> * Static_Var_7 / <0.549451>;
+		turn lleg to x-axis <55.802198> speed <665.587912> * Static_Var_7 / <0.549451>;
+		turn lfoot to x-axis <0.890110> speed <241.500000> * Static_Var_7 / <0.549451>;
+		turn ruparm to x-axis <-17.978022> speed <300.087912> * Static_Var_7 / <0.549451>;
+		turn luparm to x-axis <17.978022> speed <214.434066> * Static_Var_7 / <0.549451>;
+		turn lloarm to x-axis <-3.137363> speed <37.417582> * Static_Var_7 / <0.549451>;
+		turn lhand to x-axis <-5.390110> speed <64.291209> * Static_Var_7 / <0.549451>;
+		sleep Static_Var_8;
+		move torso to y-axis [0.000000] speed [0.954211] * Static_Var_7 / [0.000610];
+		move ruparm to y-axis [-0.059998] speed [3.578308] * Static_Var_7 / [0.000610];
+		move ruparm to z-axis [0.079999] speed [0.477106] * Static_Var_7 / [0.000610];
+		turn pelvis to z-axis <3.582418> speed <16.054945> * Static_Var_7 / <0.549451>;
+		turn torso to z-axis <-4.489011> speed <5.307692> * Static_Var_7 / <0.549451>;
+		turn lthigh to x-axis <-16.192308> speed <203.752747> * Static_Var_7 / <0.549451>;
+		turn rthigh to x-axis <35.538462> speed <177.076923> * Static_Var_7 / <0.549451>;
+		turn rfoot to x-axis <-8.989011> speed <69.730769> * Static_Var_7 / <0.549451>;
+		turn lleg to x-axis <54.901099> speed <10.747253> * Static_Var_7 / <0.549451>;
+		turn lfoot to x-axis <-21.593407> speed <268.175824> * Static_Var_7 / <0.549451>;
+		turn ruparm to x-axis <-48.593407> speed <365.170330> * Static_Var_7 / <0.549451>;
+		turn luparm to x-axis <20.225275> speed <26.802198> * Static_Var_7 / <0.549451>;
+		turn lloarm to x-axis <8.989011> speed <144.637363> * Static_Var_7 / <0.549451>;
+		turn lhand to x-axis <-17.093407> speed <139.593407> * Static_Var_7 / <0.549451>;
+		turn rloarm to x-axis <14.390110> speed <660.016484> * Static_Var_7 / <0.549451>;
+		turn rhand to x-axis <46.346154> speed <1154.230769> * Static_Var_7 / <0.549451>;
+		sleep Static_Var_8;
+		move torso to y-axis [0.059998] speed [0.715662] * Static_Var_7 / [0.000610];
+		move ruparm to z-axis [0.079999] now;
+		move luparm to y-axis [0.239996] speed [2.862646] * Static_Var_7 / [0.000610];
+		turn pelvis to z-axis <2.236264> speed <16.054945> * Static_Var_7 / <0.549451>;
+		turn torso to z-axis <-2.236264> speed <26.868132> * Static_Var_7 / <0.549451>;
+		turn lthigh to x-axis <0.000000> speed <193.131868> * Static_Var_7 / <0.549451>;
+		turn rthigh to x-axis <46.346154> speed <128.906593> * Static_Var_7 / <0.549451>;
+		turn rfoot to x-axis <5.835165> speed <176.813187> * Static_Var_7 / <0.549451>;
+		turn lleg to x-axis <0.000000> speed <654.840659> * Static_Var_7 / <0.549451>;
+		turn lfoot to x-axis <0.000000> speed <257.554945> * Static_Var_7 / <0.549451>;
+		turn ruparm to x-axis <-33.758242> speed <176.945055> * Static_Var_7 / <0.549451>;
+		turn luparm to x-axis <11.247253> speed <107.082418> * Static_Var_7 / <0.549451>;
+		turn lloarm to x-axis <0.000000> speed <107.214286> * Static_Var_7 / <0.549451>;
+		turn lhand to x-axis <116.560440> speed <1594.181319> * Static_Var_7 / <0.549451>;
+		turn rhand to x-axis <20.225275> speed <311.560440> * Static_Var_7 / <0.549451>;
+		sleep Static_Var_8;
+		move torso to y-axis [0.139996] speed [0.954211] * Static_Var_7 / [0.000610];
+		move ruparm to z-axis [0.039996] speed [0.477106] * Static_Var_7 / [0.000610];
+		move luparm to y-axis [0.239996] now;
+		turn pelvis to z-axis <0.890110> speed <16.054945> * Static_Var_7 / <0.549451>;
+		turn torso to z-axis <1.335165> speed <42.598901> * Static_Var_7 / <0.549451>;
+		turn lthigh to x-axis <11.247253> speed <134.153846> * Static_Var_7 / <0.549451>;
+		turn rthigh to x-axis <60.302198> speed <166.461538> * Static_Var_7 / <0.549451>;
+		turn rfoot to x-axis <10.791209> speed <59.109890> * Static_Var_7 / <0.549451>;
+		turn lleg to x-axis <13.038462> speed <155.516484> * Static_Var_7 / <0.549451>;
+		turn lfoot to x-axis <-14.835165> speed <176.945055> * Static_Var_7 / <0.549451>;
+		turn ruparm to x-axis <5.390110> speed <466.945055> * Static_Var_7 / <0.549451>;
+		turn luparm to x-axis <-8.989011> speed <241.368132> * Static_Var_7 / <0.549451>;
+		turn lloarm to x-axis <-28.791209> speed <343.412088> * Static_Var_7 / <0.549451>;
+		turn lhand to x-axis <148.967033> speed <386.532967> * Static_Var_7 / <0.549451>;
+		turn rloarm to x-axis <-5.835165> speed <241.236264> * Static_Var_7 / <0.549451>;
+		turn rhand to x-axis <6.736264> speed <160.890110> * Static_Var_7 / <0.549451>;
+		sleep Static_Var_8;
+		move torso to y-axis [0.079999] speed [0.715662] * Static_Var_7 / [0.000610];
+		move ruparm to z-axis [0.000000] speed [0.477106] * Static_Var_7 / [0.000610];
+		move luparm to y-axis [0.000000] speed [2.862646] * Static_Var_7 / [0.000610];
+		turn pelvis to z-axis <-1.780220> speed <31.846154> * Static_Var_7 / <0.549451>;
+		turn torso to z-axis <5.390110> speed <48.362637> * Static_Var_7 / <0.549451>;
+		turn lthigh to x-axis <36.890110> speed <305.857143> * Static_Var_7 / <0.549451>;
+		turn rthigh to x-axis <26.989011> speed <397.346154> * Static_Var_7 / <0.549451>;
+		turn rleg to x-axis <39.148352> speed <424.219780> * Static_Var_7 / <0.549451>;
+		turn lleg to x-axis <-0.434066> speed <160.692308> * Static_Var_7 / <0.549451>;
+		turn lfoot to x-axis <-17.093407> speed <26.934066> * Static_Var_7 / <0.549451>;
+		turn luparm to x-axis <-21.137363> speed <144.901099> * Static_Var_7 / <0.549451>;
+		turn lloarm to x-axis <-40.489011> speed <139.527473> * Static_Var_7 / <0.549451>;
+		turn lhand to x-axis <90.016484> speed <703.142857> * Static_Var_7 / <0.549451>;
+		turn rloarm to x-axis <4.038462> speed <117.769231> * Static_Var_7 / <0.549451>;
+		turn rhand to x-axis <-9.890110> speed <198.313187> * Static_Var_7 / <0.549451>;
+		sleep Static_Var_8;
+	}
+}
+
+UnitSpeed()
+{
+	while( TRUE )
+	{
+		Static_Var_7 = get CURRENT_SPEED * 100 / Static_Var_6;
+		if( Static_Var_7 < 20 )
+		{
+			Static_Var_7 = 20;
+		}
+		Static_Var_8 = 11000 / Static_Var_7;
+		sleep 142;
+	}
+}
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 500;
+	}
+	start-script UnitSpeed();
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 258;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 257;
+			}
+			emit-sfx smoketype from torso;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+RequestState(requestedstate, currentstate)
+{
+	if( Static_Var_5 )
+	{
+		Static_Var_4 = requestedstate;
+		return (0);
+	}
+	Static_Var_5 = 1;
+	currentstate = Static_Var_4;
+	Static_Var_4 = requestedstate;
+	while( Static_Var_4 != currentstate )
+	{
+		if( Static_Var_4 )
+		{
+			Static_Var_2 = 0;
+			currentstate = 1;
+		}
+		else
+		{
+			Static_Var_2 = 1;
+			currentstate = 0;
+		}
+	}
+	Static_Var_5 = 0;
+}
+
+Create()
+{
+	hide flash;
+	dont-cache flash;
+	restore_delay = 3000;
+	Static_Var_2 = 0;
+	gun_2 = gauss;
+	Static_Var_4 = 1;
+	Static_Var_5 = 0;
+	Static_Var_6 = get MAX_SPEED;
+	Static_Var_8 = 110;
+	start-script SmokeUnit();
+}
+
+Activate()
+{
+	start-script RequestState(0);
+}
+
+Deactivate()
+{
+	start-script RequestState(1);
+}
+
+Reload()
+{
+	sleep 2450;
+	gun_2 = gauss;
+}
+
+SetMaxReloadTime(Func_Var_1)
+{
+	restore_delay = Func_Var_1 * 2;
+}
+
+StartMoving()
+{
+	signal SIG_MOVE;
+	set-signal-mask SIG_MOVE;
+	start-script walk();
+}
+
+StopMoving()
+{
+	signal SIG_MOVE;
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = gauss;
+}
+
+RestoreAfterDelay()
+{
+	sleep restore_delay;
+	set-signal-mask 0;
+	turn turret to y-axis <0.000000> speed <90.000000>;
+	turn gauss to x-axis <0.000000> speed <50.000000>;
+	wait-for-turn turret around y-axis;
+	wait-for-turn gauss around x-axis;
+}
+
+AimPrimary(heading, pitch)
+{
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+	while( Static_Var_2 == 1 OR gun_2 == 1 )
+	{
+		sleep 100;
+	}
+	turn turret to y-axis heading speed <150.000000>;
+	turn gauss to x-axis <0.000000> - pitch speed <50.000000>;
+	wait-for-turn turret around y-axis;
+	wait-for-turn gauss around x-axis;
+	while( Static_Var_2 == 1 OR gun_2 == 1 )
+	{
+		sleep 100;
+	}
+	start-script RestoreAfterDelay();
+	return (1);
+}
+
+AimSecondary(heading, pitch)
+{
+	signal SIG_AIM_2;
+	set-signal-mask SIG_AIM_2;
+	while( Static_Var_2 == 0 OR gun_2 == 1 )
+	{
+		sleep 100;
+	}
+	turn turret to y-axis heading speed <150.000000>;
+	turn gauss to x-axis <0.000000> - pitch speed <50.000000>;
+	wait-for-turn turret around y-axis;
+	wait-for-turn gauss around x-axis;
+	while( Static_Var_2 == 0 OR gun_2 == 1 )
+	{
+		sleep 100;
+	}
+	start-script RestoreAfterDelay();
+	return (1);
+}
+
+AimFromPrimary(piecenum)
+{
+	piecenum = turret;
+}
+
+AimFromSecondary(piecenum)
+{
+	piecenum = turret;
+}
+
+FirePrimary()
+{
+	gun_2 = turret;
+	show flash;
+	sleep 150;
+	hide flash;
+	start-script Reload();
+}
+
+FireSecondary()
+{
+	gun_2 = turret;
+	show flash;
+	sleep 150;
+	hide flash;
+	start-script Reload();
+}
+
+QueryPrimary(piecenum)
+{
+	piecenum = flash;
+}
+
+QuerySecondary(piecenum)
+{
+	piecenum = flash;
+}
+
+Killed(severity, corpsetype)
+{
+	hide flash;
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		explode flash type NOHEATCLOUD;
+		explode gauss type NOHEATCLOUD;
+		explode ground type NOHEATCLOUD;
+		explode lfoot type NOHEATCLOUD;
+		explode lhand type NOHEATCLOUD;
+		explode lleg type NOHEATCLOUD;
+		explode lloarm type NOHEATCLOUD;
+		explode lthigh type NOHEATCLOUD;
+		explode luparm type NOHEATCLOUD;
+		explode pelvis type NOHEATCLOUD;
+		explode rfoot type NOHEATCLOUD;
+		explode rhand type NOHEATCLOUD;
+		explode rleg type NOHEATCLOUD;
+		explode rloarm type NOHEATCLOUD;
+		explode rthigh type NOHEATCLOUD;
+		explode ruparm type NOHEATCLOUD;
+		explode torso type NOHEATCLOUD;
+		explode turret type NOHEATCLOUD;
+		return (corpsetype);
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		explode flash type NOHEATCLOUD | FALL;
+		explode gauss type NOHEATCLOUD | SHATTER;
+		explode ground type NOHEATCLOUD | FALL;
+		explode lfoot type NOHEATCLOUD | FALL;
+		explode lhand type NOHEATCLOUD | FALL;
+		explode lleg type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode lloarm type NOHEATCLOUD | FALL;
+		explode lthigh type NOHEATCLOUD | FALL;
+		explode luparm type NOHEATCLOUD | FALL;
+		explode pelvis type NOHEATCLOUD;
+		explode rfoot type NOHEATCLOUD | FALL;
+		explode rhand type NOHEATCLOUD | FALL;
+		explode rleg type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode rloarm type NOHEATCLOUD | FALL;
+		explode rthigh type NOHEATCLOUD | FALL;
+		explode ruparm type NOHEATCLOUD | FALL;
+		explode torso type NOHEATCLOUD;
+		explode turret type NOHEATCLOUD;
+		return (corpsetype);
+	}
+	if( severity <= 99 )
+	{
+		corpsetype = 3;
+		explode flash type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode gauss type NOHEATCLOUD | SHATTER;
+		explode ground type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode lfoot type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode lhand type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode lleg type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode lloarm type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode lthigh type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode luparm type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode pelvis type NOHEATCLOUD;
+		explode rfoot type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode rhand type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode rleg type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode rloarm type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode rthigh type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode ruparm type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode torso type NOHEATCLOUD;
+		explode turret type NOHEATCLOUD;
+		return (corpsetype);
+	}
+	corpsetype = 3;
+	explode flash type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode gauss type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode ground type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode lfoot type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode lhand type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode lleg type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode lloarm type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode lthigh type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode luparm type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode pelvis type NOHEATCLOUD;
+	explode rfoot type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode rhand type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode rleg type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode rloarm type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode rthigh type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode ruparm type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode torso type NOHEATCLOUD;
+	explode turret type NOHEATCLOUD;
+	return (corpsetype);
+}

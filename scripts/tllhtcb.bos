@@ -1,0 +1,239 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, body, p1, nano, spray1, spray2, rdoor, ldoor,
+       wheels1, wheels2, wheels3, wheels4;
+
+static-var  Static_Var_1, spray, statechg_DesiredState, statechg_StateChanging, Static_Var_5,
+            Static_Var_6, Static_Var_7;
+
+// Signal definitions
+#define SIG_MOVE			4
+
+
+WheelControl()
+{
+	sleep 33;
+	while( TRUE )
+	{
+		Static_Var_6 = get CURRENT_SPEED * 20 / Static_Var_7;
+		Static_Var_5 = Static_Var_6 * 6;
+		if( Static_Var_6 < 5 )
+		{
+			Static_Var_6 = 5;
+		}
+		spin wheels1 around x-axis speed <1.000000> * Static_Var_5 * <0.016484> accelerate <5.000000> * Static_Var_6;
+		spin wheels2 around x-axis speed <1.000000> * Static_Var_5 * <0.016484> accelerate <5.000000> * Static_Var_6;
+		spin wheels3 around x-axis speed <1.000000> * Static_Var_5 * <0.016484> accelerate <5.000000> * Static_Var_6;
+		spin wheels4 around x-axis speed <1.000000> * Static_Var_5 * <0.016484> accelerate <5.000000> * Static_Var_6;
+		sleep 67;
+	}
+}
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	start-script WheelControl();
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from body;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+activatescr()
+{
+	if( TRUE )
+	{
+		turn rdoor to z-axis <-180.038462> speed <180.038462>;
+		turn ldoor to z-axis <180.038462> speed <180.038462>;
+		sleep 500;
+	}
+	if( TRUE )
+	{
+		move p1 to y-axis [4.000031] speed [8.000055];
+		sleep 250;
+	}
+	sleep 100;
+}
+
+deactivatescr()
+{
+	if( TRUE )
+	{
+		sleep 500;
+		move p1 to y-axis [0.000000] speed [8.000055];
+	}
+	if( TRUE )
+	{
+		turn rdoor to z-axis <0.000000> speed <180.038462>;
+		turn ldoor to z-axis <0.000000> speed <180.038462>;
+		sleep 500;
+	}
+	sleep 10;
+}
+
+Go()
+{
+	call-script activatescr();
+	turn nano to y-axis Static_Var_1 speed <190.038462>;
+	wait-for-turn nano around y-axis;
+	set INBUILDSTANCE to 1;
+}
+
+Stop()
+{
+	set INBUILDSTANCE to 0;
+	turn nano to y-axis <0.000000> speed <190.038462>;
+	wait-for-turn nano around y-axis;
+	call-script deactivatescr();
+}
+
+InitState()
+{
+	statechg_DesiredState = TRUE;
+	statechg_StateChanging = FALSE;
+}
+
+RequestState(requestedstate, currentstate)
+{
+	if( statechg_StateChanging )
+	{
+		statechg_DesiredState = requestedstate;
+		return (0);
+	}
+	statechg_StateChanging = TRUE;
+	currentstate = statechg_DesiredState;
+	statechg_DesiredState = requestedstate;
+	while( statechg_DesiredState != currentstate )
+	{
+		if( statechg_DesiredState == 0 )
+		{
+			call-script Go();
+			currentstate = 0;
+		}
+		if( statechg_DesiredState == 1 )
+		{
+			call-script Stop();
+			currentstate = 1;
+		}
+	}
+	statechg_StateChanging = FALSE;
+}
+
+Create()
+{
+	Static_Var_1 = 0;
+	spray = base;
+	Static_Var_7 = get MAX_SPEED;
+	call-script InitState();
+	start-script SmokeUnit();
+}
+
+StartMoving()
+{
+	signal SIG_MOVE;
+	set-signal-mask SIG_MOVE;
+	sleep 1;
+}
+
+StopMoving()
+{
+	signal SIG_MOVE;
+	sleep 1;
+}
+
+Activate()
+{
+	start-script RequestState(0);
+}
+
+Deactivate()
+{
+	start-script RequestState(1);
+}
+
+TargetHeading(Func_Var_1)
+{
+	Static_Var_1 = 0 - Func_Var_1;
+}
+
+StartBuilding(Func_Var_1)
+{
+	Static_Var_1 = Func_Var_1;
+	start-script RequestState(0);
+	signal SIG_MOVE;
+	set INBUILDSTANCE to 1;
+}
+
+StopBuilding()
+{
+	signal SIG_MOVE;
+	set-signal-mask SIG_MOVE;
+	sleep 6000;
+	set-signal-mask 0;
+	signal SIG_MOVE;
+	start-script RequestState(1);
+}
+
+QueryNanoPiece(piecenum)
+{
+	if( spray == 0 )
+	{
+		piecenum = spray1;
+	}
+	if( spray != 0 )
+	{
+		piecenum = spray2;
+	}
+	spray = !spray;
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = body;
+}
+
+Killed(severity, corpsetype)
+{
+	explode rdoor type NOHEATCLOUD;
+	explode body type NOHEATCLOUD;
+	explode p1 type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode nano type NOHEATCLOUD | FALL | SMOKE | EXPLODE_ON_HIT;
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		return (corpsetype);
+	}
+	explode body type NOHEATCLOUD | FALL | SMOKE | EXPLODE_ON_HIT;
+	explode ldoor type NOHEATCLOUD | FALL | SMOKE | EXPLODE_ON_HIT;
+	explode p1 type NOHEATCLOUD | FALL | SMOKE | EXPLODE_ON_HIT;
+	explode nano type NOHEATCLOUD | FALL | SMOKE | EXPLODE_ON_HIT;
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		return (corpsetype);
+	}
+	explode body type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	corpsetype = 3;
+	return (corpsetype);
+}

@@ -1,0 +1,941 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  flare, torso, head, hip, rupleg, rleg, lleg, lupleg,
+       ruparm, luparm, larm, gun, base, t2, a2;
+
+static-var  Static_Var_1, bMoving, bAiming, Static_Var_4, Static_Var_5,
+            Static_Var_6, Static_Var_7;
+
+// Signal definitions
+#define SIG_AIM				2
+
+
+walk()
+{
+	if( TRUE )
+	{
+		move hip to y-axis [0.100000] now;
+		move rupleg to y-axis [-0.500000] now;
+		move rleg to y-axis [0.300000] now;
+		move lleg to y-axis [0.700000] now;
+		move head to y-axis [0.000000] now;
+		turn hip to x-axis <2.093407> now;
+		turn torso to y-axis <4.692308> now;
+		turn lupleg to x-axis <-3.500000> now;
+		turn rupleg to x-axis <19.192308> now;
+		turn rleg to x-axis <-21.093407> now;
+		turn lleg to x-axis <31.093407> now;
+		turn ruparm to x-axis <-20.890110> now;
+		turn head to y-axis <-5.093407> now;
+		turn luparm to x-axis <14.791209> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.100000] now;
+		move lupleg to y-axis [-0.200000] now;
+		move rupleg to y-axis [-0.300000] now;
+		move rleg to y-axis [0.200000] now;
+		move lleg to y-axis [0.300000] now;
+		turn hip to x-axis <1.093407> now;
+		turn torso to y-axis <7.093407> now;
+		turn lupleg to x-axis <-9.791209> now;
+		turn rupleg to x-axis <28.890110> now;
+		turn rleg to x-axis <-22.291209> now;
+		turn lleg to x-axis <10.791209> now;
+		turn ruparm to x-axis <-27.890110> now;
+		turn head to y-axis <-7.593407> now;
+		turn luparm to x-axis <21.500000> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.000000] now;
+		move lupleg to y-axis [-0.300000] now;
+		move rupleg to y-axis [0.000000] now;
+		move rleg to y-axis [0.000000] now;
+		move lleg to y-axis [0.000000] now;
+		turn hip to x-axis <0.000000> now;
+		turn torso to y-axis <9.500000> now;
+		turn lupleg to x-axis <-16.192308> now;
+		turn rupleg to x-axis <38.692308> now;
+		turn rleg to x-axis <-23.593407> now;
+		turn lleg to x-axis <-9.500000> now;
+		turn ruparm to x-axis <-34.791209> now;
+		turn head to y-axis <-10.192308> now;
+		turn luparm to x-axis <28.093407> now;
+		turn larm to x-axis <-40.791209> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		turn hip to x-axis <1.692308> now;
+		turn torso to y-axis <8.500000> now;
+		turn lupleg to x-axis <-13.390110> now;
+		turn rupleg to x-axis <41.093407> now;
+		turn rleg to x-axis <-10.000000> now;
+		turn lleg to x-axis <-7.593407> now;
+		turn ruparm to x-axis <-30.500000> now;
+		turn head to y-axis <-9.000000> now;
+		turn luparm to x-axis <23.000000> now;
+		turn larm to x-axis <-36.390110> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		turn hip to x-axis <3.291209> now;
+		turn torso to y-axis <7.593407> now;
+		turn lupleg to x-axis <-10.500000> now;
+		turn rupleg to x-axis <43.593407> now;
+		turn rleg to x-axis <3.500000> now;
+		turn lleg to x-axis <-5.791209> now;
+		turn ruparm to x-axis <-26.192308> now;
+		turn head to y-axis <-7.890110> now;
+		turn luparm to x-axis <17.890110> now;
+		turn larm to x-axis <-32.000000> now;
+		sleep 35;
+	}
+	if( TRUE )
+	{
+		turn hip to x-axis <5.000000> now;
+		turn torso to y-axis <6.593407> now;
+		turn lupleg to x-axis <-7.692308> now;
+		turn rupleg to x-axis <46.093407> now;
+		turn rleg to x-axis <14.593407> now;
+		turn lleg to x-axis <-4.000000> now;
+		turn ruparm to x-axis <-21.890110> now;
+		turn head to y-axis <-6.791209> now;
+		turn luparm to x-axis <13.890110> now;
+		turn larm to x-axis <-27.593407> now;
+		sleep 35;
+	}
+	if( TRUE )
+	{
+		turn hip to x-axis <6.692308> now;
+		turn torso to y-axis <5.593407> now;
+		turn lupleg to x-axis <-4.890110> now;
+		turn rupleg to x-axis <48.500000> now;
+		turn rleg to x-axis <25.692308> now;
+		turn lleg to x-axis <-2.093407> now;
+		turn ruparm to x-axis <-17.593407> now;
+		turn head to y-axis <-5.593407> now;
+		turn luparm to x-axis <9.791209> now;
+		turn larm to x-axis <-23.192308> now;
+		sleep 35;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.100000] now;
+		move lupleg to y-axis [-0.400000] now;
+		move rupleg to y-axis [0.100000] now;
+		move lleg to y-axis [0.100000] now;
+		turn hip to x-axis <5.692308> now;
+		turn torso to y-axis <4.192308> now;
+		turn lupleg to x-axis <0.692308> now;
+		turn rupleg to x-axis <31.593407> now;
+		turn rleg to x-axis <31.791209> now;
+		turn lleg to x-axis <-6.791209> now;
+		turn ruparm to x-axis <-13.692308> now;
+		turn head to y-axis <-4.192308> now;
+		turn luparm to x-axis <4.890110> now;
+		turn larm to x-axis <-18.390110> now;
+		sleep 35;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.100000] now;
+		move lupleg to y-axis [-0.400000] now;
+		move rupleg to y-axis [0.300000] now;
+		move lleg to y-axis [0.100000] now;
+		turn hip to x-axis <4.692308> now;
+		turn torso to y-axis <2.791209> now;
+		turn lupleg to x-axis <6.291209> now;
+		turn rupleg to x-axis <14.791209> now;
+		turn rleg to x-axis <38.000000> now;
+		turn lleg to x-axis <-11.390110> now;
+		turn ruparm to x-axis <-9.791209> now;
+		turn head to y-axis <-2.791209> now;
+		turn luparm to x-axis <0.000000> now;
+		turn larm to x-axis <-13.500000> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.200000] now;
+		move lupleg to y-axis [-0.500000] now;
+		move rupleg to y-axis [0.500000] now;
+		move lleg to y-axis [0.200000] now;
+		turn hip to x-axis <3.791209> now;
+		turn torso to y-axis <1.390110> now;
+		turn lupleg to x-axis <10.192308> now;
+		turn rupleg to x-axis <-2.093407> now;
+		turn rleg to x-axis <44.093407> now;
+		turn lleg to x-axis <-14.192308> now;
+		turn ruparm to x-axis <-6.000000> now;
+		turn head to y-axis <-1.390110> now;
+		turn luparm to x-axis <-2.593407> now;
+		turn larm to x-axis <-8.692308> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.300000] now;
+		move lupleg to y-axis [-0.700000] now;
+		move rupleg to y-axis [0.600000] now;
+		move lleg to y-axis [0.300000] now;
+		turn hip to x-axis <2.791209> now;
+		turn torso to y-axis <0.000000> now;
+		turn lupleg to x-axis <14.093407> now;
+		turn rupleg to x-axis <-19.000000> now;
+		turn rleg to x-axis <50.291209> now;
+		turn lleg to x-axis <-16.890110> now;
+		turn ruparm to x-axis <-2.093407> now;
+		turn head to y-axis <0.000000> now;
+		turn luparm to x-axis <-5.291209> now;
+		turn larm to x-axis <-3.890110> now;
+		sleep 65;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.200000] now;
+		move lupleg to y-axis [-0.600000] now;
+		move rupleg to y-axis [0.500000] now;
+		turn hip to x-axis <2.093407> now;
+		turn torso to y-axis <-1.291209> now;
+		turn lupleg to x-axis <20.000000> now;
+		turn rupleg to x-axis <-20.692308> now;
+		turn rleg to x-axis <35.890110> now;
+		turn lleg to x-axis <-22.093407> now;
+		turn ruparm to x-axis <1.093407> now;
+		turn head to y-axis <1.000000> now;
+		turn luparm to x-axis <-8.291209> now;
+		turn larm to x-axis <-7.093407> now;
+		sleep 65;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.100000] now;
+		move lupleg to y-axis [-0.500000] now;
+		move rupleg to y-axis [0.300000] now;
+		turn hip to x-axis <1.390110> now;
+		turn torso to y-axis <-2.593407> now;
+		turn lupleg to x-axis <26.000000> now;
+		turn rupleg to x-axis <-22.500000> now;
+		turn rleg to x-axis <21.390110> now;
+		turn lleg to x-axis <-27.390110> now;
+		turn ruparm to x-axis <4.390110> now;
+		turn head to y-axis <1.890110> now;
+		turn luparm to x-axis <-11.291209> now;
+		turn larm to x-axis <-10.390110> now;
+		sleep 55;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.100000] now;
+		move lupleg to y-axis [-0.200000] now;
+		move rupleg to y-axis [0.100000] now;
+		turn hip to x-axis <0.692308> now;
+		turn torso to y-axis <-4.000000> now;
+		turn lupleg to x-axis <34.093407> now;
+		turn rupleg to x-axis <-24.291209> now;
+		turn rleg to x-axis <7.000000> now;
+		turn lleg to x-axis <-26.192308> now;
+		turn ruparm to x-axis <7.593407> now;
+		turn head to y-axis <2.890110> now;
+		turn luparm to x-axis <-11.593407> now;
+		turn larm to x-axis <-13.593407> now;
+		sleep 55;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.000000] now;
+		move lupleg to y-axis [0.100000] now;
+		move rupleg to y-axis [0.000000] now;
+		turn hip to x-axis <0.000000> now;
+		turn torso to y-axis <-5.291209> now;
+		turn lupleg to x-axis <42.192308> now;
+		turn rupleg to x-axis <-26.000000> now;
+		turn rleg to x-axis <-7.390110> now;
+		turn lleg to x-axis <-25.000000> now;
+		turn ruparm to x-axis <10.890110> now;
+		turn head to y-axis <3.890110> now;
+		turn luparm to x-axis <-12.000000> now;
+		turn larm to x-axis <-16.890110> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move lupleg to y-axis [0.200000] now;
+		move rupleg to y-axis [0.000000] now;
+		turn hip to x-axis <1.692308> now;
+		turn torso to y-axis <-4.593407> now;
+		turn lupleg to x-axis <43.000000> now;
+		turn rupleg to x-axis <-22.500000> now;
+		turn rleg to x-axis <-4.093407> now;
+		turn lleg to x-axis <-14.093407> now;
+		turn ruparm to x-axis <13.593407> now;
+		turn head to y-axis <3.390110> now;
+		turn luparm to x-axis <-14.890110> now;
+		turn larm to x-axis <-15.390110> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move lupleg to y-axis [0.300000] now;
+		move rupleg to y-axis [-0.100000] now;
+		turn hip to x-axis <3.291209> now;
+		turn torso to y-axis <-3.890110> now;
+		turn lupleg to x-axis <43.791209> now;
+		turn rupleg to x-axis <-19.000000> now;
+		turn rleg to x-axis <-0.890110> now;
+		turn lleg to x-axis <-3.192308> now;
+		turn ruparm to x-axis <16.291209> now;
+		turn head to y-axis <3.000000> now;
+		turn luparm to x-axis <-17.890110> now;
+		turn larm to x-axis <-13.890110> now;
+		sleep 35;
+	}
+	if( TRUE )
+	{
+		move rupleg to y-axis [-0.100000] now;
+		turn hip to x-axis <5.000000> now;
+		turn torso to y-axis <-3.192308> now;
+		turn lupleg to x-axis <44.593407> now;
+		turn rupleg to x-axis <-15.500000> now;
+		turn rleg to x-axis <2.390110> now;
+		turn lleg to x-axis <8.390110> now;
+		turn ruparm to x-axis <19.093407> now;
+		turn head to y-axis <2.500000> now;
+		turn luparm to x-axis <-14.093407> now;
+		turn larm to x-axis <-12.390110> now;
+		sleep 35;
+	}
+	if( TRUE )
+	{
+		move rupleg to y-axis [-0.100000] now;
+		turn hip to x-axis <6.692308> now;
+		turn torso to y-axis <-2.500000> now;
+		turn lupleg to x-axis <45.390110> now;
+		turn rupleg to x-axis <-12.000000> now;
+		turn rleg to x-axis <5.593407> now;
+		turn lleg to x-axis <20.000000> now;
+		turn ruparm to x-axis <21.791209> now;
+		turn head to y-axis <2.093407> now;
+		turn luparm to x-axis <-10.192308> now;
+		turn larm to x-axis <-10.890110> now;
+		sleep 35;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.100000] now;
+		move lupleg to y-axis [0.300000] now;
+		move rupleg to y-axis [-0.400000] now;
+		move rleg to y-axis [0.200000] now;
+		turn hip to x-axis <6.093407> now;
+		turn torso to y-axis <-1.791209> now;
+		turn lupleg to x-axis <36.291209> now;
+		turn rupleg to x-axis <-9.000000> now;
+		turn rleg to x-axis <3.390110> now;
+		turn lleg to x-axis <26.593407> now;
+		turn ruparm to x-axis <14.593407> now;
+		turn head to y-axis <1.593407> now;
+		turn luparm to x-axis <-5.093407> now;
+		turn larm to x-axis <-15.390110> now;
+		sleep 35;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.100000] now;
+		move lupleg to y-axis [0.300000] now;
+		move rupleg to y-axis [-0.600000] now;
+		move rleg to y-axis [0.300000] now;
+		turn hip to x-axis <5.500000> now;
+		turn torso to y-axis <-1.192308> now;
+		turn lupleg to x-axis <27.291209> now;
+		turn rupleg to x-axis <-6.192308> now;
+		turn rleg to x-axis <1.192308> now;
+		turn lleg to x-axis <33.192308> now;
+		turn ruparm to x-axis <7.390110> now;
+		turn head to y-axis <1.093407> now;
+		turn luparm to x-axis <0.000000> now;
+		turn larm to x-axis <-19.890110> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.200000] now;
+		move lupleg to y-axis [0.300000] now;
+		move rupleg to y-axis [-0.800000] now;
+		move rleg to y-axis [0.500000] now;
+		turn hip to x-axis <4.791209> now;
+		turn torso to y-axis <-0.593407> now;
+		turn lupleg to x-axis <18.192308> now;
+		turn rupleg to x-axis <-3.192308> now;
+		turn rleg to x-axis <-1.000000> now;
+		turn lleg to x-axis <39.791209> now;
+		turn ruparm to x-axis <0.192308> now;
+		turn head to y-axis <0.500000> now;
+		turn luparm to x-axis <3.192308> now;
+		turn larm to x-axis <-24.291209> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.300000] now;
+		move lupleg to y-axis [0.300000] now;
+		move rupleg to y-axis [-1.000000] now;
+		move rleg to y-axis [0.700000] now;
+		turn hip to x-axis <4.192308> now;
+		turn torso to y-axis <0.000000> now;
+		turn lupleg to x-axis <9.093407> now;
+		turn rupleg to x-axis <-0.291209> now;
+		turn rleg to x-axis <-3.192308> now;
+		turn lleg to x-axis <46.390110> now;
+		turn ruparm to x-axis <-7.000000> now;
+		turn head to y-axis <0.000000> now;
+		turn luparm to x-axis <6.291209> now;
+		turn larm to x-axis <-28.791209> now;
+		sleep 45;
+	}
+	move hip to y-axis [0.200000] now;
+	move lupleg to y-axis [0.200000] now;
+	move rupleg to y-axis [-0.800000] now;
+	move rleg to y-axis [0.500000] now;
+	move lleg to y-axis [0.500000] now;
+	turn hip to x-axis <3.192308> now;
+	turn torso to y-axis <2.390110> now;
+	turn lupleg to x-axis <2.791209> now;
+	turn rupleg to x-axis <9.390110> now;
+	turn rleg to x-axis <-12.093407> now;
+	turn lleg to x-axis <38.791209> now;
+	turn ruparm to x-axis <-14.000000> now;
+	turn head to y-axis <-2.500000> now;
+	turn luparm to x-axis <10.500000> now;
+	turn larm to x-axis <-31.791209> now;
+	sleep 45;
+}
+
+walklegs()
+{
+	if( TRUE )
+	{
+		move hip to y-axis [0.100000] now;
+		move rupleg to y-axis [-0.400000] now;
+		move rleg to y-axis [0.300000] now;
+		move lleg to y-axis [0.100000] now;
+		move head to y-axis [0.000000] now;
+		turn hip to x-axis <2.093407> now;
+		turn lupleg to x-axis <-3.500000> now;
+		turn rupleg to x-axis <24.390110> now;
+		turn rleg to x-axis <-26.390110> now;
+		turn lleg to x-axis <18.500000> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.100000] now;
+		move lupleg to y-axis [-0.200000] now;
+		move rupleg to y-axis [-0.200000] now;
+		move rleg to y-axis [0.200000] now;
+		move lleg to y-axis [0.100000] now;
+		turn hip to x-axis <1.093407> now;
+		turn lupleg to x-axis <-9.791209> now;
+		turn rupleg to x-axis <31.593407> now;
+		turn rleg to x-axis <-25.291209> now;
+		turn lleg to x-axis <4.500000> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.000000] now;
+		move lupleg to y-axis [-0.300000] now;
+		move rupleg to y-axis [0.000000] now;
+		move rleg to y-axis [0.000000] now;
+		move lleg to y-axis [0.000000] now;
+		turn hip to x-axis <0.000000> now;
+		turn lupleg to x-axis <-16.192308> now;
+		turn rupleg to x-axis <38.692308> now;
+		turn rleg to x-axis <-24.291209> now;
+		turn lleg to x-axis <-9.500000> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		turn hip to x-axis <1.692308> now;
+		turn lupleg to x-axis <-13.390110> now;
+		turn rupleg to x-axis <41.093407> now;
+		turn rleg to x-axis <-10.390110> now;
+		turn lleg to x-axis <-7.593407> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		turn hip to x-axis <3.291209> now;
+		turn lupleg to x-axis <-10.500000> now;
+		turn rupleg to x-axis <43.593407> now;
+		turn rleg to x-axis <3.500000> now;
+		turn lleg to x-axis <-5.791209> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		turn hip to x-axis <5.000000> now;
+		turn lupleg to x-axis <-7.692308> now;
+		turn rupleg to x-axis <46.093407> now;
+		turn rleg to x-axis <14.593407> now;
+		turn lleg to x-axis <-4.000000> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		turn hip to x-axis <6.692308> now;
+		turn lupleg to x-axis <-4.890110> now;
+		turn rupleg to x-axis <48.500000> now;
+		turn rleg to x-axis <25.692308> now;
+		turn lleg to x-axis <-2.093407> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.100000] now;
+		move lupleg to y-axis [-0.400000] now;
+		move rupleg to y-axis [0.100000] now;
+		move lleg to y-axis [0.100000] now;
+		turn hip to x-axis <5.692308> now;
+		turn lupleg to x-axis <1.593407> now;
+		turn rupleg to x-axis <31.593407> now;
+		turn rleg to x-axis <31.791209> now;
+		turn lleg to x-axis <-7.291209> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.100000] now;
+		move lupleg to y-axis [-0.500000] now;
+		move rupleg to y-axis [0.300000] now;
+		move lleg to y-axis [0.100000] now;
+		turn hip to x-axis <4.692308> now;
+		turn lupleg to x-axis <8.093407> now;
+		turn rupleg to x-axis <14.791209> now;
+		turn rleg to x-axis <38.000000> now;
+		turn lleg to x-axis <-12.500000> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.200000] now;
+		move lupleg to y-axis [-0.500000] now;
+		move rupleg to y-axis [0.500000] now;
+		move lleg to y-axis [0.200000] now;
+		turn hip to x-axis <3.791209> now;
+		turn lupleg to x-axis <14.593407> now;
+		turn rupleg to x-axis <-2.093407> now;
+		turn rleg to x-axis <44.093407> now;
+		turn lleg to x-axis <-18.192308> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.300000] now;
+		move lupleg to y-axis [-0.600000] now;
+		move rupleg to y-axis [0.600000] now;
+		move lleg to y-axis [0.300000] now;
+		turn hip to x-axis <2.791209> now;
+		turn lupleg to x-axis <21.093407> now;
+		turn rupleg to x-axis <-19.000000> now;
+		turn rleg to x-axis <50.291209> now;
+		turn lleg to x-axis <-23.890110> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.200000] now;
+		move lupleg to y-axis [-0.500000] now;
+		move rupleg to y-axis [0.500000] now;
+		turn hip to x-axis <2.093407> now;
+		turn lupleg to x-axis <26.192308> now;
+		turn rupleg to x-axis <-20.692308> now;
+		turn rleg to x-axis <35.890110> now;
+		turn lleg to x-axis <-27.291209> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.100000] now;
+		move lupleg to y-axis [-0.400000] now;
+		move rupleg to y-axis [0.300000] now;
+		turn hip to x-axis <1.390110> now;
+		turn lupleg to x-axis <31.291209> now;
+		turn rupleg to x-axis <-22.500000> now;
+		turn rleg to x-axis <21.390110> now;
+		turn lleg to x-axis <-30.593407> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.100000] now;
+		move lupleg to y-axis [-0.100000] now;
+		move rupleg to y-axis [0.100000] now;
+		turn hip to x-axis <0.692308> now;
+		turn lupleg to x-axis <36.692308> now;
+		turn rupleg to x-axis <-24.291209> now;
+		turn rleg to x-axis <7.000000> now;
+		turn lleg to x-axis <-28.500000> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.000000] now;
+		move lupleg to y-axis [0.300000] now;
+		move rupleg to y-axis [0.000000] now;
+		turn hip to x-axis <0.000000> now;
+		turn lupleg to x-axis <42.192308> now;
+		turn rupleg to x-axis <-26.000000> now;
+		turn rleg to x-axis <-7.390110> now;
+		turn lleg to x-axis <-26.390110> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move rupleg to y-axis [0.000000] now;
+		turn hip to x-axis <1.692308> now;
+		turn lupleg to x-axis <43.000000> now;
+		turn rupleg to x-axis <-22.500000> now;
+		turn rleg to x-axis <-4.093407> now;
+		turn lleg to x-axis <-14.791209> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move rupleg to y-axis [-0.100000] now;
+		turn hip to x-axis <3.291209> now;
+		turn lupleg to x-axis <43.791209> now;
+		turn rupleg to x-axis <-19.000000> now;
+		turn rleg to x-axis <-0.890110> now;
+		turn lleg to x-axis <-3.192308> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move rupleg to y-axis [-0.100000] now;
+		turn hip to x-axis <5.000000> now;
+		turn lupleg to x-axis <44.593407> now;
+		turn rupleg to x-axis <-15.500000> now;
+		turn rleg to x-axis <2.390110> now;
+		turn lleg to x-axis <8.390110> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move rupleg to y-axis [-0.100000] now;
+		turn hip to x-axis <6.692308> now;
+		turn lupleg to x-axis <45.390110> now;
+		turn rupleg to x-axis <-12.000000> now;
+		turn rleg to x-axis <5.593407> now;
+		turn lleg to x-axis <20.000000> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.100000] now;
+		move lupleg to y-axis [0.300000] now;
+		move rupleg to y-axis [-0.300000] now;
+		move rleg to y-axis [0.200000] now;
+		turn hip to x-axis <6.093407> now;
+		turn lupleg to x-axis <36.291209> now;
+		turn rupleg to x-axis <-9.000000> now;
+		turn rleg to x-axis <3.390110> now;
+		turn lleg to x-axis <26.593407> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.100000] now;
+		move lupleg to y-axis [0.300000] now;
+		move rupleg to y-axis [-0.500000] now;
+		move rleg to y-axis [0.300000] now;
+		turn hip to x-axis <5.500000> now;
+		turn lupleg to x-axis <27.291209> now;
+		turn rupleg to x-axis <-6.192308> now;
+		turn rleg to x-axis <1.192308> now;
+		turn lleg to x-axis <33.192308> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.200000] now;
+		move lupleg to y-axis [0.300000] now;
+		move rupleg to y-axis [-0.700000] now;
+		move rleg to y-axis [0.500000] now;
+		turn hip to x-axis <4.791209> now;
+		turn lupleg to x-axis <18.192308> now;
+		turn rupleg to x-axis <-3.192308> now;
+		turn rleg to x-axis <-1.000000> now;
+		turn lleg to x-axis <39.791209> now;
+		sleep 50;
+	}
+	if( TRUE )
+	{
+		move hip to y-axis [0.300000] now;
+		move lupleg to y-axis [0.300000] now;
+		move rupleg to y-axis [-0.800000] now;
+		move rleg to y-axis [0.700000] now;
+		turn hip to x-axis <4.192308> now;
+		turn lupleg to x-axis <9.093407> now;
+		turn rupleg to x-axis <-0.291209> now;
+		turn rleg to x-axis <-3.192308> now;
+		turn lleg to x-axis <46.390110> now;
+		sleep 50;
+	}
+	move hip to y-axis [0.200000] now;
+	move lupleg to y-axis [0.200000] now;
+	move rupleg to y-axis [-0.600000] now;
+	move rleg to y-axis [0.500000] now;
+	move lleg to y-axis [0.200000] now;
+	turn hip to x-axis <3.192308> now;
+	turn lupleg to x-axis <2.791209> now;
+	turn rupleg to x-axis <12.000000> now;
+	turn rleg to x-axis <-14.791209> now;
+	turn lleg to x-axis <32.390110> now;
+	sleep 50;
+}
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from torso;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+MotionControl(moving, aiming, justmoved)
+{
+	justmoved = TRUE;
+	while( TRUE )
+	{
+		moving = bMoving;
+		aiming = bAiming;
+		if( moving )
+		{
+			if( aiming )
+			{
+				Static_Var_4 = 1;
+				call-script walklegs();
+			}
+			if( !aiming )
+			{
+				Static_Var_4 = 0;
+				call-script walk();
+			}
+			justmoved = TRUE;
+		}
+		if( !moving )
+		{
+			Static_Var_4 = 1;
+			if( justmoved )
+			{
+				turn lleg to x-axis <0.000000> speed <200.000000>;
+				turn rleg to x-axis <0.000000> speed <200.000000>;
+				turn rupleg to x-axis <0.000000> speed <200.000000>;
+				turn lupleg to x-axis <0.000000> speed <200.000000>;
+				turn head to y-axis <0.000000> speed <200.000000>;
+				justmoved = FALSE;
+			}
+			sleep 300;
+		}
+	}
+}
+
+Create()
+{
+	turn flare to x-axis <90.000000> now;
+	bMoving = FALSE;
+	bAiming = FALSE;
+	Static_Var_4 = 1;
+	hide flare;
+	Static_Var_5 = 0;
+	start-script MotionControl();
+	start-script SmokeUnit();
+}
+
+StartMoving()
+{
+	bMoving = TRUE;
+}
+
+StopMoving()
+{
+	bMoving = FALSE;
+}
+
+RestoreAfterDelay()
+{
+	sleep 6000;
+	turn torso to y-axis <0.000000> speed <200.000000>;
+	turn ruparm to x-axis <0.000000> speed <100.000000>;
+	turn luparm to x-axis <0.000000> speed <100.000000>;
+	turn larm to z-axis <0.000000> speed <150.000000>;
+	move gun to y-axis [0.000000] speed [5.000000];
+	turn t2 to y-axis <0.000000> speed <120.000000>;
+	turn a2 to y-axis <0.000000> speed <12.000000>;
+	turn head to y-axis <0.000000> speed <12.000000>;
+	bAiming = FALSE;
+}
+
+AimPrimary(heading, pitch)
+{
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+	bAiming = TRUE;
+	turn torso to y-axis heading speed <210.000000>;
+	turn t2 to y-axis <-20.000000> speed <80.000000>;
+	turn a2 to y-axis <20.000000> speed <80.000000>;
+	turn head to y-axis <12.000000> speed <50.000000>;
+	turn ruparm to x-axis <-90.000000> speed <120.000000>;
+	turn luparm to x-axis <-100.000000> speed <100.000000>;
+	turn larm to z-axis <55.000000> speed <100.000000>;
+	sleep 100;
+	move gun to y-axis [-3.200000] speed [5.000000];
+	wait-for-turn ruparm around x-axis;
+	wait-for-turn torso around y-axis;
+	wait-for-move gun along y-axis;
+	start-script RestoreAfterDelay();
+	return (1);
+}
+
+FirePrimary()
+{
+	emit-sfx 1024 + 0 from flare;
+	move gun to y-axis [-1.000000] speed [500.000000];
+	turn t2 to y-axis <-40.000000> speed <500.000000>;
+	turn a2 to y-axis <40.000000> speed <500.000000>;
+	sleep 150;
+	move gun to y-axis [-4.000000] speed [2.000000];
+	turn t2 to y-axis Static_Var_5 speed <20.000000>;
+	turn a2 to y-axis <0.000000> speed <20.000000>;
+}
+
+AimFromPrimary(piecenum)
+{
+	piecenum = torso;
+}
+
+QueryPrimary(piecenum)
+{
+	piecenum = flare;
+}
+
+imFromSecondary(Func_Var_1)
+{
+	Func_Var_1 = 1;
+}
+
+QuerySecondary(piecenum)
+{
+	piecenum = flare;
+}
+
+FireSecondary()
+{
+}
+
+AimSecondary(heading, pitch)
+{
+	while( !bAiming )
+	{
+		sleep 200;
+	}
+	return (1);
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = torso;
+}
+
+Killed(severity, corpsetype)
+{
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		explode gun type NOHEATCLOUD;
+		explode head type NOHEATCLOUD;
+		explode hip type NOHEATCLOUD;
+		explode larm type NOHEATCLOUD;
+		explode lleg type NOHEATCLOUD;
+		explode luparm type NOHEATCLOUD;
+		explode lupleg type NOHEATCLOUD;
+		explode rleg type NOHEATCLOUD;
+		explode ruparm type NOHEATCLOUD;
+		explode rupleg type NOHEATCLOUD;
+		explode torso type NOHEATCLOUD;
+		return (corpsetype);
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		explode gun type NOHEATCLOUD | FALL;
+		explode head type NOHEATCLOUD | FALL;
+		explode hip type NOHEATCLOUD | FALL;
+		explode larm type NOHEATCLOUD | FALL;
+		explode lleg type NOHEATCLOUD | FALL;
+		explode luparm type NOHEATCLOUD | FALL;
+		explode lupleg type NOHEATCLOUD | FALL;
+		explode rleg type NOHEATCLOUD | FALL;
+		explode ruparm type NOHEATCLOUD | FALL;
+		explode rupleg type NOHEATCLOUD | FALL;
+		explode torso type NOHEATCLOUD | SHATTER;
+		return (corpsetype);
+	}
+	if( severity <= 99 )
+	{
+		corpsetype = 3;
+		explode gun type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		explode head type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		explode hip type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		explode larm type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		explode lleg type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		explode luparm type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		explode lupleg type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		explode rleg type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		explode ruparm type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		explode rupleg type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		explode torso type NOHEATCLOUD | SHATTER;
+		return (corpsetype);
+	}
+	corpsetype = 3;
+	explode gun type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	explode head type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	explode hip type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	explode larm type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	explode lleg type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	explode luparm type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	explode lupleg type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	explode rleg type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	explode ruparm type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	explode rupleg type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	explode torso type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	return (corpsetype);
+}

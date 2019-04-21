@@ -1,0 +1,156 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, tower, turret, axis, holder, bearing, barrel1, barrel2,
+       flare1, flare2;
+
+static-var  gun_1;
+
+// Signal definitions
+#define SIG_AIM				2
+
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from holder;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+Create()
+{
+	hide flare1;
+	hide flare2;
+	dont-shade tower;
+	dont-shade turret;
+	dont-shade flare1;
+	dont-shade flare2;
+	dont-shade barrel1;
+	dont-shade barrel2;
+	dont-shade holder;
+	cache tower;
+	cache turret;
+	cache flare1;
+	cache flare2;
+	cache barrel1;
+	cache barrel2;
+	cache holder;
+	gun_1 = base;
+	turn bearing to x-axis <50.005495> now;
+	start-script SmokeUnit();
+}
+
+AimPrimary(heading, pitch)
+{
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+	turn turret to y-axis heading speed <100.016484>;
+	turn axis to x-axis <0.000000> - pitch speed <60.005495>;
+	wait-for-turn turret around y-axis;
+	wait-for-turn axis around x-axis;
+	return (1);
+}
+
+FirePrimary()
+{
+	if( gun_1 == 0 )
+	{
+		show flare1;
+		move barrel1 to z-axis [-4.000000] speed [500.000000];
+		sleep 200;
+		hide flare1;
+		move barrel1 to z-axis [0.000000] speed [5.000000];
+		turn holder to x-axis <-50.005495> speed <20.000000>;
+		gun_1 = tower;
+		return (0);
+	}
+	if( gun_1 == 1 )
+	{
+		show flare2;
+		move barrel2 to z-axis [-4.000000] speed [500.000000];
+		sleep 200;
+		hide flare2;
+		move barrel2 to z-axis [0.000000] speed [5.000000];
+		turn holder to x-axis <0.000000> speed <20.000000>;
+		gun_1 = base;
+		return (0);
+	}
+}
+
+AimFromPrimary(piecenum)
+{
+	piecenum = holder;
+}
+
+QueryPrimary(piecenum)
+{
+	piecenum = flare1;
+	if( gun_1 == 1 )
+	{
+		piecenum = flare2;
+	}
+}
+
+QueryWeapon2(piecenum)
+{
+	piecenum = holder;
+}
+
+AimFromWeapon2(piecenum)
+{
+	piecenum = flare1;
+	if( gun_1 == 1 )
+	{
+		piecenum = flare2;
+	}
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = turret;
+}
+
+Killed(severity, corpsetype)
+{
+	hide flare1;
+	hide flare2;
+	explode barrel1 type NOHEATCLOUD | FALL | SMOKE | EXPLODE_ON_HIT;
+	explode barrel2 type NOHEATCLOUD | FALL | SMOKE | EXPLODE_ON_HIT;
+	explode holder type NOHEATCLOUD | FALL | SMOKE | EXPLODE_ON_HIT;
+	explode turret type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode turret type NOHEATCLOUD;
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		return (corpsetype);
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		return (corpsetype);
+	}
+	corpsetype = 3;
+	return (corpsetype);
+}

@@ -1,0 +1,103 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, smoke, spinner, dingle1, dingle2;
+
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from base;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+Create()
+{
+	dont-shade spinner;
+	dont-shade dingle1;
+	dont-shade dingle2;
+	start-script SmokeUnit();
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 1000;
+	}
+	spin spinner around y-axis speed <120.027473>;
+	spin dingle1 around y-axis speed <150.027473>;
+	spin dingle2 around y-axis speed <150.027473>;
+}
+
+Activate()
+{
+	while( TRUE )
+	{
+		emit-sfx 257 from smoke;
+		sleep 250;
+	}
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = base;
+}
+
+Killed(severity, corpsetype)
+{
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		explode base type NOHEATCLOUD;
+		explode smoke type NOHEATCLOUD;
+		explode dingle1 type NOHEATCLOUD;
+		explode dingle2 type NOHEATCLOUD;
+		explode spinner type NOHEATCLOUD;
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		explode base type NOHEATCLOUD;
+		explode smoke type NOHEATCLOUD | FALL;
+		explode dingle1 type NOHEATCLOUD | FALL;
+		explode dingle2 type NOHEATCLOUD | FALL;
+		explode spinner type NOHEATCLOUD;
+		return (corpsetype);
+	}
+	if( severity <= 99 )
+	{
+		corpsetype = 3;
+		explode base type NOHEATCLOUD;
+		explode smoke type NOHEATCLOUD | FALL;
+		explode dingle1 type NOHEATCLOUD | FALL;
+		explode dingle2 type NOHEATCLOUD | FALL;
+		explode spinner type NOHEATCLOUD | SHATTER;
+		return (corpsetype);
+	}
+	corpsetype = 3;
+	explode base type NOHEATCLOUD;
+	explode smoke type NOHEATCLOUD | FALL;
+	explode dingle1 type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode dingle2 type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode spinner type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	return (corpsetype);
+}

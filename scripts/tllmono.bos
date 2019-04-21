@@ -1,0 +1,876 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  Base, Body, gunport, berceau, tourelle, ovale, canon, aiguille,
+       bouche, patte10, patte11, patte12, shld1, patte13, patte14, patte20,
+       terfirea, terfireb, terfirea2, terfirea3, terfirea4, terfirea5, terfirea6, terfirea7,
+       terfirea8, terfireb2, terfireb3, terfireb4, terfireb5, terfireb6, terfireb7, terfireb8,
+       patte21, patte22, shld2, patte23, patte24, patte50, patte51, patte52,
+       shld3, patte53, patte54, patte60, patte61, patte62, shld12, patte63,
+       patte64, patte40, patte41, patte42, patte43, patte44, patte30, patte31,
+       patte32, patte33, patte34, headport, head, eye, fg, turretgen,
+       Mpod, flare1, Mpod2, flare2;
+
+static-var  restore_delay, unitviewer, Static_Var_3, gun_1, gun_2,
+            Static_Var_6, bMoving, Static_Var_8;
+
+// Signal definitions
+#define SIG_AIM				2
+#define SIG_AIM_2			4
+#define SIG_AIM_3			8
+
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from Base;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+TexasRanger(Func_Var_1, Func_Var_2)
+{
+	while( !bMoving )
+	{
+		sleep 100;
+	}
+	while( TRUE )
+	{
+		turn patte60 to y-axis <-1.000000> speed <15.000000>;
+		turn patte50 to y-axis <45.000000> speed <15.000000>;
+		turn patte40 to y-axis <-16.000000> speed <15.000000>;
+		turn patte10 to y-axis <-14.000000> speed <15.000000>;
+		turn patte21 to z-axis <20.000000> speed <40.000000>;
+		turn patte22 to z-axis <20.000000> speed <40.000000>;
+		turn patte23 to z-axis <20.000000> speed <40.000000>;
+		sleep 500;
+		while( !bMoving )
+		{
+			sleep 100;
+		}
+		turn patte31 to z-axis <0.000000> speed <40.000000>;
+		turn patte32 to z-axis <0.000000> speed <40.000000>;
+		turn patte33 to z-axis <0.000000> speed <40.000000>;
+		turn patte20 to y-axis <45.000000> speed <60.000000>;
+		sleep 500;
+		while( !bMoving )
+		{
+			sleep 100;
+		}
+		turn patte30 to y-axis <-14.000000> speed <15.000000>;
+		turn patte60 to y-axis <-16.000000> speed <15.000000>;
+		turn patte40 to y-axis <-30.000000> speed <15.000000>;
+		turn patte10 to y-axis <1.000000> speed <15.000000>;
+		turn patte51 to z-axis <0.000000> - <20.000000> speed <40.000000>;
+		turn patte52 to z-axis <0.000000> - <20.000000> speed <40.000000>;
+		turn patte53 to z-axis <0.000000> - <20.000000> speed <40.000000>;
+		sleep 500;
+		while( !bMoving )
+		{
+			sleep 100;
+		}
+		turn patte21 to z-axis <0.000000> speed <40.000000>;
+		turn patte22 to z-axis <0.000000> speed <40.000000>;
+		turn patte23 to z-axis <0.000000> speed <40.000000>;
+		turn patte50 to y-axis <-15.000000> speed <60.000000>;
+		sleep 500;
+		while( !bMoving )
+		{
+			sleep 100;
+		}
+		turn patte20 to y-axis <29.000000> speed <15.000000>;
+		turn patte60 to y-axis <-31.000000> speed <15.000000>;
+		turn patte30 to y-axis <1.000000> speed <15.000000>;
+		turn patte10 to y-axis <15.000000> speed <15.000000>;
+		turn patte41 to z-axis <20.000000> speed <40.000000>;
+		turn patte42 to z-axis <20.000000> speed <40.000000>;
+		turn patte43 to z-axis <20.000000> speed <40.000000>;
+		sleep 500;
+		while( !bMoving )
+		{
+			sleep 100;
+		}
+		turn patte51 to z-axis <0.000000> speed <40.000000>;
+		turn patte52 to z-axis <0.000000> speed <40.000000>;
+		turn patte53 to z-axis <0.000000> speed <40.000000>;
+		turn patte40 to y-axis <30.000000> speed <60.000000>;
+		sleep 500;
+		while( !bMoving )
+		{
+			sleep 100;
+		}
+		turn patte50 to y-axis <1.000000> speed <15.000000>;
+		turn patte60 to y-axis <-45.000000> speed <15.000000>;
+		turn patte30 to y-axis <16.000000> speed <15.000000>;
+		turn patte20 to y-axis <14.000000> speed <15.000000>;
+		turn patte11 to z-axis <0.000000> - <20.000000> speed <40.000000>;
+		turn patte12 to z-axis <0.000000> - <20.000000> speed <40.000000>;
+		turn patte13 to z-axis <0.000000> - <20.000000> speed <40.000000>;
+		sleep 500;
+		while( !bMoving )
+		{
+			sleep 100;
+		}
+		turn patte41 to z-axis <0.000000> speed <40.000000>;
+		turn patte42 to z-axis <0.000000> speed <40.000000>;
+		turn patte43 to z-axis <0.000000> speed <40.000000>;
+		turn patte10 to y-axis <-45.000000> speed <60.000000>;
+		sleep 500;
+		while( !bMoving )
+		{
+			sleep 100;
+		}
+		turn patte40 to y-axis <14.000000> speed <15.000000>;
+		turn patte30 to y-axis <30.000000> speed <15.000000>;
+		turn patte20 to y-axis <-1.000000> speed <15.000000>;
+		turn patte50 to y-axis <16.000000> speed <15.000000>;
+		turn patte61 to z-axis <20.000000> speed <40.000000>;
+		turn patte62 to z-axis <20.000000> speed <40.000000>;
+		turn patte63 to z-axis <20.000000> speed <40.000000>;
+		sleep 500;
+		while( !bMoving )
+		{
+			sleep 100;
+		}
+		turn patte11 to z-axis <0.000000> speed <40.000000>;
+		turn patte12 to z-axis <0.000000> speed <40.000000>;
+		turn patte13 to z-axis <0.000000> speed <40.000000>;
+		turn patte60 to y-axis <15.000000> speed <60.000000>;
+		sleep 500;
+		while( !bMoving )
+		{
+			sleep 100;
+		}
+		turn patte10 to y-axis <-29.000000> speed <15.000000>;
+		turn patte20 to y-axis <-15.000000> speed <15.000000>;
+		turn patte50 to y-axis <31.000000> speed <15.000000>;
+		turn patte40 to y-axis <-1.000000> speed <15.000000>;
+		turn patte31 to z-axis <0.000000> - <20.000000> speed <40.000000>;
+		turn patte32 to z-axis <0.000000> - <20.000000> speed <40.000000>;
+		turn patte33 to z-axis <0.000000> - <20.000000> speed <40.000000>;
+		sleep 500;
+		while( !bMoving )
+		{
+			sleep 100;
+		}
+		turn patte61 to z-axis <0.000000> speed <40.000000>;
+		turn patte62 to z-axis <0.000000> speed <40.000000>;
+		turn patte63 to z-axis <0.000000> speed <40.000000>;
+		turn patte30 to y-axis <-30.000000> speed <60.000000>;
+		sleep 500;
+		while( !bMoving )
+		{
+			sleep 100;
+		}
+	}
+	turn patte21 to z-axis <20.000000> speed <40.000000>;
+	turn patte22 to z-axis <20.000000> speed <40.000000>;
+	turn patte23 to z-axis <20.000000> speed <40.000000>;
+	wait-for-turn patte23 around z-axis;
+	turn patte20 to y-axis <45.000000> speed <60.000000>;
+	wait-for-turn patte20 around y-axis;
+	turn patte21 to z-axis <0.000000> speed <40.000000>;
+	turn patte22 to z-axis <0.000000> speed <40.000000>;
+	turn patte23 to z-axis <0.000000> speed <40.000000>;
+	wait-for-turn patte23 around z-axis;
+	turn patte20 to y-axis <-15.000000> speed <15.000000>;
+	turn patte51 to z-axis <0.000000> - <20.000000> speed <40.000000>;
+	turn patte52 to z-axis <0.000000> - <20.000000> speed <40.000000>;
+	turn patte53 to z-axis <0.000000> - <20.000000> speed <40.000000>;
+	wait-for-turn patte53 around z-axis;
+	turn patte50 to y-axis <-15.000000> speed <60.000000>;
+	wait-for-turn patte50 around y-axis;
+	turn patte51 to z-axis <0.000000> speed <40.000000>;
+	turn patte52 to z-axis <0.000000> speed <40.000000>;
+	turn patte53 to z-axis <0.000000> speed <40.000000>;
+	wait-for-turn patte53 around z-axis;
+	turn patte50 to y-axis <45.000000> speed <15.000000>;
+	turn patte41 to z-axis <20.000000> speed <40.000000>;
+	turn patte42 to z-axis <20.000000> speed <40.000000>;
+	turn patte43 to z-axis <20.000000> speed <40.000000>;
+	wait-for-turn patte43 around z-axis;
+	turn patte40 to y-axis <30.000000> speed <60.000000>;
+	wait-for-turn patte40 around y-axis;
+	turn patte41 to z-axis <0.000000> speed <40.000000>;
+	turn patte42 to z-axis <0.000000> speed <40.000000>;
+	turn patte43 to z-axis <0.000000> speed <40.000000>;
+	wait-for-turn patte43 around z-axis;
+	turn patte40 to y-axis <-30.000000> speed <15.000000>;
+	turn patte11 to z-axis <0.000000> - <20.000000> speed <40.000000>;
+	turn patte12 to z-axis <0.000000> - <20.000000> speed <40.000000>;
+	turn patte13 to z-axis <0.000000> - <20.000000> speed <40.000000>;
+	wait-for-turn patte13 around z-axis;
+	turn patte10 to y-axis <-45.000000> speed <60.000000>;
+	wait-for-turn patte10 around y-axis;
+	turn patte11 to z-axis <0.000000> speed <40.000000>;
+	turn patte12 to z-axis <0.000000> speed <40.000000>;
+	turn patte13 to z-axis <0.000000> speed <40.000000>;
+	wait-for-turn patte13 around z-axis;
+	turn patte10 to y-axis <15.000000> speed <15.000000>;
+	turn patte61 to z-axis <20.000000> speed <40.000000>;
+	turn patte62 to z-axis <20.000000> speed <40.000000>;
+	turn patte63 to z-axis <20.000000> speed <40.000000>;
+	wait-for-turn patte63 around z-axis;
+	turn patte60 to y-axis <15.000000> speed <60.000000>;
+	wait-for-turn patte60 around y-axis;
+	turn patte61 to z-axis <0.000000> speed <40.000000>;
+	turn patte62 to z-axis <0.000000> speed <40.000000>;
+	turn patte63 to z-axis <0.000000> speed <40.000000>;
+	wait-for-turn patte63 around z-axis;
+	turn patte60 to y-axis <-45.000000> speed <15.000000>;
+	turn patte31 to z-axis <0.000000> - <20.000000> speed <40.000000>;
+	turn patte32 to z-axis <0.000000> - <20.000000> speed <40.000000>;
+	turn patte33 to z-axis <0.000000> - <20.000000> speed <40.000000>;
+	wait-for-turn patte33 around z-axis;
+	turn patte30 to y-axis <-30.000000> speed <60.000000>;
+	wait-for-turn patte30 around y-axis;
+	turn patte31 to z-axis <0.000000> speed <40.000000>;
+	turn patte32 to z-axis <0.000000> speed <40.000000>;
+	turn patte33 to z-axis <0.000000> speed <40.000000>;
+	wait-for-turn patte33 around z-axis;
+	turn patte30 to y-axis <30.000000> speed <15.000000>;
+}
+
+StartMoving()
+{
+	bMoving = TRUE;
+}
+
+StopMoving()
+{
+	bMoving = FALSE;
+}
+
+Create()
+{
+	unitviewer = FALSE;
+	restore_delay = 2000;
+	bMoving = FALSE;
+	Static_Var_3 = 0;
+	gun_1 = Base;
+	gun_2 = Base;
+	hide flare1;
+	hide flare2;
+	dont-cache eye;
+	start-script SmokeUnit();
+	start-script TexasRanger();
+}
+
+SetMaxReloadTime(Func_Var_1)
+{
+	restore_delay = Func_Var_1 * 2;
+}
+
+RestoreAfterDelay()
+{
+	sleep restore_delay;
+	turn turretgen to x-axis <0.000000> speed <90.000000>;
+	turn headport to y-axis <0.000000> speed <90.000000>;
+	turn berceau to y-axis <0.000000> speed <90.000000>;
+	turn ovale to x-axis <0.000000> speed <90.000000>;
+}
+
+Demo()
+{
+	unitviewer = TRUE;
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = Base;
+}
+
+QueryPrimary(piecenum)
+{
+	if( gun_1 == 0 )
+	{
+		piecenum = terfirea;
+		return (0);
+	}
+	if( gun_1 == 1 )
+	{
+		piecenum = terfirea2;
+		return (0);
+	}
+	if( gun_1 == 2 )
+	{
+		piecenum = terfirea3;
+		return (0);
+	}
+	if( gun_1 == 3 )
+	{
+		piecenum = terfirea4;
+		return (0);
+	}
+	if( gun_1 == 4 )
+	{
+		piecenum = terfireb;
+		return (0);
+	}
+	if( gun_1 == 5 )
+	{
+		piecenum = terfireb2;
+		return (0);
+	}
+	if( gun_1 == 6 )
+	{
+		piecenum = terfireb3;
+		return (0);
+	}
+	if( gun_1 == 7 )
+	{
+		piecenum = terfireb4;
+		return (0);
+	}
+	if( gun_1 == 8 )
+	{
+		piecenum = terfirea5;
+		return (0);
+	}
+	if( gun_1 == 9 )
+	{
+		piecenum = terfirea6;
+		return (0);
+	}
+	if( gun_1 == 10 )
+	{
+		piecenum = terfirea7;
+		return (0);
+	}
+	if( gun_1 == 11 )
+	{
+		piecenum = terfirea8;
+		return (0);
+	}
+	if( gun_1 == 12 )
+	{
+		piecenum = terfireb5;
+		return (0);
+	}
+	if( gun_1 == 13 )
+	{
+		piecenum = terfireb6;
+		return (0);
+	}
+	if( gun_1 == 14 )
+	{
+		piecenum = terfireb7;
+		return (0);
+	}
+	if( gun_1 == 15 )
+	{
+		piecenum = terfireb8;
+		return (0);
+	}
+}
+
+AimFromPrimary(piecenum)
+{
+	piecenum = turretgen;
+}
+
+AimPrimary(heading, pitch)
+{
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+	turn headport to y-axis heading speed <100.000000>;
+	turn turretgen to x-axis <0.000000> - pitch speed <100.000000>;
+	wait-for-turn turretgen around x-axis;
+	sleep 100;
+	start-script RestoreAfterDelay();
+	return (1);
+}
+
+FirePrimary()
+{
+	if( gun_1 == 0 )
+	{
+		gun_1 = Body;
+		show flare2;
+		sleep 150;
+		hide flare2;
+		return (0);
+	}
+	if( gun_1 == 1 )
+	{
+		gun_1 = gunport;
+		show flare2;
+		sleep 150;
+		hide flare2;
+		return (0);
+	}
+	if( gun_1 == 2 )
+	{
+		gun_1 = berceau;
+		show flare2;
+		sleep 150;
+		hide flare2;
+		return (0);
+	}
+	if( gun_1 == 3 )
+	{
+		gun_1 = tourelle;
+		show flare2;
+		sleep 150;
+		hide flare2;
+		Static_Var_6 = 1;
+		return (0);
+	}
+	if( gun_1 == 4 )
+	{
+		gun_1 = ovale;
+		show flare1;
+		sleep 150;
+		hide flare1;
+		return (0);
+	}
+	if( gun_1 == 5 )
+	{
+		gun_1 = canon;
+		show flare1;
+		sleep 150;
+		hide flare1;
+		return (0);
+	}
+	if( gun_1 == 6 )
+	{
+		gun_1 = aiguille;
+		show flare1;
+		sleep 150;
+		hide flare1;
+		return (0);
+	}
+	if( gun_1 == 7 )
+	{
+		gun_1 = bouche;
+		show flare1;
+		sleep 150;
+		hide flare1;
+		Static_Var_6 = 1;
+		return (0);
+	}
+	if( gun_1 == 8 )
+	{
+		gun_1 = patte10;
+		show flare2;
+		sleep 150;
+		hide flare2;
+		return (0);
+	}
+	if( gun_1 == 9 )
+	{
+		gun_1 = patte11;
+		show flare2;
+		sleep 150;
+		hide flare2;
+		return (0);
+	}
+	if( gun_1 == 10 )
+	{
+		gun_1 = patte12;
+		show flare2;
+		sleep 150;
+		hide flare2;
+		return (0);
+	}
+	if( gun_1 == 11 )
+	{
+		gun_1 = shld1;
+		show flare2;
+		sleep 150;
+		hide flare2;
+		Static_Var_6 = 1;
+		return (0);
+	}
+	if( gun_1 == 12 )
+	{
+		gun_1 = patte13;
+		show flare1;
+		sleep 150;
+		hide flare1;
+		return (0);
+	}
+	if( gun_1 == 13 )
+	{
+		gun_1 = patte14;
+		show flare1;
+		sleep 150;
+		hide flare1;
+		return (0);
+	}
+	if( gun_1 == 14 )
+	{
+		gun_1 = patte20;
+		show flare1;
+		sleep 150;
+		hide flare1;
+		return (0);
+	}
+	if( gun_1 == 15 )
+	{
+		gun_1 = Base;
+		show flare1;
+		sleep 150;
+		hide flare1;
+		Static_Var_6 = 1;
+		return (0);
+	}
+}
+
+AimFromSecondary(piecenum)
+{
+	piecenum = tourelle;
+}
+
+AimSecondary(heading, pitch)
+{
+	signal SIG_AIM_2;
+	set-signal-mask SIG_AIM_2;
+	while( gun_2 )
+	{
+		sleep 200;
+	}
+	while( pitch >= 7280 AND pitch <= 58240 )
+	{
+		sleep 25;
+	}
+	turn berceau to y-axis heading - <178.571429> speed <60.000000>;
+	wait-for-turn berceau around y-axis;
+	wait-for-turn ovale around x-axis;
+	sleep 360;
+	return (1);
+}
+
+QuerySecondary(piecenum)
+{
+	piecenum = bouche;
+}
+
+FireSecondary()
+{
+	gun_2 = Body;
+	dont-cache canon;
+	spin canon around z-axis speed <180.000000> accelerate <360.000000>;
+	move canon to z-axis [5.000000] speed [150.000000];
+	explode bouche type NOHEATCLOUD;
+	sleep 500;
+	stop-spin canon around z-axis decelerate <20.000000>;
+	move canon to z-axis [0.000000] speed [14.000000];
+	cache canon;
+	gun_2 = Base;
+}
+
+AimFromTertiary(piecenum)
+{
+	piecenum = Body;
+}
+
+AimTertiary(heading, pitch)
+{
+	signal SIG_AIM_3;
+	set-signal-mask SIG_AIM_3;
+	if( get ACTIVATION )
+	{
+		return (1);
+	}
+	if( !get ACTIVATION )
+	{
+		return (0);
+	}
+}
+
+QueryTertiary(piecenum)
+{
+	piecenum = Body;
+}
+
+FireTertiary(Func_Var_1)
+{
+	return (Static_Var_8);
+}
+
+Killed(severity, corpsetype)
+{
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		explode Base type NOHEATCLOUD;
+		explode Body type NOHEATCLOUD;
+		explode gunport type NOHEATCLOUD;
+		explode berceau type NOHEATCLOUD;
+		explode tourelle type NOHEATCLOUD;
+		explode ovale type NOHEATCLOUD;
+		explode canon type NOHEATCLOUD;
+		explode aiguille type NOHEATCLOUD;
+		explode bouche type NOHEATCLOUD;
+		explode patte10 type NOHEATCLOUD;
+		explode patte11 type NOHEATCLOUD;
+		explode patte12 type NOHEATCLOUD;
+		explode shld1 type NOHEATCLOUD;
+		explode patte13 type NOHEATCLOUD;
+		explode patte14 type NOHEATCLOUD;
+		explode patte20 type NOHEATCLOUD;
+		explode patte21 type NOHEATCLOUD;
+		explode patte22 type NOHEATCLOUD;
+		explode shld2 type NOHEATCLOUD;
+		explode patte23 type NOHEATCLOUD;
+		explode patte24 type NOHEATCLOUD;
+		explode patte50 type NOHEATCLOUD;
+		explode patte51 type NOHEATCLOUD;
+		explode patte52 type NOHEATCLOUD;
+		explode shld3 type NOHEATCLOUD;
+		explode patte53 type NOHEATCLOUD;
+		explode patte54 type NOHEATCLOUD;
+		explode patte60 type NOHEATCLOUD;
+		explode patte61 type NOHEATCLOUD;
+		explode patte62 type NOHEATCLOUD;
+		explode shld12 type NOHEATCLOUD;
+		explode patte63 type NOHEATCLOUD;
+		explode patte64 type NOHEATCLOUD;
+		explode patte40 type NOHEATCLOUD;
+		explode patte41 type NOHEATCLOUD;
+		explode patte42 type NOHEATCLOUD;
+		explode patte43 type NOHEATCLOUD;
+		explode patte44 type NOHEATCLOUD;
+		explode patte30 type NOHEATCLOUD;
+		explode patte31 type NOHEATCLOUD;
+		explode patte32 type NOHEATCLOUD;
+		explode patte33 type NOHEATCLOUD;
+		explode patte34 type NOHEATCLOUD;
+		explode headport type NOHEATCLOUD;
+		explode head type NOHEATCLOUD;
+		explode head type NOHEATCLOUD;
+		explode head type NOHEATCLOUD;
+		explode head type NOHEATCLOUD;
+		explode head type NOHEATCLOUD;
+		explode head type NOHEATCLOUD;
+		explode head type NOHEATCLOUD;
+		explode head type NOHEATCLOUD;
+		explode head type NOHEATCLOUD;
+		explode head type NOHEATCLOUD;
+		explode eye type NOHEATCLOUD;
+		explode fg type NOHEATCLOUD;
+		explode turretgen type NOHEATCLOUD;
+		explode Mpod type NOHEATCLOUD;
+		explode flare1 type NOHEATCLOUD;
+		explode Mpod2 type NOHEATCLOUD;
+		explode flare2 type NOHEATCLOUD;
+		return (corpsetype);
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		explode Base type NOHEATCLOUD | SHATTER;
+		explode Body type NOHEATCLOUD | SHATTER;
+		explode gunport type NOHEATCLOUD | SHATTER;
+		explode berceau type NOHEATCLOUD | SHATTER;
+		explode tourelle type NOHEATCLOUD | SHATTER;
+		explode ovale type NOHEATCLOUD | SHATTER;
+		explode canon type NOHEATCLOUD | SHATTER;
+		explode aiguille type NOHEATCLOUD | SHATTER;
+		explode bouche type NOHEATCLOUD | SHATTER;
+		explode patte10 type NOHEATCLOUD | SHATTER;
+		explode patte11 type NOHEATCLOUD | SHATTER;
+		explode patte12 type NOHEATCLOUD | SHATTER;
+		explode shld1 type NOHEATCLOUD | SHATTER;
+		explode patte13 type NOHEATCLOUD | SHATTER;
+		explode patte14 type NOHEATCLOUD | SHATTER;
+		explode patte20 type NOHEATCLOUD | SHATTER;
+		explode patte21 type NOHEATCLOUD | SHATTER;
+		explode patte22 type NOHEATCLOUD | SHATTER;
+		explode shld2 type NOHEATCLOUD | SHATTER;
+		explode patte23 type NOHEATCLOUD | SHATTER;
+		explode patte24 type NOHEATCLOUD | SHATTER;
+		explode patte50 type NOHEATCLOUD | SHATTER;
+		explode patte51 type NOHEATCLOUD | SHATTER;
+		explode patte52 type NOHEATCLOUD | SHATTER;
+		explode shld3 type NOHEATCLOUD | SHATTER;
+		explode patte53 type NOHEATCLOUD | SHATTER;
+		explode patte54 type NOHEATCLOUD | SHATTER;
+		explode patte60 type NOHEATCLOUD | SHATTER;
+		explode patte61 type NOHEATCLOUD | SHATTER;
+		explode patte62 type NOHEATCLOUD | SHATTER;
+		explode shld12 type NOHEATCLOUD | SHATTER;
+		explode patte63 type NOHEATCLOUD | SHATTER;
+		explode patte64 type NOHEATCLOUD | SHATTER;
+		explode patte40 type NOHEATCLOUD | SHATTER;
+		explode patte41 type NOHEATCLOUD | SHATTER;
+		explode patte42 type NOHEATCLOUD | SHATTER;
+		explode patte43 type NOHEATCLOUD | SHATTER;
+		explode patte44 type NOHEATCLOUD | SHATTER;
+		explode patte30 type NOHEATCLOUD | SHATTER;
+		explode patte31 type NOHEATCLOUD | SHATTER;
+		explode patte32 type NOHEATCLOUD | SHATTER;
+		explode patte33 type NOHEATCLOUD | SHATTER;
+		explode patte34 type NOHEATCLOUD | SHATTER;
+		explode headport type NOHEATCLOUD | SHATTER;
+		explode head type NOHEATCLOUD | SHATTER;
+		explode head type NOHEATCLOUD | SHATTER;
+		explode head type NOHEATCLOUD | SHATTER;
+		explode head type NOHEATCLOUD | SHATTER;
+		explode head type NOHEATCLOUD | SHATTER;
+		explode head type NOHEATCLOUD | SHATTER;
+		explode head type NOHEATCLOUD | SHATTER;
+		explode head type NOHEATCLOUD | SHATTER;
+		explode head type NOHEATCLOUD | SHATTER;
+		explode head type NOHEATCLOUD | SHATTER;
+		explode eye type NOHEATCLOUD | SHATTER;
+		explode fg type NOHEATCLOUD | SHATTER;
+		explode turretgen type NOHEATCLOUD | SHATTER;
+		explode Mpod type NOHEATCLOUD | SHATTER;
+		explode flare1 type NOHEATCLOUD | SHATTER;
+		explode Mpod2 type NOHEATCLOUD | SHATTER;
+		explode flare2 type NOHEATCLOUD | SHATTER;
+		return (corpsetype);
+	}
+	if( severity <= 99 )
+	{
+		corpsetype = 3;
+		explode Base type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode Body type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode gunport type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode berceau type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode tourelle type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode ovale type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode canon type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode aiguille type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode bouche type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte10 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte11 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte12 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode shld1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte13 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte14 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte20 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte21 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte22 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode shld2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte23 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte24 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte50 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte51 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte52 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode shld3 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte53 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte54 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte60 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte61 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte62 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode shld12 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte63 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte64 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte40 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte41 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte42 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte43 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte44 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte30 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte31 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte32 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte33 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode patte34 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode headport type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode eye type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode fg type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode turretgen type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode Mpod type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode flare1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode Mpod2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode flare2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		return (corpsetype);
+	}
+	corpsetype = 3;
+	explode Base type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode Body type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode gunport type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode berceau type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode tourelle type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode ovale type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode canon type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode aiguille type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode bouche type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte10 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte11 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte12 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode shld1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte13 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte14 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte20 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte21 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte22 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode shld2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte23 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte24 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte50 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte51 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte52 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode shld3 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte53 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte54 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte60 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte61 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte62 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode shld12 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte63 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte64 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte40 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte41 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte42 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte43 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte44 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte30 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte31 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte32 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte33 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode patte34 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode headport type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode eye type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode fg type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode turretgen type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode Mpod type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode flare1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode Mpod2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode flare2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	return (corpsetype);
+}

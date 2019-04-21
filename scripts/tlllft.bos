@@ -1,0 +1,125 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, tower, turret, tube, tail;
+
+// Signal definitions
+#define SIG_AIM				2
+
+
+lua_FlameShot(Func_Var_1)
+{
+}
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from tube;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+flames(Func_Var_1)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 500;
+	}
+	while( TRUE )
+	{
+		Func_Var_1 = 200 + Rand( 50, 800 );
+		sleep Func_Var_1;
+		emit-sfx 0 from tail;
+	}
+}
+
+Create()
+{
+	dont-shade tower;
+	dont-shade turret;
+	dont-shade tube;
+	dont-shade tail;
+	hide tail;
+	cache tower;
+	cache turret;
+	cache tail;
+	dont-cache tube;
+	start-script SmokeUnit();
+	start-script flames();
+}
+
+AimPrimary(heading, pitch)
+{
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+	turn turret to y-axis heading speed <320.000000>;
+	turn tube to x-axis <0.000000> - pitch speed <250.000000>;
+	wait-for-turn turret around y-axis;
+	wait-for-turn tube around x-axis;
+	return (1);
+}
+
+Shot1()
+{
+	call-script lua_FlameShot(1);
+	return (1);
+}
+
+FirePrimary()
+{
+}
+
+AimFromPrimary(piecenum)
+{
+	piecenum = tube;
+}
+
+QueryPrimary(piecenum)
+{
+	piecenum = tail;
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = base;
+}
+
+Killed(severity, corpsetype)
+{
+	explode tube type NOHEATCLOUD | FALL | SMOKE | EXPLODE_ON_HIT;
+	explode turret type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode tower type NOHEATCLOUD;
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		return (corpsetype);
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		return (corpsetype);
+	}
+	corpsetype = 3;
+	return (corpsetype);
+}

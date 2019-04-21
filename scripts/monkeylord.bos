@@ -1,0 +1,459 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, cephalotorax, poupe, berceau, canon, bouche, pattes, ecraseur_epaule,
+       ecraseur_bras, leg1, leg2, leg3, leg4, leg5, leg6, load_shoulder,
+       load_arm, unload_shoulder, unload_arm, goal_shoulder, goal_arm, smoke1, smoke2, smoke3,
+       smoke4, smoke5, shield_pos;
+
+static-var  shieldonoff, bMoving, bAiming, Static_Var_3, restore_delay, Static_Var_5,
+            Static_Var_6, Static_Var_7;
+
+// Signal definitions
+#define SIG_AIM				2
+#define SIG_AIM_2			4
+#define SIG_AIM_3			8
+
+HexapodTrueWalk()
+{
+	while( bMoving )
+	{
+		if( bMoving )
+		{
+			turn leg1 to y-axis <43.005495> speed <40.000000>;
+			turn leg1 to y-axis <0.000000> speed <40.000000>;
+			turn leg1 to z-axis <0.000000> speed <40.000000>;
+			turn leg1 to z-axis <0.000000> speed <40.000000>;
+			turn leg2 to z-axis <0.000000> speed <40.000000>;
+			turn leg2 to z-axis <31.005495> speed <40.000000>;
+			turn leg3 to y-axis <34.005495> speed <40.000000>;
+			turn leg3 to y-axis <34.005495> speed <40.000000>;
+			turn leg3 to z-axis <31.005495> speed <40.000000>;
+			turn leg3 to z-axis <0.000000> speed <40.000000>;
+			turn leg4 to y-axis <-40.005495> speed <40.000000>;
+			turn leg4 to y-axis <-40.005495> speed <40.000000>;
+			turn leg4 to z-axis <-31.005495> speed <40.000000>;
+			turn leg4 to z-axis <0.000000> speed <40.000000>;
+			turn leg5 to y-axis <-37.005495> speed <40.000000>;
+			turn leg5 to y-axis <0.000000> speed <40.000000>;
+			turn leg5 to z-axis <0.000000> speed <40.000000>;
+			turn leg5 to z-axis <0.000000> speed <40.000000>;
+			turn leg6 to y-axis <0.000000> speed <40.000000>;
+			turn leg6 to y-axis <-30.005495> speed <40.000000>;
+			turn leg6 to z-axis <-45.005495> speed <40.000000>;
+			sleep 200;
+		}
+		if( bMoving )
+		{
+			turn leg1 to z-axis <31.005495> speed <40.000000>;
+			turn leg2 to y-axis <34.005495> speed <40.000000>;
+			turn leg2 to z-axis <31.005495> speed <40.000000>;
+			turn leg3 to y-axis <0.000000> speed <40.000000>;
+			turn leg3 to z-axis <0.000000> speed <40.000000>;
+			turn leg4 to y-axis <0.000000> speed <40.000000>;
+			turn leg5 to z-axis <-31.005495> speed <40.000000>;
+			turn leg6 to z-axis <2.000000> speed <40.000000>;
+			sleep 200;
+		}
+		if( bMoving )
+		{
+			turn leg1 to y-axis <55.005495> speed <40.000000>;
+			turn leg1 to z-axis <31.005495> speed <40.000000>;
+			turn leg2 to y-axis <34.005495> speed <40.000000>;
+			turn leg2 to z-axis <0.000000> speed <40.000000>;
+			turn leg3 to z-axis <31.005495> speed <40.000000>;
+			turn leg4 to y-axis <0.000000> speed <40.000000>;
+			turn leg4 to z-axis <-31.005495> speed <40.000000>;
+			turn leg5 to y-axis <-31.005495> speed <40.000000>;
+			turn leg5 to z-axis <-31.005495> speed <40.000000>;
+			turn leg6 to y-axis <3.000000> speed <40.000000>;
+			sleep 200;
+		}
+		turn leg1 to y-axis <43.005495> speed <40.000000>;
+		turn leg1 to z-axis <0.000000> speed <40.000000>;
+		turn leg2 to y-axis <0.000000> speed <40.000000>;
+		turn leg2 to z-axis <0.000000> speed <40.000000>;
+		turn leg3 to y-axis <34.005495> speed <40.000000>;
+		turn leg3 to z-axis <31.005495> speed <40.000000>;
+		turn leg4 to y-axis <-40.005495> speed <40.000000>;
+		turn leg4 to z-axis <-31.005495> speed <40.000000>;
+		turn leg5 to y-axis <-37.005495> speed <40.000000>;
+		turn leg5 to z-axis <0.000000> speed <40.000000>;
+		turn leg6 to y-axis <0.000000> speed <40.000000>;
+		turn leg6 to z-axis <-45.005495> speed <40.000000>;
+		sleep 200;
+	}
+}
+
+StartMoving()
+{
+	bMoving = TRUE;
+}
+
+StopMoving()
+{
+	bMoving = FALSE;
+}
+
+MotionControl(Func_Var_1)
+{
+	while( TRUE )
+	{
+		Func_Var_1 = bMoving;
+		if( Func_Var_1 )
+		{
+			call-script HexapodTrueWalk();
+		}
+		if( !Func_Var_1 )
+		{
+			sleep 100;
+			turn leg1 to y-axis <0.000000> speed <100.000000>;
+			turn leg1 to z-axis <0.000000> speed <100.000000>;
+			turn leg2 to y-axis <0.000000> speed <100.000000>;
+			turn leg2 to z-axis <0.000000> speed <100.000000>;
+			turn leg3 to y-axis <0.000000> speed <100.000000>;
+			turn leg3 to z-axis <0.000000> speed <100.000000>;
+			turn leg4 to y-axis <0.000000> speed <100.000000>;
+			turn leg4 to z-axis <0.000000> speed <100.000000>;
+			turn leg5 to y-axis <0.000000> speed <100.000000>;
+			turn leg5 to z-axis <0.000000> speed <100.000000>;
+			turn leg6 to y-axis <0.000000> speed <100.000000>;
+			turn leg6 to z-axis <0.000000> speed <100.000000>;
+		}
+	}
+}
+
+IdleControl()
+{
+	while( TRUE )
+	{
+		Static_Var_7 = 256 | 2;
+		if( !bMoving AND !bAiming )
+		{
+			sleep 150;
+			emit-sfx Static_Var_7 from smoke1;
+			emit-sfx Static_Var_7 from smoke2;
+			emit-sfx Static_Var_7 from smoke3;
+			emit-sfx Static_Var_7 from smoke4;
+			emit-sfx Static_Var_7 from smoke5;
+			emit-sfx Static_Var_7 from smoke1;
+			emit-sfx Static_Var_7 from smoke2;
+			emit-sfx Static_Var_7 from smoke3;
+			emit-sfx Static_Var_7 from smoke4;
+			emit-sfx Static_Var_7 from smoke5;
+			sleep 1050;
+			emit-sfx Static_Var_7 from smoke1;
+			emit-sfx Static_Var_7 from smoke2;
+			emit-sfx Static_Var_7 from smoke3;
+			emit-sfx Static_Var_7 from smoke4;
+			emit-sfx Static_Var_7 from smoke5;
+			emit-sfx Static_Var_7 from smoke1;
+			emit-sfx Static_Var_7 from smoke2;
+			emit-sfx Static_Var_7 from smoke3;
+			emit-sfx Static_Var_7 from smoke4;
+			emit-sfx Static_Var_7 from smoke5;
+			sleep 1050;
+			emit-sfx Static_Var_7 from smoke1;
+			emit-sfx Static_Var_7 from smoke2;
+			emit-sfx Static_Var_7 from smoke3;
+			emit-sfx Static_Var_7 from smoke4;
+			emit-sfx Static_Var_7 from smoke5;
+			emit-sfx Static_Var_7 from smoke1;
+			emit-sfx Static_Var_7 from smoke2;
+			emit-sfx Static_Var_7 from smoke3;
+			emit-sfx Static_Var_7 from smoke4;
+			emit-sfx Static_Var_7 from smoke5;
+			sleep 1050;
+			emit-sfx Static_Var_7 from smoke1;
+			emit-sfx Static_Var_7 from smoke2;
+			emit-sfx Static_Var_7 from smoke3;
+			emit-sfx Static_Var_7 from smoke4;
+			emit-sfx Static_Var_7 from smoke5;
+			emit-sfx Static_Var_7 from smoke1;
+			emit-sfx Static_Var_7 from smoke2;
+			emit-sfx Static_Var_7 from smoke3;
+			emit-sfx Static_Var_7 from smoke4;
+			emit-sfx Static_Var_7 from smoke5;
+			sleep 1050;
+			emit-sfx Static_Var_7 from smoke1;
+			emit-sfx Static_Var_7 from smoke2;
+			emit-sfx Static_Var_7 from smoke3;
+			emit-sfx Static_Var_7 from smoke4;
+			emit-sfx Static_Var_7 from smoke5;
+			emit-sfx Static_Var_7 from smoke1;
+			emit-sfx Static_Var_7 from smoke2;
+			emit-sfx Static_Var_7 from smoke3;
+			emit-sfx Static_Var_7 from smoke4;
+			emit-sfx Static_Var_7 from smoke5;
+			sleep 10;
+		}
+		sleep 150;
+		emit-sfx Static_Var_7 from smoke1;
+		emit-sfx Static_Var_7 from smoke2;
+		emit-sfx Static_Var_7 from smoke3;
+		emit-sfx Static_Var_7 from smoke4;
+		emit-sfx Static_Var_7 from smoke5;
+		emit-sfx Static_Var_7 from smoke1;
+		emit-sfx Static_Var_7 from smoke2;
+		emit-sfx Static_Var_7 from smoke3;
+		emit-sfx Static_Var_7 from smoke4;
+		emit-sfx Static_Var_7 from smoke5;
+		sleep 1050;
+		emit-sfx Static_Var_7 from smoke1;
+		emit-sfx Static_Var_7 from smoke2;
+		emit-sfx Static_Var_7 from smoke3;
+		emit-sfx Static_Var_7 from smoke4;
+		emit-sfx Static_Var_7 from smoke5;
+		emit-sfx Static_Var_7 from smoke1;
+		emit-sfx Static_Var_7 from smoke2;
+		emit-sfx Static_Var_7 from smoke3;
+		emit-sfx Static_Var_7 from smoke4;
+		emit-sfx Static_Var_7 from smoke5;
+		sleep 1050;
+		emit-sfx Static_Var_7 from smoke1;
+		emit-sfx Static_Var_7 from smoke2;
+		emit-sfx Static_Var_7 from smoke3;
+		emit-sfx Static_Var_7 from smoke4;
+		emit-sfx Static_Var_7 from smoke5;
+		emit-sfx Static_Var_7 from smoke1;
+		emit-sfx Static_Var_7 from smoke2;
+		emit-sfx Static_Var_7 from smoke3;
+		emit-sfx Static_Var_7 from smoke4;
+		emit-sfx Static_Var_7 from smoke5;
+		sleep 1050;
+		emit-sfx Static_Var_7 from smoke1;
+		emit-sfx Static_Var_7 from smoke2;
+		emit-sfx Static_Var_7 from smoke3;
+		emit-sfx Static_Var_7 from smoke4;
+		emit-sfx Static_Var_7 from smoke5;
+		emit-sfx Static_Var_7 from smoke1;
+		emit-sfx Static_Var_7 from smoke2;
+		emit-sfx Static_Var_7 from smoke3;
+		emit-sfx Static_Var_7 from smoke4;
+		emit-sfx Static_Var_7 from smoke5;
+		sleep 1050;
+		emit-sfx Static_Var_7 from smoke1;
+		emit-sfx Static_Var_7 from smoke2;
+		emit-sfx Static_Var_7 from smoke3;
+		emit-sfx Static_Var_7 from smoke4;
+		emit-sfx Static_Var_7 from smoke5;
+		emit-sfx Static_Var_7 from smoke1;
+		emit-sfx Static_Var_7 from smoke2;
+		emit-sfx Static_Var_7 from smoke3;
+		emit-sfx Static_Var_7 from smoke4;
+		emit-sfx Static_Var_7 from smoke5;
+		sleep 10;
+	}
+}
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	start-script IdleControl();
+	start-script MotionControl();
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from cephalotorax;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+Shield()
+{
+	shieldonoff = !shieldonoff;
+}
+
+Create()
+{
+	bMoving = FALSE;
+	bAiming = FALSE;
+	Static_Var_3 = 0;
+	restore_delay = 10;
+	Static_Var_5 = 0;
+	set ARMORED to 1;
+	set ACTIVATION to 1;
+	Static_Var_6 = 1;
+	move ecraseur_epaule to y-axis [13107.199982] now;
+	hide bouche;
+	dont-cache bouche;
+	start-script SmokeUnit();
+	sleep 1;
+	Static_Var_6 = 1;
+	shieldonoff = 1;
+}
+
+SetMaxReloadTime(Func_Var_1)
+{
+	restore_delay = 5000;
+}
+
+RetourTourelle()
+{
+	sleep restore_delay;
+	bAiming = FALSE;
+	turn berceau to y-axis <0.000000> speed <50.000000>;
+	emit-sfx Static_Var_7 from smoke1;
+	emit-sfx Static_Var_7 from smoke2;
+	emit-sfx Static_Var_7 from smoke3;
+	emit-sfx Static_Var_7 from smoke4;
+	emit-sfx Static_Var_7 from smoke5;
+	sleep 150;
+	emit-sfx Static_Var_7 from smoke1;
+	emit-sfx Static_Var_7 from smoke2;
+	emit-sfx Static_Var_7 from smoke3;
+	emit-sfx Static_Var_7 from smoke4;
+	emit-sfx Static_Var_7 from smoke5;
+	sleep 150;
+	emit-sfx Static_Var_7 from smoke1;
+	emit-sfx Static_Var_7 from smoke2;
+	emit-sfx Static_Var_7 from smoke3;
+	emit-sfx Static_Var_7 from smoke4;
+	emit-sfx Static_Var_7 from smoke5;
+	sleep 150;
+	emit-sfx Static_Var_7 from smoke1;
+	emit-sfx Static_Var_7 from smoke2;
+	emit-sfx Static_Var_7 from smoke3;
+	emit-sfx Static_Var_7 from smoke4;
+	emit-sfx Static_Var_7 from smoke5;
+	sleep 150;
+	emit-sfx Static_Var_7 from smoke1;
+	emit-sfx Static_Var_7 from smoke2;
+	emit-sfx Static_Var_7 from smoke3;
+	emit-sfx Static_Var_7 from smoke4;
+	emit-sfx Static_Var_7 from smoke5;
+	sleep 150;
+	emit-sfx Static_Var_7 from smoke1;
+	emit-sfx Static_Var_7 from smoke2;
+	emit-sfx Static_Var_7 from smoke3;
+	emit-sfx Static_Var_7 from smoke4;
+	emit-sfx Static_Var_7 from smoke5;
+	sleep 150;
+	emit-sfx Static_Var_7 from smoke1;
+	emit-sfx Static_Var_7 from smoke2;
+	emit-sfx Static_Var_7 from smoke3;
+	emit-sfx Static_Var_7 from smoke4;
+	emit-sfx Static_Var_7 from smoke5;
+	sleep 150;
+	emit-sfx Static_Var_7 from smoke1;
+	emit-sfx Static_Var_7 from smoke2;
+	emit-sfx Static_Var_7 from smoke3;
+	emit-sfx Static_Var_7 from smoke4;
+	emit-sfx Static_Var_7 from smoke5;
+	sleep 150;
+}
+
+AimFromPrimary(piecenum)
+{
+	piecenum = canon;
+}
+
+AimPrimary(heading, pitch)
+{
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+	bAiming = TRUE;
+	turn berceau to y-axis heading speed <50.000000>;
+	turn canon to x-axis <0> - pitch speed <40.000000>;
+	wait-for-turn berceau around y-axis;
+	wait-for-turn canon around x-axis;
+	start-script RetourTourelle();
+	return (1);
+}
+
+QueryPrimary(piecenum)
+{
+	piecenum = bouche;
+}
+
+FirePrimary()
+{
+}
+
+AimFromSecondary(piecenum)
+{
+	piecenum = ecraseur_bras;
+}
+
+AimSecondary(heading, pitch)
+{
+	signal SIG_AIM_2;
+	set-signal-mask SIG_AIM_2;
+	sleep 200;
+	if( FALSE )
+	{
+		while( TRUE )
+		{
+			sleep [21.972650];
+		}
+	}
+	return (1);
+}
+
+QuerySecondary(piecenum)
+{
+	piecenum = ecraseur_bras;
+}
+
+FireSecondary(Func_Var_1)
+{
+	return (Static_Var_6);
+}
+
+AimFromTertiary(piecenum)
+{
+	piecenum = shield_pos;
+}
+
+AimTertiary(heading, pitch)
+{
+	return (shieldonoff);
+}
+
+QueryTertiary(piecenum)
+{
+	piecenum = shield_pos;
+}
+
+FireTertiary()
+{
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = cephalotorax;
+}
+
+Killed(severity, corpsetype)
+{
+	explode cephalotorax type NOHEATCLOUD;
+	explode poupe type NOHEATCLOUD;
+	explode berceau type NOHEATCLOUD;
+	explode canon type NOHEATCLOUD;
+	explode leg1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode leg2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode leg3 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode leg4 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode leg5 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode leg6 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	corpsetype = 1;
+	return (corpsetype);
+}

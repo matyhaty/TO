@@ -1,0 +1,299 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, beam, plate, arm, nano, door1, door2, wake1,
+       wake2, turret, ground;
+
+static-var  Static_Var_1, Static_Var_2, Static_Var_3, Static_Var_4;
+
+// Signal definitions
+#define SIG_MOVE			2
+
+
+activatescr()
+{
+	move plate to z-axis [0.000000] now;
+	move arm to y-axis [0.000000] now;
+	move nano to y-axis [0.000000] now;
+	move beam to x-axis [0.000000] now;
+	move beam to z-axis [0.000000] now;
+	turn door1 to z-axis <0.000000> now;
+	turn door1 to z-axis <-70.016484> speed <182.000000>;
+	turn door2 to z-axis <0.000000> now;
+	turn door2 to z-axis <71.016484> speed <184.000000>;
+	sleep 388;
+	move door1 to y-axis [-3.550000] speed [9.000000];
+	move door2 to y-axis [-3.550000] speed [9.000000];
+	sleep 389;
+	move plate to y-axis [3.700000] speed [9.000000];
+	sleep 389;
+	turn arm to x-axis <89.016484> speed <229.000000>;
+	turn nano to x-axis <-69.016484> speed <178.000000>;
+	sleep 410;
+}
+
+deactivatescr()
+{
+	set INBUILDSTANCE to 0;
+	turn turret to y-axis <0.000000> speed <160.000000>;
+	wait-for-turn turret around y-axis;
+	move plate to y-axis [3.700000] now;
+	move plate to z-axis [0.000000] now;
+	move door1 to y-axis [-3.550000] now;
+	move door2 to y-axis [-3.550000] now;
+	move arm to y-axis [0.000000] now;
+	move nano to y-axis [0.000000] now;
+	move beam to x-axis [0.000000] now;
+	move beam to z-axis [0.000000] now;
+	turn door1 to z-axis <-70.648352> now;
+	turn door2 to z-axis <71.549451> now;
+	turn arm to x-axis <89.560440> now;
+	turn arm to x-axis <0.000000> speed <230.000000>;
+	turn nano to x-axis <-69.736264> now;
+	turn nano to x-axis <0.000000> speed <179.000000>;
+	sleep 388;
+	move plate to y-axis [0.000000] speed [9.000000];
+	sleep 389;
+	move door1 to y-axis [0.000000] speed [9.000000];
+	move door2 to y-axis [0.000000] speed [9.000000];
+	sleep 389;
+	turn door1 to z-axis <0.000000> speed <181.000000>;
+	turn door2 to z-axis <0.000000> speed <183.000000>;
+	sleep 410;
+}
+
+SetDirection(heading)
+{
+	var Func_Var_2;
+	Func_Var_2 = ( get ABS(Static_Var_4) - get ABS(heading) ) / 2;
+	turn ground to y-axis heading speed Func_Var_2;
+	turn base to y-axis <0.000000> - heading speed Func_Var_2;
+	Static_Var_4 = heading;
+}
+
+RockOnWaves(Func_Var_1, Func_Var_2, Func_Var_3)
+{
+	Func_Var_1 = -18;
+	Func_Var_2 = -18;
+	while( TRUE )
+	{
+		while( get ABS(Func_Var_2) < 238 )
+		{
+			Func_Var_3 = 263 - get ABS(Func_Var_2);
+			turn ground to x-axis Func_Var_2 speed Func_Var_3 * <0.021978>;
+			wait-for-turn ground around x-axis;
+			Func_Var_2 = Func_Var_2 + Func_Var_1;
+		}
+		Func_Var_1 = 0 - Func_Var_1;
+		Func_Var_2 = Func_Var_2 + Func_Var_1 + Func_Var_1;
+	}
+}
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 500;
+	}
+	start-script RockOnWaves();
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 258;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 257;
+			}
+			emit-sfx smoketype from base;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+waveSplash()
+{
+	while( TRUE )
+	{
+		turn base to x-axis <-3.000000> speed <3.000000>;
+		move base to y-axis [0.229999] speed [0.229999];
+		wait-for-turn base around x-axis;
+		turn base to x-axis <0.000000> speed <3.000000>;
+		move base to y-axis [0.000000] speed [0.229999];
+		wait-for-turn base around x-axis;
+	}
+}
+
+StartMoving()
+{
+	signal SIG_MOVE;
+	set-signal-mask SIG_MOVE;
+	var Func_Var_1;
+	start-script waveSplash();
+	while( TRUE )
+	{
+		emit-sfx 2 from wake1;
+		emit-sfx 2 from wake2;
+		Func_Var_1 = get CURRENT_SPEED * 100 / get MAX_SPEED;
+		if( Func_Var_1 < 50 )
+		{
+			Func_Var_1 = 50;
+		}
+		sleep 15000 / Func_Var_1;
+	}
+}
+
+StopMoving()
+{
+	signal SIG_MOVE;
+	turn base to x-axis <0.000000> speed <3.000000>;
+	move base to y-axis [0.000000] speed [0.229999];
+}
+
+RequestState(requestedstate, currentstate)
+{
+	if( Static_Var_2 )
+	{
+		Static_Var_1 = requestedstate;
+		return (0);
+	}
+	Static_Var_2 = 1;
+	currentstate = Static_Var_1;
+	Static_Var_1 = requestedstate;
+	while( Static_Var_1 != currentstate )
+	{
+		if( Static_Var_1 )
+		{
+			call-script deactivatescr();
+			Static_Var_3 = 1;
+			currentstate = 1;
+		}
+		else
+		{
+			call-script activatescr();
+			Static_Var_3 = 0;
+			currentstate = 0;
+		}
+	}
+	Static_Var_2 = 0;
+}
+
+Create()
+{
+	Static_Var_3 = 1;
+	Static_Var_1 = 1;
+	Static_Var_2 = 0;
+	start-script SmokeUnit();
+}
+
+Activate()
+{
+	start-script RequestState(0);
+}
+
+Deactivate()
+{
+	start-script RequestState(1);
+}
+
+StartBuilding(Func_Var_1, Func_Var_2)
+{
+	start-script RequestState(0);
+	while( Static_Var_3 )
+	{
+		sleep 100;
+	}
+	signal 4;
+	turn turret to y-axis Func_Var_1 speed <160.000000>;
+	wait-for-turn turret around y-axis;
+	set INBUILDSTANCE to 1;
+}
+
+StopBuilding()
+{
+	signal 4;
+	set-signal-mask 4;
+	sleep 6000;
+	set-signal-mask 0;
+	signal 4;
+	start-script RequestState(1);
+}
+
+QueryNanoPiece(piecenum)
+{
+	piecenum = beam;
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = base;
+}
+
+Killed(severity, corpsetype)
+{
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		explode arm type NOHEATCLOUD;
+		explode base type NOHEATCLOUD;
+		explode beam type NOHEATCLOUD;
+		explode door1 type NOHEATCLOUD;
+		explode door2 type NOHEATCLOUD;
+		explode nano type NOHEATCLOUD;
+		explode plate type NOHEATCLOUD;
+		explode turret type NOHEATCLOUD;
+		explode wake1 type NOHEATCLOUD;
+		explode wake2 type NOHEATCLOUD;
+		return (corpsetype);
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		explode arm type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+		explode base type NOHEATCLOUD;
+		explode beam type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+		explode door1 type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+		explode door2 type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+		explode nano type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+		explode plate type NOHEATCLOUD;
+		explode turret type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+		explode wake1 type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+		explode wake2 type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+		return (corpsetype);
+	}
+	if( severity <= 99 )
+	{
+		corpsetype = 3;
+		explode arm type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode base type NOHEATCLOUD;
+		explode beam type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode door1 type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+		explode door2 type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+		explode nano type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode plate type NOHEATCLOUD;
+		explode turret type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode wake1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode wake2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		return (corpsetype);
+	}
+	corpsetype = 3;
+	explode arm type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode base type NOHEATCLOUD;
+	explode beam type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode door1 type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode door2 type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode nano type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode plate type NOHEATCLOUD;
+	explode turret type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode wake1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode wake2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	return (corpsetype);
+}

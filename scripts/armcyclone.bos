@@ -1,0 +1,256 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  m1, m2, intake1, intake2, mount1, mount2, base, airframe,
+       wing1, wing2, tail, ex, drop;
+
+static-var  Static_Var_1, gun_2, statechg_StateChanging, statechg_DesiredState;
+
+// Signal definitions
+#define SIG_AIM_2			2
+
+
+activatescr()
+{
+	if( TRUE )
+	{
+		turn wing1 to z-axis <0.000000> speed <25.000000>;
+		turn wing2 to z-axis <0.000000> speed <25.000000>;
+		wait-for-turn wing1 around z-axis;
+		wait-for-turn wing2 around z-axis;
+		sleep 150;
+	}
+	sleep 44;
+}
+
+deactivatescr()
+{
+	if( TRUE )
+	{
+		turn wing1 to z-axis <95.000000> speed <10.000000>;
+		turn wing2 to z-axis <-95.000000> speed <10.000000>;
+		wait-for-turn wing1 around z-axis;
+		wait-for-turn wing2 around z-axis;
+	}
+	sleep 44;
+}
+
+InitState()
+{
+	statechg_DesiredState = TRUE;
+	statechg_StateChanging = FALSE;
+}
+
+RequestState(requestedstate, currentstate)
+{
+	if( statechg_StateChanging )
+	{
+		statechg_DesiredState = requestedstate;
+		return (0);
+	}
+	statechg_StateChanging = TRUE;
+	currentstate = statechg_DesiredState;
+	statechg_DesiredState = requestedstate;
+	while( statechg_DesiredState != currentstate )
+	{
+		if( statechg_DesiredState == 0 )
+		{
+			call-script activatescr();
+			currentstate = 0;
+		}
+		if( statechg_DesiredState == 1 )
+		{
+			call-script deactivatescr();
+			currentstate = 1;
+		}
+	}
+	statechg_StateChanging = FALSE;
+}
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from base;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+Create()
+{
+	hide m1;
+	hide m2;
+	gun_2 = m2;
+	Static_Var_1 = 3000;
+	call-script InitState();
+	call-script deactivatescr();
+	start-script SmokeUnit();
+}
+
+Activate()
+{
+	start-script RequestState(0);
+}
+
+Deactivate()
+{
+	start-script RequestState(1);
+}
+
+RestoreAfterDelay()
+{
+	sleep Static_Var_1;
+	turn mount1 to y-axis <0.000000> speed <90.016484>;
+	turn mount1 to x-axis <0.000000> speed <50.005495>;
+	turn mount2 to y-axis <0.000000> speed <90.016484>;
+	turn mount2 to x-axis <0.000000> speed <50.005495>;
+}
+
+AimPrimary()
+{
+	return (1);
+}
+
+QueryPrimary(piecenum)
+{
+	piecenum = drop;
+}
+
+QuerySecondary(piecenum)
+{
+	if( gun_2 == 0 )
+	{
+		piecenum = mount1;
+	}
+	if( gun_2 == 1 )
+	{
+		piecenum = mount2;
+	}
+}
+
+AimSecondary(heading, pitch)
+{
+	signal SIG_AIM_2;
+	set-signal-mask SIG_AIM_2;
+	turn mount1 to y-axis heading speed <390.093407>;
+	turn mount2 to x-axis <0.000000> - pitch speed <350.082418>;
+	turn mount1 to y-axis heading speed <390.093407>;
+	turn mount2 to x-axis <0.000000> - pitch speed <350.082418>;
+	wait-for-turn mount1 around y-axis;
+	wait-for-turn mount2 around x-axis;
+	wait-for-turn mount1 around y-axis;
+	wait-for-turn mount2 around x-axis;
+	start-script RestoreAfterDelay();
+	return (1);
+}
+
+FireSecondary()
+{
+	gun_2 = !gun_2;
+	if( gun_2 == 0 )
+	{
+		show m1;
+		sleep 150;
+		hide m1;
+		return (0);
+	}
+	if( gun_2 == 1 )
+	{
+		show m2;
+		sleep 150;
+		hide m2;
+		return (0);
+	}
+}
+
+AimFromSecondary(piecenum)
+{
+	if( gun_2 == 0 )
+	{
+		piecenum = mount1;
+	}
+	if( gun_2 == 1 )
+	{
+		piecenum = mount2;
+	}
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = base;
+}
+
+Killed(severity, corpsetype)
+{
+	hide m1;
+	hide m2;
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		explode base type NOHEATCLOUD;
+		explode drop type NOHEATCLOUD | FALL;
+		explode m1 type NOHEATCLOUD | FALL;
+		explode m2 type NOHEATCLOUD | FALL;
+		explode tail type NOHEATCLOUD | FALL;
+		explode ex type NOHEATCLOUD | FALL;
+		explode wing1 type NOHEATCLOUD | SHATTER;
+		explode wing2 type NOHEATCLOUD | SHATTER;
+		return (corpsetype);
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		explode base type NOHEATCLOUD;
+		explode drop type NOHEATCLOUD | FALL;
+		explode m1 type NOHEATCLOUD | FALL;
+		explode m2 type NOHEATCLOUD | FALL;
+		explode tail type NOHEATCLOUD | FALL;
+		explode ex type NOHEATCLOUD | FALL;
+		explode wing1 type NOHEATCLOUD | SHATTER;
+		explode wing2 type NOHEATCLOUD | SHATTER;
+		return (corpsetype);
+	}
+	if( severity <= 99 )
+	{
+		corpsetype = 3;
+		explode base type NOHEATCLOUD;
+		explode drop type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode m1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode m2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode tail type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode ex type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode wing1 type NOHEATCLOUD | SHATTER;
+		explode wing2 type NOHEATCLOUD | SHATTER;
+		return (corpsetype);
+	}
+	corpsetype = 3;
+	explode base type NOHEATCLOUD;
+	explode drop type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode m1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode m2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode tail type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode ex type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode wing1 type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode wing2 type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	return (corpsetype);
+}

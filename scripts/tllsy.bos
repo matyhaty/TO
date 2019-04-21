@@ -1,0 +1,228 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, body, arm1, arm2, nanos, spray1, spray2;
+
+static-var  spray, statechg_DesiredState, statechg_StateChanging;
+
+// Signal definitions
+#define SIG_ACTIVATE			2
+
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from body;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+Tangue(Func_Var_1, Func_Var_2, Func_Var_3)
+{
+	Func_Var_1 = -18;
+	Func_Var_2 = -18;
+	while( TRUE )
+	{
+		while( get ABS(Func_Var_2) < 238 )
+		{
+			Func_Var_3 = 263 - get ABS(Func_Var_2);
+			turn base to x-axis Func_Var_2 speed Func_Var_3 * <0.027473>;
+			turn base to z-axis Func_Var_2 speed Func_Var_3 * <0.027473>;
+			wait-for-turn base around x-axis;
+			wait-for-turn base around z-axis;
+			Func_Var_2 = Func_Var_2 + Func_Var_1;
+		}
+		Func_Var_1 = 0 - Func_Var_1;
+		Func_Var_2 = Func_Var_2 + Func_Var_1 + Func_Var_1;
+	}
+}
+
+OpenYard()
+{
+	set YARD_OPEN to 1;
+	while( !get YARD_OPEN )
+	{
+		set BUGGER_OFF to 1;
+		sleep 1500;
+		set YARD_OPEN to 1;
+	}
+	set BUGGER_OFF to 0;
+	set ARMORED to 1;
+}
+
+CloseYard()
+{
+	set ARMORED to 0;
+	set YARD_OPEN to 0;
+	while( get YARD_OPEN )
+	{
+		set BUGGER_OFF to 1;
+		sleep 1500;
+		set YARD_OPEN to 0;
+	}
+	set BUGGER_OFF to 0;
+}
+
+activatescr()
+{
+	turn arm1 to z-axis <40.000000> speed <20.000000>;
+	turn arm2 to z-axis <-70.000000> speed <36.000000>;
+	turn nanos to z-axis <35.000000> speed <21.000000>;
+	wait-for-turn nanos around z-axis;
+}
+
+deactivatescr()
+{
+	turn arm1 to z-axis <0.000000> speed <20.000000>;
+	turn arm2 to z-axis <0.000000> speed <29.000000>;
+	turn nanos to z-axis <0.000000> speed <25.000000>;
+	wait-for-turn nanos around z-axis;
+}
+
+Go()
+{
+	call-script activatescr();
+	call-script OpenYard();
+	set INBUILDSTANCE to 1;
+}
+
+Stop()
+{
+	set INBUILDSTANCE to 0;
+	call-script CloseYard();
+	call-script deactivatescr();
+}
+
+InitState()
+{
+	statechg_DesiredState = TRUE;
+	statechg_StateChanging = FALSE;
+}
+
+RequestState(requestedstate, currentstate)
+{
+	if( statechg_StateChanging )
+	{
+		statechg_DesiredState = requestedstate;
+		return (0);
+	}
+	statechg_StateChanging = TRUE;
+	currentstate = statechg_DesiredState;
+	statechg_DesiredState = requestedstate;
+	while( statechg_DesiredState != currentstate )
+	{
+		if( statechg_DesiredState == 0 )
+		{
+			call-script Go();
+			currentstate = 0;
+		}
+		if( statechg_DesiredState == 1 )
+		{
+			call-script Stop();
+			currentstate = 1;
+		}
+	}
+	statechg_StateChanging = FALSE;
+}
+
+Create()
+{
+	dont-cache body;
+	dont-shade arm1;
+	dont-shade nanos;
+	dont-shade arm2;
+	spray = base;
+	call-script InitState();
+	start-script SmokeUnit();
+	start-script Tangue();
+}
+
+QueryNanoPiece(piecenum)
+{
+	piecenum = spray1;
+	if( spray == 0 )
+	{
+		piecenum = spray2;
+	}
+	spray = !spray;
+}
+
+Activate()
+{
+	signal SIG_ACTIVATE;
+	start-script RequestState(0);
+}
+
+Deactivate()
+{
+	signal SIG_ACTIVATE;
+	set-signal-mask SIG_ACTIVATE;
+	sleep 3500;
+	set-signal-mask 0;
+	start-script RequestState(1);
+}
+
+StartBuilding()
+{
+}
+
+StopBuilding()
+{
+}
+
+QueryBuildInfo(piecenum)
+{
+	piecenum = body;
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = body;
+}
+
+Killed(severity, corpsetype)
+{
+	explode body type NOHEATCLOUD;
+	explode arm1 type NOHEATCLOUD;
+	explode nanos type NOHEATCLOUD;
+	explode arm2 type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		return (corpsetype);
+	}
+	explode nanos type NOHEATCLOUD | FALL | SMOKE | EXPLODE_ON_HIT;
+	explode arm1 type NOHEATCLOUD | FALL | SMOKE | EXPLODE_ON_HIT;
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		return (corpsetype);
+	}
+	corpsetype = 3;
+	explode arm1 type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode body type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode nanos type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode arm2 type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	return (corpsetype);
+}

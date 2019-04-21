@@ -1,0 +1,199 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, beam, door1, door2, plate, wake1, wake2, post,
+       gun;
+
+static-var  Static_Var_1, Static_Var_2, Static_Var_3;
+
+// Signal definitions
+#define SIG_MOVE			2
+
+
+activatescr()
+{
+	turn door1 to z-axis <0.000000> now;
+	turn door1 to z-axis <-67.423077> speed <108.582418>;
+	turn door2 to z-axis <0.000000> now;
+	turn door2 to z-axis <67.423077> speed <108.582418>;
+	sleep 621;
+	move door1 to y-axis [-3.149994] speed [5.023920];
+	move door2 to y-axis [-3.100000] speed [4.944171];
+	sleep 627;
+	move plate to y-axis [5.650000] speed [8.996814];
+	sleep 628;
+}
+
+deactivatescr()
+{
+	set INBUILDSTANCE to 0;
+	turn post to y-axis <0.000000> speed <160.038462>;
+	wait-for-turn post around y-axis;
+	move plate to y-axis [5.650000] now;
+	move plate to y-axis [0.000000] speed [9.098230];
+	move door1 to y-axis [-3.149994] now;
+	move door2 to y-axis [-3.100000] now;
+	turn door1 to z-axis <-67.423077> now;
+	turn door2 to z-axis <67.423077> now;
+	sleep 621;
+	move door1 to y-axis [0.000000] speed [5.023920];
+	move door2 to y-axis [0.000000] speed [4.944171];
+	sleep 627;
+	turn door1 to z-axis <0.000000> speed <107.368132>;
+	turn door2 to z-axis <0.000000> speed <107.368132>;
+	sleep 628;
+}
+
+StartMoving()
+{
+	signal SIG_MOVE;
+	set-signal-mask SIG_MOVE;
+	while( TRUE )
+	{
+		emit-sfx 259 from wake1;
+		emit-sfx 259 from wake2;
+		sleep 250;
+	}
+}
+
+StopMoving()
+{
+	signal SIG_MOVE;
+}
+
+RequestState(requestedstate, currentstate)
+{
+	if( Static_Var_3 )
+	{
+		Static_Var_2 = requestedstate;
+		return (0);
+	}
+	Static_Var_3 = 1;
+	currentstate = Static_Var_2;
+	Static_Var_2 = requestedstate;
+	while( Static_Var_2 != currentstate )
+	{
+		if( Static_Var_2 )
+		{
+			call-script deactivatescr();
+			Static_Var_1 = 1;
+			currentstate = 1;
+		}
+		else
+		{
+			call-script activatescr();
+			Static_Var_1 = 0;
+			currentstate = 0;
+		}
+	}
+	Static_Var_3 = 0;
+}
+
+Create()
+{
+	Static_Var_1 = 1;
+	Static_Var_2 = 1;
+	Static_Var_3 = 0;
+}
+
+Activate()
+{
+	start-script RequestState(0);
+}
+
+Deactivate()
+{
+	start-script RequestState(1);
+}
+
+StartBuilding(Func_Var_1, Func_Var_2)
+{
+	start-script RequestState(0);
+	while( Static_Var_1 )
+	{
+		sleep 100;
+	}
+	signal 4;
+	turn post to y-axis Func_Var_1 speed <160.038462>;
+	wait-for-turn post around y-axis;
+	set INBUILDSTANCE to 1;
+}
+
+StopBuilding()
+{
+	signal 4;
+	set-signal-mask 4;
+	sleep 6000;
+	set-signal-mask 0;
+	signal 4;
+	start-script RequestState(1);
+}
+
+QueryNanoPiece(piecenum)
+{
+	piecenum = beam;
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = base;
+}
+
+Killed(severity, corpsetype)
+{
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		explode base type NOHEATCLOUD;
+		explode beam type NOHEATCLOUD;
+		explode door1 type NOHEATCLOUD;
+		explode door2 type NOHEATCLOUD;
+		explode gun type NOHEATCLOUD;
+		explode plate type NOHEATCLOUD;
+		explode post type NOHEATCLOUD;
+		explode wake1 type NOHEATCLOUD;
+		explode wake2 type NOHEATCLOUD;
+		return (corpsetype);
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		explode base type NOHEATCLOUD;
+		explode beam type NOHEATCLOUD | FALL;
+		explode door1 type NOHEATCLOUD;
+		explode door2 type NOHEATCLOUD;
+		explode gun type NOHEATCLOUD | SHATTER;
+		explode plate type NOHEATCLOUD;
+		explode post type NOHEATCLOUD | FALL;
+		explode wake1 type NOHEATCLOUD | FALL;
+		explode wake2 type NOHEATCLOUD | FALL;
+		return (corpsetype);
+	}
+	if( severity <= 99 )
+	{
+		corpsetype = 3;
+		explode base type NOHEATCLOUD;
+		explode beam type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		explode door1 type NOHEATCLOUD;
+		explode door2 type NOHEATCLOUD;
+		explode gun type NOHEATCLOUD | SHATTER;
+		explode plate type NOHEATCLOUD;
+		explode post type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		explode wake1 type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		explode wake2 type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+		return (corpsetype);
+	}
+	corpsetype = 3;
+	explode base type NOHEATCLOUD;
+	explode beam type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	explode door1 type NOHEATCLOUD;
+	explode door2 type NOHEATCLOUD;
+	explode gun type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode plate type NOHEATCLOUD;
+	explode post type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	explode wake1 type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	explode wake2 type NOHEATCLOUD | FALL | FIRE | SMOKE | EXPLODE_ON_HIT;
+	return (corpsetype);
+}

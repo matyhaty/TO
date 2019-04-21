@@ -1,0 +1,228 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, hull, wingA, wingB, arm1, arm2, bombs, rocketA,
+       rocketB;
+
+static-var  statechg_DesiredState, statechg_StateChanging, gun_2;
+
+
+activatescr()
+{
+	if( TRUE )
+	{
+		spin arm1 around y-axis speed <950.225275>;
+		spin arm2 around y-axis speed <750.181319>;
+	}
+}
+
+deactivatescr()
+{
+	if( TRUE )
+	{
+		spin arm1 around y-axis speed <900.214286>;
+		spin arm2 around y-axis speed <700.170330>;
+	}
+}
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from hull;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+Go()
+{
+	turn wingA to z-axis <-90.016484> speed <60.005495>;
+	turn wingB to z-axis <90.016484> speed <60.005495>;
+	spin arm1 around y-axis speed <950.225275>;
+	spin arm2 around y-axis speed <750.181319>;
+}
+
+Stop()
+{
+	turn wingA to z-axis <0.000000> speed <20.000000>;
+	turn wingB to z-axis <0.000000> speed <20.000000>;
+	spin arm1 around y-axis speed <950.225275>;
+	spin arm2 around y-axis speed <750.181319>;
+}
+
+InitState()
+{
+	statechg_DesiredState = TRUE;
+	statechg_StateChanging = FALSE;
+}
+
+RequestState(requestedstate, currentstate)
+{
+	if( statechg_StateChanging )
+	{
+		statechg_DesiredState = requestedstate;
+		return (0);
+	}
+	statechg_StateChanging = TRUE;
+	currentstate = statechg_DesiredState;
+	statechg_DesiredState = requestedstate;
+	while( statechg_DesiredState != currentstate )
+	{
+		if( statechg_DesiredState == 0 )
+		{
+			call-script Go();
+			currentstate = 0;
+		}
+		if( statechg_DesiredState == 1 )
+		{
+			call-script Stop();
+			currentstate = 1;
+		}
+	}
+	statechg_StateChanging = FALSE;
+}
+
+Create()
+{
+	call-script InitState();
+	start-script SmokeUnit();
+}
+
+Activate()
+{
+	start-script RequestState(0);
+}
+
+Deactivate()
+{
+	start-script RequestState(1);
+}
+
+FirePrimary()
+{
+	spin arm1 around y-axis speed <950.225275>;
+	spin arm2 around y-axis speed <750.181319>;
+}
+
+QueryPrimary(piecenum)
+{
+	piecenum = bombs;
+}
+
+AimPrimary()
+{
+	return (1);
+}
+
+QuerySecondary(piecenum)
+{
+	if( gun_2 == 0 )
+	{
+		piecenum = rocketA;
+		return (0);
+	}
+	if( gun_2 == 1 )
+	{
+		piecenum = rocketB;
+		return (0);
+	}
+}
+
+AimFromSecondary(piecenum)
+{
+	piecenum = hull;
+}
+
+AimSecondary(heading, pitch)
+{
+	return (1);
+}
+
+FireSecondary()
+{
+	if( gun_2 == 0 )
+	{
+		gun_2 = hull;
+		return (0);
+	}
+	if( gun_2 == 1 )
+	{
+		gun_2 = base;
+		return (0);
+	}
+	gun_2 = !gun_2;
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = base;
+}
+
+Killed(severity, corpsetype)
+{
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		explode hull type NOHEATCLOUD;
+		explode bombs type NOHEATCLOUD;
+		explode rocketA type NOHEATCLOUD;
+		explode rocketB type NOHEATCLOUD;
+		explode arm1 type NOHEATCLOUD;
+		explode wingA type NOHEATCLOUD;
+		explode wingB type NOHEATCLOUD;
+		return (corpsetype);
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		explode hull type NOHEATCLOUD;
+		explode bombs type NOHEATCLOUD | FALL;
+		explode rocketA type NOHEATCLOUD | FALL;
+		explode rocketB type NOHEATCLOUD | FALL;
+		explode arm2 type NOHEATCLOUD | FALL;
+		explode wingA type NOHEATCLOUD | SHATTER;
+		explode wingB type NOHEATCLOUD;
+		return (corpsetype);
+	}
+	if( severity <= 99 )
+	{
+		corpsetype = 3;
+		explode hull type NOHEATCLOUD;
+		explode bombs type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode rocketA type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode rocketB type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode bombs type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode wingA type NOHEATCLOUD | SHATTER;
+		explode wingB type NOHEATCLOUD;
+		return (corpsetype);
+	}
+	corpsetype = 3;
+	explode hull type NOHEATCLOUD;
+	explode bombs type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode rocketA type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode rocketB type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode arm1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode wingA type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode wingB type NOHEATCLOUD;
+	return (corpsetype);
+}

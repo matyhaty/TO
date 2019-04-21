@@ -1,0 +1,515 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, body, barrel1a, barrel1b, barrel1c, barrel1d, radar, wake1,
+       wake2, wake3, wake4, wake5, wake6, tur1, tur2, tur3,
+       tur4, tur5, tur6, sleeves1, gun2, sleeves3, sleeves4, gun5,
+       gun6, flare1a, flare1b, flare1c, flare1d, flare2, flare3a, flare3b,
+       flare4a, flare4b, flare5, flare6;
+
+static-var  Static_Var_1, Static_Var_2, Static_Var_3, restore_delay, Static_Var_5,
+            Static_Var_6, Static_Var_7, Static_Var_8, Static_Var_9;
+
+// Signal definitions
+#define SIG_MOVE			128
+
+
+SetDirection(heading)
+{
+	var Func_Var_2;
+	Func_Var_2 = ( get ABS(Static_Var_5) - get ABS(heading) ) / 2;
+	turn base to y-axis heading speed Func_Var_2;
+	turn body to y-axis <0.000000> - heading speed Func_Var_2;
+	Static_Var_5 = heading;
+}
+
+RockOnWaves(Func_Var_1, Func_Var_2, Func_Var_3)
+{
+	Func_Var_1 = -18;
+	Func_Var_2 = -18;
+	while( TRUE )
+	{
+		while( get ABS(Func_Var_2) < 202 )
+		{
+			Func_Var_3 = 227 - get ABS(Func_Var_2);
+			turn base to x-axis Func_Var_2 speed Func_Var_3 * <0.005495>;
+			wait-for-turn base around x-axis;
+			Func_Var_2 = Func_Var_2 + Func_Var_1;
+		}
+		Func_Var_1 = 0 - Func_Var_1;
+		Func_Var_2 = Func_Var_2 + Func_Var_1 + Func_Var_1;
+	}
+}
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 500;
+	}
+	start-script RockOnWaves();
+	spin radar around y-axis speed <60.000000>;
+	var Func_Var_4;
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 258;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 257;
+			}
+			Func_Var_4 = Rand( 1, 3 );
+			if( Func_Var_4 == 1 )
+			{
+				emit-sfx smoketype from body;
+			}
+			if( Func_Var_4 == 2 )
+			{
+				emit-sfx smoketype from tur1;
+			}
+			if( Func_Var_4 == 3 )
+			{
+				emit-sfx smoketype from tur2;
+			}
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+ProjXPW(Func_Var_1, Func_Var_2)
+{
+	if( Func_Var_2 < -21840 )
+	{
+		Static_Var_6 = Func_Var_1 * ( Func_Var_2 + 32760 ) / 10920;
+	}
+	else if( Func_Var_2 > 21840 )
+	{
+		Static_Var_6 = Func_Var_1 * ( 32760 - Func_Var_2 ) / 10920;
+	}
+	else if( Func_Var_2 < -10920 )
+	{
+		Static_Var_6 = 0 - Func_Var_1;
+	}
+	else if( Func_Var_2 > 10920 )
+	{
+		Static_Var_6 = Func_Var_1;
+	}
+	else
+	{
+		Static_Var_6 = Func_Var_1 * Func_Var_2 / 10920;
+	}
+}
+
+RockZ(Func_Var_1, Func_Var_2)
+{
+	signal 16;
+	set-signal-mask 16;
+	call-script ProjXPW(10920 / Func_Var_2,Func_Var_1);
+	Static_Var_7 = Static_Var_7 + Static_Var_6;
+	Static_Var_6 = get ABS(Static_Var_7);
+	while( Static_Var_6 > 91 )
+	{
+		turn base to z-axis Static_Var_7 speed Static_Var_6 * <0.005495>;
+		wait-for-turn base around z-axis;
+		Static_Var_7 = Static_Var_7 * -1 / 2;
+		Static_Var_6 = get ABS(Static_Var_7);
+	}
+	turn base to z-axis <0.000000> speed <1.500000>;
+}
+
+Create()
+{
+	hide flare1a;
+	hide flare1b;
+	hide flare1c;
+	hide flare1d;
+	hide flare3a;
+	hide flare3b;
+	hide flare4a;
+	hide flare4b;
+	hide flare2;
+	hide flare5;
+	hide flare6;
+	Static_Var_9 = get MAX_SPEED;
+	Static_Var_1 = 0;
+	Static_Var_3 = 0;
+	Static_Var_2 = 0;
+	restore_delay = 3000;
+	start-script SmokeUnit();
+}
+
+SetMaxReloadTime(Func_Var_1)
+{
+	restore_delay = Func_Var_1 * 2;
+}
+
+RestoreAfterDelay()
+{
+	sleep restore_delay;
+	turn tur1 to y-axis <0.000000> speed <20.000000>;
+	turn sleeves1 to x-axis <0.000000> speed <20.000000>;
+}
+
+RestoreAfterDelay2()
+{
+	sleep restore_delay;
+	turn tur2 to y-axis <0.000000> speed <100.000000>;
+	turn tur5 to y-axis <0.000000> speed <100.000000>;
+	turn tur6 to y-axis <0.000000> speed <100.000000>;
+}
+
+RestoreAfterDelay3()
+{
+	sleep restore_delay;
+	turn tur3 to y-axis <0.000000> speed <125.000000>;
+	turn sleeves3 to x-axis <0.000000> speed <125.000000>;
+	turn tur4 to y-axis <0.000000> speed <125.000000>;
+	turn sleeves4 to x-axis <0.000000> speed <125.000000>;
+}
+
+waveSplash()
+{
+	while( TRUE )
+	{
+		turn body to x-axis <-1.000000> speed <1.000000>;
+		move body to y-axis [0.229999] speed [0.169989];
+		wait-for-turn body around x-axis;
+		turn body to x-axis <0.000000> speed <1.000000>;
+		move body to y-axis [0.000000] speed [0.169989];
+		wait-for-turn body around x-axis;
+	}
+}
+
+StartMoving()
+{
+	signal SIG_MOVE;
+	set-signal-mask SIG_MOVE;
+	var Func_Var_1;
+	start-script waveSplash();
+	while( TRUE )
+	{
+		emit-sfx 2 from wake1;
+		emit-sfx 2 from wake2;
+		emit-sfx 2 from wake3;
+		emit-sfx 2 from wake4;
+		emit-sfx 2 from wake5;
+		emit-sfx 2 from wake6;
+		Func_Var_1 = get CURRENT_SPEED * 100 / Static_Var_9;
+		if( Func_Var_1 < 50 )
+		{
+			Func_Var_1 = 50;
+		}
+		sleep 12000 / Func_Var_1;
+	}
+}
+
+StopMoving()
+{
+	signal SIG_MOVE;
+	turn body to x-axis <0.000000> speed <1.000000>;
+	move body to y-axis [0.000000] speed [0.169989];
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = body;
+}
+
+AimFromWeapon1(piecenum)
+{
+	piecenum = tur1;
+}
+
+QueryWeapon1(piecenum)
+{
+	piecenum = 25 + Static_Var_1;
+}
+
+AimWeapon1(heading, pitch)
+{
+	signal 2;
+	set-signal-mask 2;
+	turn tur1 to y-axis heading speed <45.000000>;
+	turn sleeves1 to x-axis <0.000000> - pitch speed <20.000000>;
+	wait-for-turn tur1 around y-axis;
+	wait-for-turn sleeves1 around x-axis;
+	Static_Var_8 = heading;
+	start-script RestoreAfterDelay();
+	return (1);
+}
+
+FireWeapon1()
+{
+	start-script RockZ(-13,Static_Var_8);
+	if( Static_Var_1 == 0 )
+	{
+		move barrel1a to z-axis [-2.000000] speed [500.000000];
+		show flare1a;
+		sleep 150;
+		move barrel1a to z-axis [0.000000] speed [3.000000];
+		hide flare1a;
+	}
+	else if( Static_Var_1 == 1 )
+	{
+		move barrel1b to z-axis [-2.000000] speed [500.000000];
+		show flare1b;
+		sleep 150;
+		move barrel1b to z-axis [0.000000] speed [3.000000];
+		hide flare1b;
+	}
+	else if( Static_Var_1 == 2 )
+	{
+		move barrel1c to z-axis [-2.000000] speed [500.000000];
+		show flare1c;
+		sleep 150;
+		move barrel1c to z-axis [0.000000] speed [3.000000];
+		hide flare1c;
+	}
+	else if( Static_Var_1 == 3 )
+	{
+		move barrel1d to z-axis [-2.000000] speed [500.000000];
+		show flare1d;
+		sleep 150;
+		move barrel1d to z-axis [0.000000] speed [3.000000];
+		hide flare1d;
+	}
+	++Static_Var_1;
+	if( Static_Var_1 >= 4 )
+	{
+		Static_Var_1 = 0;
+	}
+}
+
+AimFromWeapon2(piecenum)
+{
+	piecenum = tur2;
+}
+
+QueryWeapon2(piecenum)
+{
+	piecenum = flare2;
+}
+
+AimWeapon2(heading, pitch)
+{
+	signal 4;
+	set-signal-mask 4;
+	if( heading < -29491 OR heading > 29491 OR heading > -3277 AND heading < 3277 )
+	{
+		return (0);
+	}
+	turn tur2 to y-axis heading speed <150.000000>;
+	wait-for-turn tur2 around y-axis;
+	start-script RestoreAfterDelay2();
+	return (1);
+}
+
+FireWeapon2()
+{
+	show flare2;
+	sleep 150;
+	turn gun2 to z-axis <120.000000> speed <400.000000>;
+	hide flare2;
+	wait-for-turn gun2 around z-axis;
+	turn gun2 to z-axis <0.000000> now;
+}
+
+AimFromWeapon3(piecenum)
+{
+	piecenum = tur3;
+}
+
+QueryWeapon3(piecenum)
+{
+	piecenum = 30 + Static_Var_2;
+}
+
+AimWeapon3(heading, pitch)
+{
+	signal 8;
+	set-signal-mask 8;
+	turn tur3 to y-axis heading speed <200.000000>;
+	turn sleeves3 to x-axis <0.000000> - pitch speed <150.000000>;
+	wait-for-turn tur3 around y-axis;
+	wait-for-turn sleeves3 around x-axis;
+	start-script RestoreAfterDelay3();
+	return (1);
+}
+
+FireWeapon3()
+{
+	Static_Var_2 = !Static_Var_2;
+}
+
+AimFromWeapon4(piecenum)
+{
+	piecenum = tur5;
+}
+
+QueryWeapon4(piecenum)
+{
+	piecenum = flare5;
+}
+
+AimWeapon4(heading, pitch)
+{
+	signal 16;
+	set-signal-mask 16;
+	if( heading < -29491 OR heading > 29491 )
+	{
+		return (0);
+	}
+	turn tur5 to y-axis heading speed <150.000000>;
+	wait-for-turn tur5 around y-axis;
+	start-script RestoreAfterDelay2();
+	return (1);
+}
+
+FireWeapon4()
+{
+	show flare5;
+	sleep 150;
+	turn gun5 to z-axis <120.000000> speed <400.000000>;
+	hide flare5;
+	wait-for-turn gun5 around z-axis;
+	turn gun5 to z-axis <0.000000> now;
+}
+
+AimFromWeapon5(piecenum)
+{
+	piecenum = tur6;
+}
+
+QueryWeapon5(piecenum)
+{
+	piecenum = flare6;
+}
+
+AimWeapon5(heading, pitch)
+{
+	signal 32;
+	set-signal-mask 32;
+	if( heading < -29491 OR heading > 29491 OR heading > -3277 AND heading < 3277 )
+	{
+		return (0);
+	}
+	turn tur6 to y-axis heading speed <150.000000>;
+	wait-for-turn tur6 around y-axis;
+	start-script RestoreAfterDelay2();
+	return (1);
+}
+
+FireWeapon5()
+{
+	show flare6;
+	sleep 150;
+	turn gun6 to z-axis <120.000000> speed <400.000000>;
+	hide flare6;
+	wait-for-turn gun6 around z-axis;
+	turn gun6 to z-axis <0.000000> now;
+}
+
+AimFromWeapon6(piecenum)
+{
+	piecenum = tur4;
+}
+
+QueryWeapon6(piecenum)
+{
+	piecenum = 32 + Static_Var_3;
+}
+
+AimWeapon6(heading, pitch)
+{
+	signal 64;
+	set-signal-mask 64;
+	turn tur4 to y-axis heading speed <200.000000>;
+	turn sleeves4 to x-axis <0.000000> - pitch speed <150.000000>;
+	wait-for-turn tur4 around y-axis;
+	wait-for-turn sleeves4 around x-axis;
+	start-script RestoreAfterDelay3();
+	return (1);
+}
+
+FireWeapon6()
+{
+	Static_Var_3 = !Static_Var_3;
+}
+
+Killed(severity, corpsetype)
+{
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		explode barrel1a type NOHEATCLOUD;
+		explode barrel1b type NOHEATCLOUD;
+		explode barrel1d type NOHEATCLOUD;
+		explode tur5 type NOHEATCLOUD;
+		explode tur3 type NOHEATCLOUD;
+		explode tur1 type NOHEATCLOUD;
+		explode tur2 type NOHEATCLOUD;
+		explode tur4 type NOHEATCLOUD;
+		explode body type NOHEATCLOUD;
+		explode tur6 type NOHEATCLOUD;
+		explode wake1 type NOHEATCLOUD;
+		explode wake2 type NOHEATCLOUD;
+		return (corpsetype);
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		explode barrel1a type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+		explode barrel1b type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+		explode barrel1d type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+		explode barrel1c type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+		explode tur5 type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+		explode tur6 type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+		explode gun6 type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+		explode tur3 type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+		explode tur4 type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+		explode body type NOHEATCLOUD;
+		explode gun5 type NOHEATCLOUD | SHATTER;
+		explode wake1 type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+		explode wake2 type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+		return (corpsetype);
+	}
+	if( severity <= 99 )
+	{
+		corpsetype = 3;
+		explode barrel1a type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode barrel1b type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode barrel1c type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode barrel1d type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode gun5 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode gun6 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode tur3 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode tur4 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode body type NOHEATCLOUD;
+		explode tur2 type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+		explode wake1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode wake2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		return (corpsetype);
+	}
+	corpsetype = 3;
+	explode barrel1a type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode barrel1c type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode barrel1b type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode barrel1d type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode gun5 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode gun6 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode tur4 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode body type NOHEATCLOUD;
+	explode tur1 type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode wake1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode wake2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	return (corpsetype);
+}

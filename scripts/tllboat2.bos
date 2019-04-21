@@ -1,0 +1,181 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, body, turret1, sleeve1, turret2, sleeve2, barrela, barrelb,
+       flare1, flare2, wake1, wake2, wake3;
+
+static-var  Static_Var_1, restore_delay;
+
+// Signal definitions
+#define SIG_MOVE			2
+#define SIG_AIM				4
+
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from turret1;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+Create()
+{
+	hide flare1;
+	hide flare2;
+	restore_delay = 3000;
+	start-script SmokeUnit();
+}
+
+SetMaxReloadTime(Func_Var_1)
+{
+	restore_delay = Func_Var_1 * 2;
+}
+
+RestoreAfterDelay()
+{
+	sleep restore_delay;
+	turn turret1 to y-axis <0.000000> speed <35.000000>;
+	turn sleeve1 to x-axis <0.000000> speed <15.000000>;
+}
+
+RestoreAfterDelay2()
+{
+	sleep restore_delay;
+	turn turret2 to y-axis <0.000000> speed <35.000000>;
+	turn sleeve2 to x-axis <0.000000> speed <15.000000>;
+}
+
+StartMoving()
+{
+	signal SIG_MOVE;
+	set-signal-mask SIG_MOVE;
+	while( TRUE )
+	{
+		emit-sfx 2 from wake1;
+		emit-sfx 2 from wake2;
+		emit-sfx 2 from wake3;
+		sleep 200;
+	}
+}
+
+StopMoving()
+{
+	signal SIG_MOVE;
+}
+
+AimSecondary(heading, pitch)
+{
+	signal SIG_MOVE;
+	set-signal-mask SIG_MOVE;
+	turn turret1 to y-axis heading speed <145.000000>;
+	turn sleeve1 to x-axis <0.000000> - pitch speed <95.000000>;
+	wait-for-turn turret1 around y-axis;
+	wait-for-turn sleeve1 around x-axis;
+	start-script RestoreAfterDelay();
+	return (1);
+}
+
+AimPrimary(heading, pitch)
+{
+	signal SIG_AIM;
+	set-signal-mask SIG_AIM;
+	turn turret2 to y-axis heading speed <145.000000>;
+	turn sleeve2 to x-axis <0.000000> - pitch speed <95.000000>;
+	wait-for-turn turret2 around y-axis;
+	wait-for-turn sleeve2 around x-axis;
+	start-script RestoreAfterDelay2();
+	return (1);
+}
+
+FireSecondary()
+{
+	show flare1;
+	sleep 150;
+	hide flare1;
+}
+
+FirePrimary()
+{
+	move barrelb to z-axis [-1.200000] speed [500.000000];
+	move barrela to z-axis [-0.500000] speed [200.000000];
+	show flare2;
+	sleep 150;
+	move barrela to z-axis [0.000000] speed [3.000000];
+	move barrelb to z-axis [0.000000] speed [3.000000];
+	hide flare2;
+}
+
+AimFromPrimary(piecenum)
+{
+	piecenum = turret2;
+}
+
+AimFromSecondary(piecenum)
+{
+	piecenum = turret1;
+}
+
+QueryPrimary(piecenum)
+{
+	piecenum = flare2;
+}
+
+QuerySecondary(piecenum)
+{
+	piecenum = flare1;
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = turret1;
+}
+
+Killed(severity, corpsetype)
+{
+	hide flare1;
+	hide flare2;
+	explode base type NOHEATCLOUD;
+	explode body type NOHEATCLOUD;
+	if( severity < 25 )
+	{
+		corpsetype = 1;
+		return (corpsetype);
+	}
+	explode barrela type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+	explode barrelb type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+	explode turret1 type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+	explode turret2 type NOHEATCLOUD | SHATTER;
+	if( severity < 50 )
+	{
+		corpsetype = 2;
+		return (corpsetype);
+	}
+	explode sleeve1 type NOHEATCLOUD | FALL | EXPLODE_ON_HIT;
+	explode sleeve2 type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode flare1 type NOHEATCLOUD;
+	explode sleeve1 type NOHEATCLOUD;
+	corpsetype = 3;
+	return (corpsetype);
+}

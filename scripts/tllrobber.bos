@@ -1,0 +1,285 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, link, rengine, lengine, rwing1, lwing1, rwing2, lwing2,
+       jet1, jet2, jet3, body, jet4, rearengine, lpiv, rpiv, flare1, flare2;
+
+static-var  Static_Var_1, unitviewer, Static_Var_3, statechg_DesiredState, statechg_StateChanging;
+
+
+activatescr()
+{
+	if( TRUE )
+	{
+		Static_Var_3 = 1;
+		turn rwing1 to z-axis <-85.000000> speed <57.000000>;
+		turn rwing2 to z-axis <150.000000> speed <100.000000>;
+		turn rpiv to z-axis <-65.000000> speed <50.000000>;
+		turn lwing1 to z-axis <85.000000> speed <57.000000>;
+		turn lwing2 to z-axis <-150.000000> speed <100.000000>;
+		turn lpiv to z-axis <65.000000> speed <50.000000>;
+		sleep 1100;
+	}
+	sleep 44;
+}
+
+deactivatescr()
+{
+	if( TRUE )
+	{
+		Static_Var_3 = 0;
+		turn rwing1 to z-axis <0.000000> speed <57.000000>;
+		turn rwing2 to z-axis <0.000000> speed <100.000000>;
+		turn rpiv to z-axis <0.000000> speed <50.000000>;
+		turn lwing1 to z-axis <0.000000> speed <57.000000>;
+		turn lwing2 to z-axis <0.000000> speed <100.000000>;
+		turn lpiv to z-axis <0.000000> speed <50.000000>;
+	}
+	sleep 44;
+}
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from base;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+InitState()
+{
+	statechg_DesiredState = TRUE;
+	statechg_StateChanging = FALSE;
+}
+
+RequestState(requestedstate, currentstate)
+{
+	if( statechg_StateChanging )
+	{
+		statechg_DesiredState = requestedstate;
+		return (0);
+	}
+	statechg_StateChanging = TRUE;
+	currentstate = statechg_DesiredState;
+	statechg_DesiredState = requestedstate;
+	while( statechg_DesiredState != currentstate )
+	{
+		if( statechg_DesiredState == 0 )
+		{
+			call-script activatescr();
+			currentstate = 0;
+		}
+		if( statechg_DesiredState == 1 )
+		{
+			call-script deactivatescr();
+			currentstate = 1;
+		}
+	}
+	statechg_StateChanging = FALSE;
+}
+
+Create()
+{
+	unitviewer = FALSE;
+	Static_Var_1 = 0;
+	Static_Var_3 = 0;
+	call-script InitState();
+	start-script SmokeUnit();
+}
+
+Demo()
+{
+	unitviewer = TRUE;
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = base;
+}
+
+QueryTransport(Func_Var_1)
+{
+	Func_Var_1 = 1;
+}
+
+AimPrimary()
+{
+	return (1);
+}
+
+QueryPrimary(piecenum)
+{
+	piecenum = flare1;
+}
+
+QuerySecondary(piecenum)
+{
+	piecenum = flare2;
+}
+
+Activate()
+{
+	if( unitviewer )
+	{
+		start-script RequestState(0);
+	}
+}
+
+BeginTransport(Func_Var_1)
+{
+	move link to y-axis [0.000000] - Func_Var_1 now;
+	start-script RequestState(0);
+}
+
+Deactivate()
+{
+	if( unitviewer )
+	{
+		start-script RequestState(1);
+	}
+}
+
+EndTransport()
+{
+	start-script RequestState(1);
+}
+
+ProcessFlames()
+{
+	while( TRUE )
+	{
+		if( Static_Var_1 == 1 OR Static_Var_1 == 2 OR Static_Var_1 == 3 )
+		{
+			emit-sfx 0 from jet1;
+			emit-sfx 0 from jet2;
+			if( Static_Var_3 )
+			{
+				emit-sfx 0 from jet3;
+				emit-sfx 0 from jet4;
+			}
+		}
+		sleep 100;
+	}
+}
+
+StartMoving()
+{
+	turn rengine to x-axis <30.000000> speed <30.000000>;
+	turn lengine to x-axis <30.000000> speed <30.000000>;
+	turn rearengine to x-axis <70.000000> speed <30.000000>;
+	sleep 1000;
+}
+
+StopMoving()
+{
+	signal 2;
+	Static_Var_1 = 0;
+	turn rengine to x-axis <0.000000> speed <100.000000>;
+	turn lengine to x-axis <0.000000> speed <100.000000>;
+	turn rearengine to x-axis <0.000000> speed <100.000000>;
+	sleep 1000;
+}
+
+MoveRate1()
+{
+	signal 2;
+	set-signal-mask 2;
+	turn rengine to x-axis <30.000000> speed <30.000000>;
+	turn lengine to x-axis <30.000000> speed <30.000000>;
+	//start-script ProcessFlames();
+	Static_Var_1 = 1;
+}
+
+MoveRate2()
+{
+	signal 2;
+	set-signal-mask 2;
+	turn rengine to x-axis <60.000000> speed <30.000000>;
+	turn lengine to x-axis <60.000000> speed <30.000000>;
+	//start-script ProcessFlames();
+	Static_Var_1 = 2;
+}
+
+MoveRate3()
+{
+	signal 2;
+	set-signal-mask 2;
+	turn rengine to x-axis <80.000000> speed <30.000000>;
+	turn lengine to x-axis <80.000000> speed <30.000000>;
+	//start-script ProcessFlames();
+	Static_Var_1 = 3;
+}
+
+Killed(severity, corpsetype)
+{
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		explode lengine type NOHEATCLOUD;
+		explode rengine type NOHEATCLOUD;
+		explode rwing1 type NOHEATCLOUD;
+		explode base type NOHEATCLOUD;
+		explode jet1 type NOHEATCLOUD;
+		explode jet2 type NOHEATCLOUD;
+		explode jet3 type NOHEATCLOUD;
+		explode lwing2 type NOHEATCLOUD;
+		return (corpsetype);
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		explode rengine type NOHEATCLOUD;
+		explode lengine type NOHEATCLOUD;
+		explode body type NOHEATCLOUD | SHATTER;
+		explode base type NOHEATCLOUD;
+		explode jet1 type NOHEATCLOUD | FALL;
+		explode jet2 type NOHEATCLOUD | FALL;
+		explode jet3 type NOHEATCLOUD | FALL;
+		explode lwing1 type NOHEATCLOUD | FALL;
+		return (corpsetype);
+	}
+	if( severity <= 99 )
+	{
+		corpsetype = 3;
+		explode rengine type NOHEATCLOUD;
+		explode lengine type NOHEATCLOUD;
+		explode body type NOHEATCLOUD | SHATTER;
+		explode lwing1 type NOHEATCLOUD;
+		explode jet1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode jet2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode jet3 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode rwing2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		return (corpsetype);
+	}
+	corpsetype = 3;
+	explode rengine type NOHEATCLOUD;
+	explode lengine type NOHEATCLOUD;
+	explode body type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	explode rwing1 type NOHEATCLOUD;
+	explode jet1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode jet2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode jet3 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode lwing2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	return (corpsetype);
+}

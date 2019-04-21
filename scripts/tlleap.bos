@@ -1,0 +1,714 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  base, rfpost, rflathebox, rflift, rflathe, rfnano, lfpost, lflathepost,
+       lflift, lflathe, lfnano, lbpost, lblathebox, lblift, lblathe, lbnano,
+       rbpost, rblathepost, rblift, rblathe, rbnano, runners, pad, glowy1dull,
+       glowy1, glowy2dull, glowy2, glowy3dull, glowy3, glowy4dull, glowy4, domel5,
+       domel4, domel3, domel2, domel1, domer5, domer4, domer3, domer2, domer1;
+
+static-var  spray, Static_Var_2, statechg_DesiredState, statechg_StateChanging;
+
+// Signal definitions
+#define SIG_ACTIVATE			2
+
+
+activatescr()
+{
+	show glowy1;
+	show glowy2;
+	show glowy3;
+	show glowy4;
+	hide glowy1dull;
+	hide glowy2dull;
+	hide glowy3dull;
+	hide glowy4dull;
+	dont-cache glowy1;
+	dont-cache glowy2;
+	dont-cache glowy3;
+	dont-cache glowy4;
+	if( TRUE )
+	{
+		turn domel1 to z-axis <15.000000> speed <15.000000>;
+		turn domer1 to z-axis <-15.000000> speed <15.000000>;
+		sleep 1050;
+	}
+	if( TRUE )
+	{
+		turn domel2 to z-axis <15.000000> speed <12.000000>;
+		turn domer2 to z-axis <-15.000000> speed <12.000000>;
+		sleep 700;
+	}
+	if( TRUE )
+	{
+		turn domel3 to z-axis <15.000000> speed <10.000000>;
+		turn domer3 to z-axis <-15.000000> speed <10.000000>;
+		sleep 700;
+	}
+	if( TRUE )
+	{
+		turn domel4 to z-axis <7.500000> speed <6.000000>;
+		turn domer4 to z-axis <-7.500000> speed <6.000000>;
+		sleep 1200;
+	}
+	if( TRUE )
+	{
+		turn domel5 to z-axis <4.000000> speed <4.000000>;
+		turn domer5 to z-axis <-4.000000> speed <4.000000>;
+		wait-for-turn domel5 around z-axis;
+	}
+	if( TRUE )
+	{
+		move lfpost to x-axis [-0.800000] speed [1.000000];
+		move lbpost to x-axis [-0.800000] speed [1.000000];
+		move rfpost to x-axis [0.800000] speed [1.000000];
+		move rbpost to x-axis [0.800000] speed [1.000000];
+		move domel5 to x-axis [-0.800000] speed [1.000000];
+		move domer5 to x-axis [0.800000] speed [1.000000];
+		wait-for-move domer5 along x-axis;
+	}
+	if( TRUE )
+	{
+		move lfpost to x-axis [-1.500000] speed [2.500000];
+		move lbpost to x-axis [-1.500000] speed [2.500000];
+		move rfpost to x-axis [1.500000] speed [2.500000];
+		move rbpost to x-axis [1.500000] speed [2.500000];
+		move domel5 to x-axis [-1.500000] speed [2.500000];
+		move domer5 to x-axis [1.500000] speed [2.500000];
+		wait-for-move domer5 along x-axis;
+	}
+	if( TRUE )
+	{
+		move lfpost to x-axis [-3.800000] speed [3.500000];
+		move lbpost to x-axis [-3.800000] speed [3.500000];
+		move rfpost to x-axis [3.800000] speed [3.500000];
+		move rbpost to x-axis [3.800000] speed [3.500000];
+		move domel5 to x-axis [-3.800000] speed [3.500000];
+		move domer5 to x-axis [3.800000] speed [3.500000];
+		wait-for-move domer5 along x-axis;
+	}
+	if( TRUE )
+	{
+		move lfpost to x-axis [-5.600000] speed [1.400000];
+		move lbpost to x-axis [-4.600000] speed [1.400000];
+		move rfpost to x-axis [5.600000] speed [1.400000];
+		move rbpost to x-axis [5.600000] speed [1.400000];
+		move domel5 to x-axis [-5.600000] speed [1.400000];
+		move domer5 to x-axis [5.600000] speed [1.400000];
+		wait-for-move domer5 along x-axis;
+	}
+	if( TRUE )
+	{
+		move lfpost to x-axis [-6.000000] speed [0.900000];
+		move lbpost to x-axis [-6.000000] speed [0.900000];
+		move rfpost to x-axis [6.000000] speed [0.900000];
+		move rbpost to x-axis [6.000000] speed [0.900000];
+		move domel5 to x-axis [-9.300000] speed [1.200000];
+		move domer5 to x-axis [9.300000] speed [1.200000];
+		wait-for-move domer5 along x-axis;
+	}
+	if( TRUE )
+	{
+		move rflift to y-axis [4.000000] speed [5.000000];
+		move rflathe to y-axis [1.500000] speed [2.000000];
+		sleep 300;
+	}
+	if( TRUE )
+	{
+		move rblift to y-axis [4.000000] speed [5.000000];
+		move rblathe to y-axis [1.500000] speed [2.000000];
+		sleep 300;
+	}
+	if( TRUE )
+	{
+		move lblift to y-axis [4.000000] speed [5.000000];
+		move lblathe to y-axis [1.500000] speed [2.000000];
+		sleep 280;
+	}
+	if( TRUE )
+	{
+		move lflift to y-axis [4.000000] speed [5.000000];
+		move lflathe to y-axis [1.500000] speed [2.000000];
+		wait-for-move lflift along y-axis;
+	}
+	if( TRUE )
+	{
+		turn rflathe to x-axis <-90.000000> speed <100.000000>;
+		turn rflift to y-axis <-60.000000> speed <50.000000>;
+		turn rblathe to x-axis <90.000000> speed <100.000000>;
+		turn rblift to y-axis <60.000000> speed <50.000000>;
+		turn lflathe to x-axis <-90.000000> speed <100.000000>;
+		turn lflift to y-axis <60.000000> speed <50.000000>;
+		turn lblathe to x-axis <90.000000> speed <100.000000>;
+		turn lblift to y-axis <-60.000000> speed <50.000000>;
+		wait-for-turn lblift around y-axis;
+	}
+}
+
+deactivatescr()
+{
+	hide glowy1;
+	hide glowy2;
+	hide glowy3;
+	hide glowy4;
+	show glowy1dull;
+	show glowy2dull;
+	show glowy3dull;
+	show glowy4dull;
+	cache glowy1;
+	cache glowy2;
+	cache glowy3;
+	cache glowy4;
+	if( TRUE )
+	{
+		turn lblathe to x-axis <0.000000> speed <100.000000>;
+		turn lblathe to z-axis <0.000000> speed <50.000000>;
+		turn lblift to y-axis <0.000000> speed <50.000000>;
+		turn rblathe to x-axis <0.000000> speed <100.000000>;
+		turn rblathe to z-axis <0.000000> speed <50.000000>;
+		turn rblift to y-axis <0.000000> speed <50.000000>;
+		turn lflathe to x-axis <0.000000> speed <100.000000>;
+		turn lflathe to z-axis <0.000000> speed <50.000000>;
+		turn lflift to y-axis <0.000000> speed <50.000000>;
+		turn rflathe to x-axis <0.000000> speed <100.000000>;
+		turn rflathe to z-axis <0.000000> speed <50.000000>;
+		turn rflift to y-axis <0.000000> speed <50.000000>;
+		wait-for-turn rflift around y-axis;
+	}
+	if( TRUE )
+	{
+		move lflift to y-axis [0.000000] speed [3.500000];
+		move lflathe to y-axis [0.000000] speed [1.800000];
+		move rflift to y-axis [0.000000] speed [3.500000];
+		move rflathe to y-axis [0.000000] speed [1.800000];
+		move lblift to y-axis [0.000000] speed [3.500000];
+		move lblathe to y-axis [0.000000] speed [1.800000];
+		move rblift to y-axis [0.000000] speed [3.500000];
+		move rblathe to y-axis [0.000000] speed [1.800000];
+		wait-for-move rblathe along y-axis;
+	}
+	if( TRUE )
+	{
+		move lfpost to x-axis [-4.800000] speed [1.400000];
+		move lbpost to x-axis [-4.800000] speed [1.400000];
+		move rfpost to x-axis [4.800000] speed [1.400000];
+		move rbpost to x-axis [4.800000] speed [1.400000];
+		move domel5 to x-axis [-4.800000] speed [1.400000];
+		move domer5 to x-axis [4.800000] speed [1.400000];
+		wait-for-move rbpost along x-axis;
+	}
+	if( TRUE )
+	{
+		move lfpost to x-axis [-3.800000] speed [3.500000];
+		move lbpost to x-axis [-3.800000] speed [3.500000];
+		move rfpost to x-axis [3.800000] speed [3.500000];
+		move rbpost to x-axis [3.800000] speed [3.500000];
+		move domel5 to x-axis [-3.800000] speed [3.500000];
+		move domer5 to x-axis [3.800000] speed [3.500000];
+		wait-for-move rbpost along x-axis;
+	}
+	if( TRUE )
+	{
+		move lfpost to x-axis [-1.500000] speed [2.500000];
+		move lbpost to x-axis [-1.500000] speed [2.500000];
+		move rfpost to x-axis [1.500000] speed [2.500000];
+		move rbpost to x-axis [1.500000] speed [2.500000];
+		move domel5 to x-axis [-1.500000] speed [2.500000];
+		move domer5 to x-axis [1.500000] speed [2.500000];
+		wait-for-move rbpost along x-axis;
+	}
+	if( TRUE )
+	{
+		move lfpost to x-axis [-0.750000] speed [1.700000];
+		move lbpost to x-axis [-0.750000] speed [1.700000];
+		move rfpost to x-axis [0.750000] speed [1.700000];
+		move rbpost to x-axis [0.750000] speed [1.700000];
+		move domel5 to x-axis [-0.750000] speed [1.700000];
+		move domer5 to x-axis [0.750000] speed [1.700000];
+		wait-for-move rbpost along x-axis;
+	}
+	if( TRUE )
+	{
+		move lfpost to x-axis [0.000000] speed [1.000000];
+		move lbpost to x-axis [0.000000] speed [1.000000];
+		move rfpost to x-axis [0.000000] speed [1.000000];
+		move rbpost to x-axis [0.000000] speed [1.000000];
+		move domel5 to x-axis [-0.600000] speed [1.000000];
+		move domer5 to x-axis [0.600000] speed [1.000000];
+		wait-for-move domer5 along x-axis;
+	}
+	if( TRUE )
+	{
+		move domel5 to x-axis [0.000000] speed [0.600000];
+		move domer5 to x-axis [0.000000] speed [0.600000];
+		wait-for-move domer5 along x-axis;
+	}
+	if( TRUE )
+	{
+		turn domel5 to z-axis <0.000000> speed <4.000000>;
+		turn domer5 to z-axis <0.000000> speed <4.000000>;
+		wait-for-turn domel5 around z-axis;
+	}
+	if( TRUE )
+	{
+		turn domel4 to z-axis <0.000000> speed <6.000000>;
+		turn domer4 to z-axis <0.000000> speed <6.000000>;
+		sleep 1000;
+	}
+	if( TRUE )
+	{
+		turn domel3 to z-axis <0.000000> speed <7.500000>;
+		turn domer3 to z-axis <0.000000> speed <7.500000>;
+		sleep 700;
+	}
+	if( TRUE )
+	{
+		turn domel2 to z-axis <0.000000> speed <12.000000>;
+		turn domer2 to z-axis <0.000000> speed <12.000000>;
+		sleep 1000;
+	}
+	if( TRUE )
+	{
+		turn domel1 to z-axis <13.000000> speed <3.000000>;
+		turn domer1 to z-axis <-13.000000> speed <3.000000>;
+		sleep 667;
+	}
+	if( TRUE )
+	{
+		turn domel1 to z-axis <10.000000> speed <5.000000>;
+		turn domer1 to z-axis <-10.000000> speed <5.000000>;
+		sleep 600;
+	}
+	if( TRUE )
+	{
+		turn domel1 to z-axis <5.000000> speed <8.000000>;
+		turn domer1 to z-axis <-5.000000> speed <8.000000>;
+		sleep 625;
+	}
+	if( TRUE )
+	{
+		turn domel1 to z-axis <3.500000> speed <6.000000>;
+		turn domer1 to z-axis <-3.500000> speed <6.000000>;
+		sleep 250;
+	}
+	if( TRUE )
+	{
+		turn domel1 to z-axis <2.000000> speed <4.500000>;
+		turn domer1 to z-axis <-2.000000> speed <4.500000>;
+		sleep 333;
+	}
+	if( TRUE )
+	{
+		turn domel1 to z-axis <1.000000> speed <2.000000>;
+		turn domer1 to z-axis <-1.000000> speed <2.000000>;
+		sleep 500;
+	}
+	if( TRUE )
+	{
+		turn domel1 to z-axis <0.500000> speed <1.000000>;
+		turn domer1 to z-axis <-0.500000> speed <1.000000>;
+		sleep 500;
+	}
+	if( TRUE )
+	{
+		turn domel1 to z-axis <0.000000> speed <0.648352>;
+		turn domer1 to z-axis <0.000000> speed <0.648352>;
+		sleep 770;
+	}
+}
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 400;
+	}
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 256 | 2;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 256 | 1;
+			}
+			emit-sfx smoketype from base;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+
+OpenYard()
+{
+	set YARD_OPEN to 1;
+	while( !get YARD_OPEN )
+	{
+		set BUGGER_OFF to 1;
+		sleep 500;
+		set YARD_OPEN to 1;
+	}
+	set BUGGER_OFF to 0;
+}
+
+CloseYard()
+{
+	set YARD_OPEN to 0;
+	while( get YARD_OPEN )
+	{
+		set BUGGER_OFF to 1;
+		sleep 500;
+		set YARD_OPEN to 0;
+	}
+	set BUGGER_OFF to 0;
+}
+
+Go()
+{
+	call-script activatescr();
+	call-script OpenYard();
+	set INBUILDSTANCE to 1;
+}
+
+Stop()
+{
+	set INBUILDSTANCE to 0;
+	call-script CloseYard();
+	call-script deactivatescr();
+}
+
+InitState()
+{
+	statechg_DesiredState = TRUE;
+	statechg_StateChanging = FALSE;
+}
+
+RequestState(requestedstate, currentstate)
+{
+	if( statechg_StateChanging )
+	{
+		statechg_DesiredState = requestedstate;
+		return (0);
+	}
+	statechg_StateChanging = TRUE;
+	currentstate = statechg_DesiredState;
+	statechg_DesiredState = requestedstate;
+	while( statechg_DesiredState != currentstate )
+	{
+		if( statechg_DesiredState == 0 )
+		{
+			call-script Go();
+			currentstate = 0;
+		}
+		if( statechg_DesiredState == 1 )
+		{
+			call-script Stop();
+			currentstate = 1;
+		}
+	}
+	statechg_StateChanging = FALSE;
+}
+
+Create()
+{
+	spray = 0;
+	
+	dont-shade rfpost;
+	dont-shade rflathebox;
+	dont-shade rflift;
+	dont-shade rflathe;
+	dont-shade rfnano;
+	dont-shade lfpost;
+	dont-shade lflathepost;
+	dont-shade lflift;
+	dont-shade lflathe;
+	dont-shade lfnano;
+	dont-shade lbpost;
+	dont-shade lblathebox;
+	dont-shade lblift;
+	dont-shade lblathe;
+	dont-shade lbnano;
+	dont-shade rbpost;
+	dont-shade rblathepost;
+	dont-shade rblift;
+	dont-shade rblathe;
+	dont-shade rbnano;
+	dont-shade runners;
+	dont-shade pad;
+	dont-shade glowy1dull;
+	dont-shade glowy1;
+	dont-shade glowy2dull;
+	dont-shade glowy2;
+	dont-shade glowy3dull;
+	dont-shade glowy3;
+	dont-shade glowy4dull;
+	dont-shade glowy4;
+	dont-shade domel1;
+	dont-shade domel2;
+	dont-shade domel3;
+	dont-shade domel4;
+	dont-shade domel5;
+	dont-shade domer1;
+	dont-shade domer2;
+	dont-shade domer3;
+	dont-shade domer4;
+	dont-shade domer5;
+	
+	call-script InitState();
+	start-script SmokeUnit();
+
+}
+
+QueryNanoPiece(piecenum)
+{
+	if( spray == 1 )
+	{
+		piecenum = rfnano;
+	}
+	if( spray == 2 )
+	{
+		piecenum = lfnano;
+	}
+	if( spray == 3 )
+	{
+		piecenum = rbnano;
+	}
+	if( spray == 4 )
+	{
+		piecenum = lbnano;
+	}
+	++spray;
+	if( spray > 4 )
+	{
+		spray = 1;
+	}
+}
+
+Activate()
+{
+	signal SIG_ACTIVATE;
+	start-script RequestState(0);
+}
+
+Deactivate()
+{
+	signal SIG_ACTIVATE;
+	set-signal-mask SIG_ACTIVATE;
+	if( !Static_Var_2 )
+	{
+		sleep 5000;
+	}
+	set-signal-mask 0;
+	start-script RequestState(1);
+}
+
+StartBuilding()
+{
+}
+
+StopBuilding()
+{
+}
+
+QueryBuildInfo(piecenum)
+{
+	piecenum = pad;
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = base;
+}
+
+Killed(severity, corpsetype)
+{
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		explode base type NOHEATCLOUD;
+		explode rfpost type NOHEATCLOUD;
+		explode rflathebox type NOHEATCLOUD;
+		explode rflift type NOHEATCLOUD;
+		explode rflathe type NOHEATCLOUD;
+		explode rfnano type NOHEATCLOUD;
+		explode lfpost type NOHEATCLOUD;
+		explode lflathepost type NOHEATCLOUD;
+		explode lflift type NOHEATCLOUD;
+		explode lflathe type NOHEATCLOUD;
+		explode lfnano type NOHEATCLOUD;
+		explode lbpost type NOHEATCLOUD;
+		explode lblathebox type NOHEATCLOUD;
+		explode lblift type NOHEATCLOUD;
+		explode lblathe type NOHEATCLOUD;
+		explode lbnano type NOHEATCLOUD;
+		explode rbpost type NOHEATCLOUD;
+		explode rblathepost type NOHEATCLOUD;
+		explode rblift type NOHEATCLOUD;
+		explode rblathe type NOHEATCLOUD;
+		explode rbnano type NOHEATCLOUD;
+		explode runners type NOHEATCLOUD;
+		explode pad type NOHEATCLOUD;
+		explode glowy1dull type NOHEATCLOUD;
+		explode glowy1 type NOHEATCLOUD;
+		explode glowy2dull type NOHEATCLOUD;
+		explode glowy2 type NOHEATCLOUD;
+		explode glowy3dull type NOHEATCLOUD;
+		explode glowy3 type NOHEATCLOUD;
+		explode glowy4dull type NOHEATCLOUD;
+		explode glowy4 type NOHEATCLOUD;
+		explode domel5 type NOHEATCLOUD;
+		explode domel4 type NOHEATCLOUD;
+		explode domel3 type NOHEATCLOUD;
+		explode domel2 type NOHEATCLOUD;
+		explode domel1 type NOHEATCLOUD;
+		explode domer5 type NOHEATCLOUD;
+		explode domer4 type NOHEATCLOUD;
+		explode domer3 type NOHEATCLOUD;
+		explode domer2 type NOHEATCLOUD;
+		explode domer1 type NOHEATCLOUD;
+		return (0);
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		explode base type NOHEATCLOUD | SHATTER;
+		explode rfpost type NOHEATCLOUD | SHATTER;
+		explode rflathebox type NOHEATCLOUD | SHATTER;
+		explode rflift type NOHEATCLOUD | SHATTER;
+		explode rflathe type NOHEATCLOUD | SHATTER;
+		explode rfnano type NOHEATCLOUD | SHATTER;
+		explode lfpost type NOHEATCLOUD | SHATTER;
+		explode lflathepost type NOHEATCLOUD | SHATTER;
+		explode lflift type NOHEATCLOUD | SHATTER;
+		explode lflathe type NOHEATCLOUD | SHATTER;
+		explode lfnano type NOHEATCLOUD | SHATTER;
+		explode lbpost type NOHEATCLOUD | SHATTER;
+		explode lblathebox type NOHEATCLOUD | SHATTER;
+		explode lblift type NOHEATCLOUD | SHATTER;
+		explode lblathe type NOHEATCLOUD | SHATTER;
+		explode lbnano type NOHEATCLOUD | SHATTER;
+		explode rbpost type NOHEATCLOUD | SHATTER;
+		explode rblathepost type NOHEATCLOUD | SHATTER;
+		explode rblift type NOHEATCLOUD | SHATTER;
+		explode rblathe type NOHEATCLOUD | SHATTER;
+		explode rbnano type NOHEATCLOUD | SHATTER;
+		explode runners type NOHEATCLOUD | SHATTER;
+		explode pad type NOHEATCLOUD | SHATTER;
+		explode glowy1dull type NOHEATCLOUD | SHATTER;
+		explode glowy1 type NOHEATCLOUD | SHATTER;
+		explode glowy2dull type NOHEATCLOUD | SHATTER;
+		explode glowy2 type NOHEATCLOUD | SHATTER;
+		explode glowy3dull type NOHEATCLOUD | SHATTER;
+		explode glowy3 type NOHEATCLOUD | SHATTER;
+		explode glowy4dull type NOHEATCLOUD | SHATTER;
+		explode glowy4 type NOHEATCLOUD | SHATTER;
+		explode domel5 type NOHEATCLOUD | SHATTER;
+		explode domel4 type NOHEATCLOUD | SHATTER;
+		explode domel3 type NOHEATCLOUD | SHATTER;
+		explode domel2 type NOHEATCLOUD | SHATTER;
+		explode domel1 type NOHEATCLOUD | SHATTER;
+		explode domer5 type NOHEATCLOUD | SHATTER;
+		explode domer4 type NOHEATCLOUD | SHATTER;
+		explode domer3 type NOHEATCLOUD | SHATTER;
+		explode domer2 type NOHEATCLOUD | SHATTER;
+		explode domer1 type NOHEATCLOUD | SHATTER;
+		return (0);
+	}
+	if( severity <= 99 )
+	{
+		corpsetype = 3;
+		explode base type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode rfpost type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode rflathebox type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode rflift type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode rflathe type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode rfnano type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode lfpost type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode lflathepost type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode lflift type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode lflathe type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode lfnano type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode lbpost type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode lblathebox type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode lblift type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode lblathe type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode lbnano type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode rbpost type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode rblathepost type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode rblift type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode rblathe type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode rbnano type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode runners type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode pad type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode glowy1dull type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode glowy1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode glowy2dull type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode glowy2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode glowy3dull type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode glowy3 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode glowy4dull type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode glowy4 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode domel5 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode domel4 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode domel3 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode domel2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode domel1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode domer5 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode domer4 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode domer3 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode domer2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode domer1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		return (0);
+	}
+	corpsetype = 3;
+	explode base type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode rfpost type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode rflathebox type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode rflift type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode rflathe type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode rfnano type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode lfpost type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode lflathepost type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode lflift type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode lflathe type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode lfnano type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode lbpost type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode lblathebox type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode lblift type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode lblathe type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode lbnano type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode rbpost type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode rblathepost type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode rblift type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode rblathe type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode rbnano type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode runners type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode pad type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode glowy1dull type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode glowy1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode glowy2dull type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode glowy2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode glowy3dull type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode glowy3 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode glowy4dull type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode glowy4 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode domel5 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode domel4 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode domel3 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode domel2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode domel1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode domer5 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode domer4 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode domer3 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode domer2 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode domer1 type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+}
+

@@ -1,0 +1,915 @@
+#define TA			// This is a TA script
+
+#include "sfxtype.h"
+#include "exptype.h"
+
+piece  torso, flare, Hip, RLLeg, LLLeg, LULeg, RULeg, LUArm,
+       RUArm, RLArm, LLArm, Head, Thrust;
+
+static-var  bMoving, Static_Var_2, Static_Var_3, Static_Var_4, Static_Var_5,
+            Static_Var_6;
+
+
+walk()
+{
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.100000] speed [0.853442] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [-0.239996] speed [2.048273] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.000000] now;
+		move LLLeg to y-axis [0.255994] speed [2.184808] * Static_Var_6 / [0.000610];
+		turn Hip to x-axis <10.890110> speed <92.939560> * Static_Var_6 / <0.549451>;
+		turn torso to x-axis <5.269231> speed <44.967033> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <-43.934066> speed <375.000000> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <4.203297> speed <35.917582> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <19.324176> speed <164.917582> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <43.593407> speed <372.093407> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <-17.214286> speed <146.961538> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <-9.835165> speed <83.983516> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-9.137363> speed <77.978022> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-36.560440> speed <312.065934> * Static_Var_6 / <0.549451>;
+		sleep 8200 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.047992] speed [0.620264] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [-0.200000] speed [0.477106] * Static_Var_6 / [0.000610];
+		turn torso to x-axis <2.626374> speed <31.521978> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <-57.302198> speed <159.384615> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <10.703297> speed <77.527473> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <21.093407> speed <21.098901> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <43.593407> now;
+		turn LUArm to x-axis <-8.593407> speed <102.824176> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <-11.769231> speed <23.000000> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-14.225275> speed <60.747253> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-24.769231> speed <140.637363> * Static_Var_6 / <0.549451>;
+		sleep 5600 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [0.000000] speed [0.572504] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [-0.159998] speed [0.477106] * Static_Var_6 / [0.000610];
+		turn torso to x-axis <0.000000> speed <31.324176> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <-70.659341> speed <159.384615> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <17.214286> speed <77.659341> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <22.846154> speed <20.967033> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <43.593407> now;
+		turn LUArm to x-axis <0.000000> speed <102.560440> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <-13.703297> speed <23.131868> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-19.324176> speed <60.747253> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-13.000000> speed <140.445055> * Static_Var_6 / <0.549451>;
+		sleep 5600 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [0.100000] speed [1.192767] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [-0.079999] speed [0.954211] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.279999] speed [0.286279] * Static_Var_6 / [0.000610];
+		turn torso to x-axis <-2.626374> speed <31.324176> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <-76.291209> speed <67.170330> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <18.978022> speed <21.032967> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <25.313187> speed <29.357143> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <37.258242> speed <75.560440> * Static_Var_6 / <0.549451>;
+		turn Head to x-axis <-4.038462> speed <48.164835> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <10.890110> speed <129.890110> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <-14.923077> speed <14.543956> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-28.989011> speed <115.340659> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-12.813187> speed <2.159341> * Static_Var_6 / <0.549451>;
+		sleep 5500 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [0.200000] speed [1.192767] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.000000] speed [0.954211] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [-0.200000] speed [5.725299] * Static_Var_6 / [0.000610];
+		turn torso to x-axis <-5.269231> speed <31.521978> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <-81.912088> speed <67.043956> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <20.736264> speed <20.967033> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <27.769231> speed <29.357143> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <30.934066> speed <75.494505> * Static_Var_6 / <0.549451>;
+		turn Head to x-axis <-8.071429> speed <48.164835> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <21.791209> speed <130.021978> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <-16.170330> speed <14.807692> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-38.670330> speed <115.472527> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-12.648352> speed <2.027473> * Static_Var_6 / <0.549451>;
+		sleep 5900 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [0.100000] speed [1.192767] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.347992] speed [4.150818] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [-0.279999] speed [0.954211] * Static_Var_6 / [0.000610];
+		turn torso to x-axis <-2.626374> speed <31.521978> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <-68.379121> speed <161.412088> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <29.357143> speed <102.758242> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <25.478022> speed <27.324176> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <26.005495> speed <58.719780> * Static_Var_6 / <0.549451>;
+		turn Head to x-axis <-7.901099> speed <2.093407> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <34.456044> speed <151.060440> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <-22.846154> speed <79.692308> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-54.489011> speed <188.609890> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-20.912088> speed <98.565934> * Static_Var_6 / <0.549451>;
+		sleep 5700 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [0.000000] speed [1.979999] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.695996] speed [6.890405] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [-0.359998] speed [1.583997] * Static_Var_6 / [0.000610];
+		turn torso to x-axis <0.000000> speed <52.000000> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <-54.846154> speed <267.950549> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <37.967033> speed <170.472527> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <23.203297> speed <45.142857> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <21.093407> speed <97.362637> * Static_Var_6 / <0.549451>;
+		turn Head to x-axis <-7.725275> speed <3.368132> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <47.104396> speed <250.543956> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <-29.527473> speed <132.285714> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-70.324176> speed <313.532967> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-29.170330> speed <163.620879> * Static_Var_6 / <0.549451>;
+		sleep 2600 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.187994] speed [3.722357] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.823999] speed [2.534412] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.247992] speed [4.910358] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [-0.000012] speed [7.127753] * Static_Var_6 / [0.000610];
+		turn Hip to x-axis <10.890110> now;
+		turn torso to x-axis <2.626374> speed <52.000000> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <-43.593407> speed <222.802198> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <18.104396> speed <393.274725> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <48.170330> speed <494.346154> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <21.258242> speed <3.368132> * Static_Var_6 / <0.549451>;
+		turn Head to x-axis <-3.857143> speed <76.692308> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <48.868132> speed <34.813187> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-74.181319> speed <76.478022> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-23.725275> speed <107.807692> * Static_Var_6 / <0.549451>;
+		sleep 2700 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.375995] speed [2.242413] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.959998] speed [1.622174] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.495996] speed [2.958075] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.319995] speed [3.817010] * Static_Var_6 / [0.000610];
+		turn torso to x-axis <5.269231> speed <31.521978> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <-32.346154> speed <134.214286> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-1.747253> speed <236.780220> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <73.137363> speed <297.796703> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <21.434066> speed <2.027473> * Static_Var_6 / <0.549451>;
+		turn Head to x-axis <0.000000> speed <46.005495> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <50.626374> speed <21.032967> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-78.049451> speed <46.137363> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-18.280220> speed <65.010989> * Static_Var_6 / <0.549451>;
+		sleep 5600 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.307996] speed [0.811084] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.647992] speed [3.721466] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.475995] speed [0.238550] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.279999] speed [0.477106] * Static_Var_6 / [0.000610];
+		turn torso to x-axis <7.725275> speed <29.357143> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <-22.137363> speed <121.697802> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-5.082418> speed <39.846154> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <58.357143> speed <176.225275> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <11.247253> speed <121.439560> * Static_Var_6 / <0.549451>;
+		turn Head to x-axis <4.736264> speed <56.489011> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <30.401099> speed <241.236264> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <-26.714286> speed <33.615385> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-61.703297> speed <195.032967> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-14.923077> speed <39.972527> * Static_Var_6 / <0.549451>;
+		sleep 5500 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.235992] speed [0.858789] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.339996] speed [3.673706] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.451996] speed [0.286249] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.239996] speed [0.477106] * Static_Var_6 / [0.000610];
+		turn torso to x-axis <10.192308> speed <29.357143> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <-11.945055> speed <121.565934> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-8.423077> speed <39.846154> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <43.593407> speed <176.093407> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <1.049451> speed <121.697802> * Static_Var_6 / <0.549451>;
+		turn Head to x-axis <9.489011> speed <56.686813> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <10.192308> speed <241.109890> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <-23.901099> speed <33.549451> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-45.357143> speed <194.967033> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-11.593407> speed <39.714286> * Static_Var_6 / <0.549451>;
+		sleep 5800 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.167993] speed [0.811084] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.047992] speed [3.482910] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.355994] speed [1.145068] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.119995] speed [1.431323] * Static_Var_6 / [0.000610];
+		turn torso to x-axis <7.725275> speed <29.357143> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <-3.857143> speed <96.532967> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-26.181319> speed <211.747253> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <10.192308> speed <109.049451> * Static_Var_6 / <0.549451>;
+		turn Head to x-axis <4.736264> speed <56.686813> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <4.379121> speed <69.335165> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <-16.335165> speed <90.175824> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-39.549451> speed <69.269231> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-11.071429> speed <6.291209> * Static_Var_6 / <0.549451>;
+		sleep 5700 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.100000] speed [0.580322] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [-0.239996] speed [2.457910] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.255994] speed [0.853442] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.000000] speed [1.024133] * Static_Var_6 / [0.000610];
+		turn Hip to x-axis <10.890110> now;
+		turn torso to x-axis <5.258242> speed <21.098901> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <4.203297> speed <68.835165> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-43.945055> speed <151.648352> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <19.324176> speed <77.934066> * Static_Var_6 / <0.549451>;
+		turn Head to x-axis <0.000000> speed <40.417582> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <-1.390110> speed <49.280220> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <-8.769231> speed <64.615385> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-33.758242> speed <49.423077> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-10.538462> speed <4.543956> * Static_Var_6 / <0.549451>;
+		sleep 8700 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.047992] speed [0.620264] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [-0.200000] speed [0.477106] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.255994] now;
+		turn torso to x-axis <2.626374> speed <31.390110> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <11.945055> speed <92.340659> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-57.302198> speed <159.252747> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <21.093407> speed <21.098901> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <-4.203297> speed <33.549451> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <-4.379121> speed <52.362637> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-23.203297> speed <125.895604> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-16.868132> speed <75.560440> * Static_Var_6 / <0.549451>;
+		sleep 5500 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [0.000000] speed [0.572504] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [-0.159998] speed [0.477106] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.255994] now;
+		turn torso to x-axis <0.000000> speed <31.324176> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <19.681319> speed <92.208791> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-70.659341> speed <159.384615> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <22.846154> speed <20.967033> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <-7.027473> speed <33.615385> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <0.000000> speed <52.230769> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-12.648352> speed <125.895604> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-23.203297> speed <75.494505> * Static_Var_6 / <0.549451>;
+		sleep 5600 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [0.100000] speed [1.192767] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [-0.079999] speed [0.954211] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.279999] speed [0.286279] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.000000] now;
+		turn torso to x-axis <-2.626374> speed <31.324176> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <19.846154> speed <2.027473> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-76.291209> speed <67.170330> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <37.258242> speed <75.560440> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <25.313187> speed <29.357143> * Static_Var_6 / <0.549451>;
+		turn Head to x-axis <-4.038462> speed <48.164835> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <-11.945055> speed <58.719780> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <7.901099> speed <94.241758> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-12.478022> speed <2.027473> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-24.247253> speed <12.516484> * Static_Var_6 / <0.549451>;
+		sleep 5700 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [0.200000] speed [1.192767] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.000000] speed [0.954211] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [-0.200000] speed [5.725299] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.000000] now;
+		turn torso to x-axis <-5.269231> speed <31.521978> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <20.027473> speed <2.159341> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-81.912088> speed <67.043956> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <30.934066> speed <75.494505> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <27.769231> speed <29.357143> * Static_Var_6 / <0.549451>;
+		turn Head to x-axis <-8.071429> speed <48.164835> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <-16.868132> speed <58.719780> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <15.813187> speed <94.434066> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-12.302198> speed <2.093407> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-25.313187> speed <12.648352> * Static_Var_6 / <0.549451>;
+		sleep 5900 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [0.100000] speed [1.192767] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.347992] speed [4.150818] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [-0.279999] speed [0.954211] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.000000] now;
+		turn Hip to x-axis <10.890110> now;
+		turn torso to x-axis <-2.626374> speed <31.521978> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <24.071429> speed <48.164835> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-68.379121> speed <161.412088> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <26.005495> speed <58.719780> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <25.478022> speed <27.324176> * Static_Var_6 / <0.549451>;
+		turn Head to x-axis <-7.901099> speed <2.093407> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <-22.505495> speed <67.170330> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <31.637363> speed <188.741758> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-20.736264> speed <100.659341> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-45.527473> speed <241.109890> * Static_Var_6 / <0.549451>;
+		sleep 5500 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [0.000000] speed [1.979999] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.700000] speed [6.969635] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [-0.359998] speed [1.583997] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.000000] now;
+		turn torso to x-axis <0.000000> speed <52.000000> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <28.126374> speed <80.285714> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-54.846154> speed <267.950549> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <21.093407> speed <97.362637> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <23.203297> speed <45.142857> * Static_Var_6 / <0.549451>;
+		turn Head to x-axis <-7.725275> speed <3.368132> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <-28.126374> speed <111.291209> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <47.456044> speed <313.208791> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-29.170330> speed <166.994505> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-65.736264> speed <400.241758> * Static_Var_6 / <0.549451>;
+		sleep 2800 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.187994] speed [3.722357] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.823999] speed [2.455182] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [-0.000012] speed [7.127753] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.239996] speed [4.751996] * Static_Var_6 / [0.000610];
+		turn torso to x-axis <2.626374> speed <52.000000> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <13.181319> speed <295.912088> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-43.593407> speed <222.802198> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <21.258242> speed <3.368132> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <48.159341> speed <494.126374> * Static_Var_6 / <0.549451>;
+		turn Head to x-axis <-3.857143> speed <76.692308> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <-27.769231> speed <6.961538> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <47.813187> speed <7.071429> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-24.071429> speed <101.065934> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-72.780220> speed <139.467033> * Static_Var_6 / <0.549451>;
+		sleep 2700 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.375995] speed [2.242413] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.959998] speed [1.622174] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.315997] speed [3.769281] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.479999] speed [2.862646] * Static_Var_6 / [0.000610];
+		turn torso to x-axis <5.269231> speed <31.521978> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <-1.747253> speed <178.060440> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-32.346154> speed <134.214286> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <21.445055> speed <2.159341> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <73.137363> speed <297.928571> * Static_Var_6 / <0.549451>;
+		turn Head to x-axis <0.000000> speed <46.005495> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <-27.423077> speed <4.192308> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <48.159341> speed <4.060440> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-18.978022> speed <60.686813> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-79.802198> speed <83.752747> * Static_Var_6 / <0.549451>;
+		sleep 5600 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.307996] speed [0.811084] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.647992] speed [3.721466] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.275995] speed [0.477106] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.539996] speed [0.715662] * Static_Var_6 / [0.000610];
+		turn torso to x-axis <7.725275> speed <29.357143> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <-5.082418> speed <39.846154> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-22.137363> speed <121.697802> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <11.247253> speed <121.565934> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <58.357143> speed <176.225275> * Static_Var_6 / <0.549451>;
+		turn Head to x-axis <4.736264> speed <56.489011> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <-24.956044> speed <29.357143> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <34.093407> speed <167.769231> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-16.335165> speed <31.521978> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-71.714286> speed <96.532967> * Static_Var_6 / <0.549451>;
+		sleep 5500 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.235992] speed [0.858789] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.339996] speed [3.673706] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.235992] speed [0.477106] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.600000] speed [0.715662] * Static_Var_6 / [0.000610];
+		turn torso to x-axis <10.192308> speed <29.357143> * Static_Var_6 / <0.549451>;
+		turn LULeg to x-axis <-8.423077> speed <39.846154> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-11.945055> speed <121.565934> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <1.049451> speed <121.697802> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <43.593407> speed <176.093407> * Static_Var_6 / <0.549451>;
+		turn Head to x-axis <9.489011> speed <56.686813> * Static_Var_6 / <0.549451>;
+		turn LUArm to x-axis <-22.505495> speed <29.291209> * Static_Var_6 / <0.549451>;
+		turn RUArm to x-axis <20.027473> speed <167.708791> * Static_Var_6 / <0.549451>;
+		turn RLArm to x-axis <-13.703297> speed <31.390110> * Static_Var_6 / <0.549451>;
+		turn LLArm to x-axis <-63.637363> speed <96.269231> * Static_Var_6 / <0.549451>;
+		sleep 5800 / Static_Var_6;
+	}
+	move Hip to y-axis [-0.167993] speed [0.811084] * Static_Var_6 / [0.000610];
+	move Hip to z-axis [0.047992] speed [3.482910] * Static_Var_6 / [0.000610];
+	move RLLeg to y-axis [0.112000] speed [1.479016] * Static_Var_6 / [0.000610];
+	move LLLeg to y-axis [0.427997] speed [2.051587] * Static_Var_6 / [0.000610];
+	turn torso to x-axis <7.725275> speed <29.357143> * Static_Var_6 / <0.549451>;
+	turn LULeg to x-axis <-26.181319> speed <211.747253> * Static_Var_6 / <0.549451>;
+	turn RULeg to x-axis <-3.857143> speed <96.532967> * Static_Var_6 / <0.549451>;
+	turn RLLeg to x-axis <10.192308> speed <109.049451> * Static_Var_6 / <0.549451>;
+	turn Head to x-axis <4.736264> speed <56.686813> * Static_Var_6 / <0.549451>;
+	turn LUArm to x-axis <-19.846154> speed <31.653846> * Static_Var_6 / <0.549451>;
+	turn RUArm to x-axis <5.082418> speed <178.258242> * Static_Var_6 / <0.549451>;
+	turn RLArm to x-axis <-11.412088> speed <27.324176> * Static_Var_6 / <0.549451>;
+	turn LLArm to x-axis <-50.093407> speed <161.543956> * Static_Var_6 / <0.549451>;
+	sleep 5500 / Static_Var_6;
+}
+
+walklegs()
+{
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.100000] speed [0.580322] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [-0.239996] speed [2.457910] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.000000] speed [0.955853] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.255994] speed [1.467926] * Static_Var_6 / [0.000610];
+		turn Hip to x-axis <10.890110> now;
+		turn LULeg to x-axis <-43.934066> speed <151.554945> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <4.203297> speed <68.835165> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <19.324176> speed <77.934066> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <43.593407> now;
+		sleep 8200 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.047992] speed [0.620264] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [-0.200000] speed [0.477106] * Static_Var_6 / [0.000610];
+		turn LULeg to x-axis <-57.302198> speed <159.384615> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <10.703297> speed <77.527473> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <21.093407> speed <21.098901> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <43.593407> now;
+		sleep 5600 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [0.000000] speed [0.572504] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [-0.159998] speed [0.477106] * Static_Var_6 / [0.000610];
+		turn LULeg to x-axis <-70.659341> speed <159.384615> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <17.214286> speed <77.659341> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <22.846154> speed <20.967033> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <43.593407> now;
+		sleep 5600 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [0.100000] speed [1.192767] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [-0.079999] speed [0.954211] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.279999] speed [0.286279] * Static_Var_6 / [0.000610];
+		turn LULeg to x-axis <-76.291209> speed <67.170330> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <18.978022> speed <21.032967> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <25.313187> speed <29.357143> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <37.258242> speed <75.560440> * Static_Var_6 / <0.549451>;
+		sleep 5500 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [0.200000] speed [1.192767] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.000000] speed [0.954211] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [-0.200000] speed [5.725299] * Static_Var_6 / [0.000610];
+		turn LULeg to x-axis <-81.912088> speed <67.043956> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <20.736264> speed <20.967033> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <27.769231> speed <29.357143> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <30.934066> speed <75.494505> * Static_Var_6 / <0.549451>;
+		sleep 5900 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [0.100000] speed [1.192767] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.347992] speed [4.150818] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [-0.279999] speed [0.954211] * Static_Var_6 / [0.000610];
+		turn LULeg to x-axis <-68.379121> speed <161.412088> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <29.357143> speed <102.758242> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <25.478022> speed <27.324176> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <26.005495> speed <58.719780> * Static_Var_6 / <0.549451>;
+		sleep 5700 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [0.000000] speed [1.979999] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.695996] speed [6.890405] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [-0.359998] speed [1.583997] * Static_Var_6 / [0.000610];
+		turn LULeg to x-axis <-54.846154> speed <267.950549> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <37.967033> speed <170.472527> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <23.203297> speed <45.142857> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <21.093407> speed <97.362637> * Static_Var_6 / <0.549451>;
+		sleep 2600 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.187994] speed [3.722357] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.823999] speed [2.534412] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.247992] speed [4.910358] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [-0.000012] speed [7.127753] * Static_Var_6 / [0.000610];
+		turn Hip to x-axis <10.890110> now;
+		turn LULeg to x-axis <-43.593407> speed <222.802198> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <18.104396> speed <393.274725> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <48.170330> speed <494.346154> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <21.258242> speed <3.368132> * Static_Var_6 / <0.549451>;
+		sleep 2700 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.375995] speed [2.242413] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.959998] speed [1.622174] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.495996] speed [2.958075] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.319995] speed [3.817010] * Static_Var_6 / [0.000610];
+		turn LULeg to x-axis <-32.346154> speed <134.214286> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-1.747253> speed <236.780220> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <73.137363> speed <297.796703> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <21.434066> speed <2.027473> * Static_Var_6 / <0.549451>;
+		sleep 5600 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.307996] speed [0.811084] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.647992] speed [3.721466] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.475995] speed [0.238550] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.279999] speed [0.477106] * Static_Var_6 / [0.000610];
+		turn LULeg to x-axis <-22.137363> speed <121.697802> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-5.082418> speed <39.846154> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <58.357143> speed <176.225275> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <11.247253> speed <121.439560> * Static_Var_6 / <0.549451>;
+		sleep 5500 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.235992] speed [0.858789] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.339996] speed [3.673706] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.451996] speed [0.286249] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.239996] speed [0.477106] * Static_Var_6 / [0.000610];
+		turn LULeg to x-axis <-11.945055> speed <121.565934> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-8.423077> speed <39.846154> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <43.593407> speed <176.093407> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <1.049451> speed <121.697802> * Static_Var_6 / <0.549451>;
+		sleep 5800 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.167993] speed [0.811084] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.047992] speed [3.482910] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.355994] speed [1.145068] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.119995] speed [1.431323] * Static_Var_6 / [0.000610];
+		turn LULeg to x-axis <-3.857143> speed <96.532967> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-26.181319> speed <211.747253> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <10.192308> speed <109.049451> * Static_Var_6 / <0.549451>;
+		sleep 5700 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.100000] speed [0.580322] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [-0.239996] speed [2.457910] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.255994] speed [0.853442] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.000000] speed [1.024133] * Static_Var_6 / [0.000610];
+		turn Hip to x-axis <10.890110> now;
+		turn LULeg to x-axis <4.203297> speed <68.835165> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-43.945055> speed <151.648352> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <19.324176> speed <77.934066> * Static_Var_6 / <0.549451>;
+		sleep 8700 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.047992] speed [0.620264] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [-0.200000] speed [0.477106] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.255994] now;
+		turn LULeg to x-axis <11.945055> speed <92.340659> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-57.302198> speed <159.252747> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <21.093407> speed <21.098901> * Static_Var_6 / <0.549451>;
+		sleep 5500 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [0.000000] speed [0.572504] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [-0.159998] speed [0.477106] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.255994] now;
+		turn LULeg to x-axis <19.681319> speed <92.208791> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-70.659341> speed <159.384615> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <22.846154> speed <20.967033> * Static_Var_6 / <0.549451>;
+		sleep 5600 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [0.100000] speed [1.192767] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [-0.079999] speed [0.954211] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.279999] speed [0.286279] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.000000] now;
+		turn LULeg to x-axis <19.846154> speed <2.027473> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-76.291209> speed <67.170330> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <37.258242> speed <75.560440> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <25.313187> speed <29.357143> * Static_Var_6 / <0.549451>;
+		sleep 5700 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [0.200000] speed [1.192767] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.000000] speed [0.954211] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [-0.200000] speed [5.725299] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.000000] now;
+		turn LULeg to x-axis <20.027473> speed <2.159341> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-81.912088> speed <67.043956> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <30.934066> speed <75.494505> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <27.769231> speed <29.357143> * Static_Var_6 / <0.549451>;
+		sleep 5900 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [0.100000] speed [1.192767] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.347992] speed [4.150818] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [-0.279999] speed [0.954211] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.000000] now;
+		turn Hip to x-axis <10.890110> now;
+		turn LULeg to x-axis <24.071429> speed <48.164835> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-68.379121> speed <161.412088> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <26.005495> speed <58.719780> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <25.478022> speed <27.324176> * Static_Var_6 / <0.549451>;
+		sleep 5500 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [0.000000] speed [1.979999] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.700000] speed [6.969635] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [-0.359998] speed [1.583997] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.000000] now;
+		turn LULeg to x-axis <28.126374> speed <80.285714> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-54.846154> speed <267.950549> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <21.093407> speed <97.362637> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <23.203297> speed <45.142857> * Static_Var_6 / <0.549451>;
+		sleep 2800 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.187994] speed [3.722357] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.823999] speed [2.455182] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [-0.000012] speed [7.127753] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.239996] speed [4.751996] * Static_Var_6 / [0.000610];
+		turn LULeg to x-axis <13.181319> speed <295.912088> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-43.593407> speed <222.802198> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <21.258242> speed <3.368132> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <48.159341> speed <494.126374> * Static_Var_6 / <0.549451>;
+		sleep 2700 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.375995] speed [2.242413] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.959998] speed [1.622174] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.315997] speed [3.769281] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.479999] speed [2.862646] * Static_Var_6 / [0.000610];
+		turn LULeg to x-axis <-1.747253> speed <178.060440> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-32.346154> speed <134.214286> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <21.445055> speed <2.159341> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <73.137363> speed <297.928571> * Static_Var_6 / <0.549451>;
+		sleep 5600 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.307996] speed [0.811084] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.647992] speed [3.721466] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.275995] speed [0.477106] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.539996] speed [0.715662] * Static_Var_6 / [0.000610];
+		turn LULeg to x-axis <-5.082418> speed <39.846154> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-22.137363> speed <121.697802> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <11.247253> speed <121.565934> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <58.357143> speed <176.225275> * Static_Var_6 / <0.549451>;
+		sleep 5500 / Static_Var_6;
+	}
+	if( bMoving )
+	{
+		move Hip to y-axis [-0.235992] speed [0.858789] * Static_Var_6 / [0.000610];
+		move Hip to z-axis [0.339996] speed [3.673706] * Static_Var_6 / [0.000610];
+		move RLLeg to y-axis [0.235992] speed [0.477106] * Static_Var_6 / [0.000610];
+		move LLLeg to y-axis [0.600000] speed [0.715662] * Static_Var_6 / [0.000610];
+		turn LULeg to x-axis <-8.423077> speed <39.846154> * Static_Var_6 / <0.549451>;
+		turn RULeg to x-axis <-11.945055> speed <121.565934> * Static_Var_6 / <0.549451>;
+		turn RLLeg to x-axis <1.049451> speed <121.697802> * Static_Var_6 / <0.549451>;
+		turn LLLeg to x-axis <43.593407> speed <176.093407> * Static_Var_6 / <0.549451>;
+		sleep 5800 / Static_Var_6;
+	}
+	move Hip to y-axis [-0.167993] speed [0.811084] * Static_Var_6 / [0.000610];
+	move Hip to z-axis [0.047992] speed [3.482910] * Static_Var_6 / [0.000610];
+	move RLLeg to y-axis [0.112000] speed [1.479016] * Static_Var_6 / [0.000610];
+	move LLLeg to y-axis [0.427997] speed [2.051587] * Static_Var_6 / [0.000610];
+	turn LULeg to x-axis <-26.181319> speed <211.747253> * Static_Var_6 / <0.549451>;
+	turn RULeg to x-axis <-3.857143> speed <96.532967> * Static_Var_6 / <0.549451>;
+	turn RLLeg to x-axis <10.192308> speed <109.049451> * Static_Var_6 / <0.549451>;
+	sleep 5500 / Static_Var_6;
+}
+
+MotionControl(moving, aiming, justmoved)
+{
+	justmoved = TRUE;
+	while( TRUE )
+	{
+		moving = bMoving;
+		aiming = Static_Var_2;
+		if( moving )
+		{
+			if( aiming )
+			{
+				call-script walklegs();
+			}
+			else
+			{
+				call-script walk();
+			}
+			justmoved = TRUE;
+		}
+		else if( justmoved )
+		{
+			move Hip to y-axis [0.000000] speed [0.400000];
+			turn Hip to x-axis <0.000000> speed <200.000000>;
+			turn RULeg to x-axis <0.000000> speed <200.000000>;
+			turn RLLeg to x-axis <0.000000> speed <200.000000>;
+			turn LULeg to x-axis <0.000000> speed <200.000000>;
+			turn LLLeg to x-axis <0.000000> speed <200.000000>;
+			if( !aiming )
+			{
+				turn torso to y-axis <0.000000> speed <90.000000>;
+				turn RLArm to x-axis <0.000000> speed <200.000000>;
+				turn RUArm to x-axis <0.000000> speed <200.000000>;
+				turn LLArm to x-axis <0.000000> speed <200.000000>;
+				turn LUArm to x-axis <0.000000> speed <200.000000>;
+			}
+			justmoved = FALSE;
+		}
+		sleep 100;
+	}
+}
+
+UnitSpeed()
+{
+	while( TRUE )
+	{
+		Static_Var_6 = get CURRENT_SPEED * 100 / Static_Var_5;
+		if( Static_Var_6 < 20 )
+		{
+			Static_Var_6 = 20;
+		}
+		sleep 142;
+	}
+}
+
+SmokeUnit(healthpercent, sleeptime, smoketype)
+{
+	while( get BUILD_PERCENT_LEFT )
+	{
+		sleep 500;
+	}
+	start-script UnitSpeed();
+	start-script MotionControl();
+	while( TRUE )
+	{
+		healthpercent = get HEALTH;
+		if( healthpercent < 66 )
+		{
+			smoketype = 258;
+			if( Rand( 1, 66 ) < healthpercent )
+			{
+				smoketype = 257;
+			}
+			emit-sfx smoketype from torso;
+		}
+		sleeptime = healthpercent * 50;
+		if( sleeptime < 200 )
+		{
+			sleeptime = 200;
+		}
+		sleep sleeptime;
+	}
+}
+
+Create()
+{
+	hide flare;
+	bMoving = FALSE;
+	Static_Var_2 = 0;
+	Static_Var_3 = 1;
+	Static_Var_4 = 0;
+	Static_Var_5 = get MAX_SPEED;
+	Static_Var_6 = 100;
+	start-script SmokeUnit();
+}
+
+StartBuilding(Func_Var_1, Func_Var_2)
+{
+	signal 4;
+	Static_Var_2 = 1;
+	turn torso to y-axis Func_Var_1 speed <250.000000>;
+	turn LLArm to x-axis <-90.000000> speed <150.000000>;
+	wait-for-turn torso around y-axis;
+	wait-for-turn LLArm around x-axis;
+	set INBUILDSTANCE to 1;
+}
+
+StopBuilding()
+{
+	signal 4;
+	set-signal-mask 4;
+	sleep 6000;
+	set-signal-mask 0;
+	signal 4;
+	set INBUILDSTANCE to 0;
+	Static_Var_2 = 0;
+	turn torso to y-axis <0.000000> speed <250.000000>;
+	turn LLArm to x-axis <0.000000> speed <150.000000>;
+	wait-for-turn torso around y-axis;
+	wait-for-turn LLArm around x-axis;
+}
+
+StartMoving()
+{
+	bMoving = TRUE;
+}
+
+StopMoving()
+{
+	bMoving = FALSE;
+}
+
+QueryNanoPiece(piecenum)
+{
+	piecenum = flare;
+}
+
+SweetSpot(piecenum)
+{
+	piecenum = torso;
+}
+
+Killed(severity, corpsetype)
+{
+	hide flare;
+	if( severity <= 25 )
+	{
+		corpsetype = 1;
+		explode Head type NOHEATCLOUD;
+		explode Hip type NOHEATCLOUD;
+		explode LLArm type NOHEATCLOUD;
+		explode LLLeg type NOHEATCLOUD;
+		explode LUArm type NOHEATCLOUD;
+		explode LULeg type NOHEATCLOUD;
+		explode RLArm type NOHEATCLOUD;
+		explode RLLeg type NOHEATCLOUD;
+		explode RUArm type NOHEATCLOUD;
+		explode RULeg type NOHEATCLOUD;
+		explode Thrust type NOHEATCLOUD;
+		explode torso type NOHEATCLOUD;
+		return (corpsetype);
+	}
+	if( severity <= 50 )
+	{
+		corpsetype = 2;
+		explode Head type NOHEATCLOUD | FALL;
+		explode Hip type NOHEATCLOUD | FALL;
+		explode LLArm type NOHEATCLOUD | FALL;
+		explode LLLeg type NOHEATCLOUD | FALL;
+		explode LUArm type NOHEATCLOUD | FALL;
+		explode LULeg type NOHEATCLOUD | FALL;
+		explode RLArm type NOHEATCLOUD | FALL;
+		explode RLLeg type NOHEATCLOUD | FALL;
+		explode RUArm type NOHEATCLOUD | FALL;
+		explode RULeg type NOHEATCLOUD | FALL;
+		explode Thrust type NOHEATCLOUD | FALL;
+		explode torso type NOHEATCLOUD | SHATTER;
+		return (corpsetype);
+	}
+	if( severity <= 99 )
+	{
+		corpsetype = 2;
+		explode Head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode Hip type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode LLArm type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode LLLeg type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode LUArm type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode LULeg type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode RLArm type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode RLLeg type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode RUArm type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode RULeg type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode Thrust type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+		explode torso type NOHEATCLOUD | SHATTER;
+		return (corpsetype);
+	}
+	corpsetype = 3;
+	explode Head type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode Hip type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode LLArm type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode LLLeg type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode LUArm type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode LULeg type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode RLArm type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode RLLeg type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode RUArm type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode RULeg type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode Thrust type NOHEATCLOUD | FALL | SMOKE | FIRE | EXPLODE_ON_HIT;
+	explode torso type NOHEATCLOUD | SHATTER | EXPLODE_ON_HIT;
+	return (corpsetype);
+}
