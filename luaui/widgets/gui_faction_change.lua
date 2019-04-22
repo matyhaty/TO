@@ -15,6 +15,7 @@ end
 -- Var
 --------------------------------------------------------------------------------
 local wWidth, wHeight = Spring.GetWindowGeometry()
+local px, py = 50, 0.55*wHeight
 
 --------------------------------------------------------------------------------
 -- Speedups
@@ -49,13 +50,11 @@ local spGetSpectatingState = Spring.GetSpectatingState
 
 local armcomDefID = UnitDefNames.armcom.id
 local corcomDefID = UnitDefNames.corcom.id
-local tllcomDefID = UnitDefNames.tllcom.id
 
 local commanderDefID = spGetTeamRulesParam(myTeamID, 'startUnit')
 local amNewbie = (spGetTeamRulesParam(myTeamID, 'isNewbie') == 1)
 
 local factionChangeList
-local px, py = wWidth - 198, 0.63*wHeight
 
 --------------------------------------------------------------------------------
 -- Funcs
@@ -71,18 +70,11 @@ end
 -- Callins
 --------------------------------------------------------------------------------
 function widget:Initialize()
-    if not WG["background_opacity_custom"] then
-        WG["background_opacity_custom"] = {0,0,0,0.5}
-    end
 	if spGetSpectatingState() or
 	   Spring.GetGameFrame() > 0 or
 	   amNewbie then
 		widgetHandler:RemoveWidget(self)
 	end
-end
-
-function widget:ViewResize()
-  wWidth, wHeight = Spring.GetViewGeometry()
 end
 
 function widget:DrawWorld()
@@ -92,16 +84,12 @@ function widget:DrawWorld()
 		local teamID = teamList[i]
 		local tsx, tsy, tsz = spGetTeamStartPosition(teamID)
 		if tsx and tsx > 0 then
-		local teamStartUnit = spGetTeamRulesParam(teamID, 'startUnit')
-			  if teamStartUnit == armcomDefID then
-				  glTexture('LuaUI/Images/arm.png')
-				  glBeginEnd(GL_QUADS, QuadVerts, tsx, spGetGroundHeight(tsx, tsz), tsz, 80)
-			elseif teamStartUnit ==  corcomDefID then
-				  glTexture('LuaUI/Images/core.png')
-				  glBeginEnd(GL_QUADS, QuadVerts, tsx, spGetGroundHeight(tsx, tsz), tsz, 64)
-			elseif teamStartUnit == tllcomDefID then
-				  glTexture('LuaUI/Images/tll.png')
-				  glBeginEnd(GL_QUADS, QuadVerts, tsx, spGetGroundHeight(tsx, tsz), tsz, 64)
+			if spGetTeamRulesParam(teamID, 'startUnit') == armcomDefID then
+				glTexture('LuaUI/Images/arm.png')
+				glBeginEnd(GL_QUADS, QuadVerts, tsx, spGetGroundHeight(tsx, tsz), tsz, 80)
+			else
+				glTexture('LuaUI/Images/core.png')
+				glBeginEnd(GL_QUADS, QuadVerts, tsx, spGetGroundHeight(tsx, tsz), tsz, 64)
 			end
 		end
 	end
@@ -120,10 +108,7 @@ function widget:DrawScreen()
 	glPushMatrix()
 	glTranslate(px, py, 0)
 	--call list
-	glColor(WG["background_opacity_custom"])
-
 	if factionChangeList then
-
 		glCallList(factionChangeList)
 	else 
 		factionChangeList = glCreateList(FactionChangeList)
@@ -135,34 +120,28 @@ end
 
 function FactionChangeList()
 	-- Panel
-	glRect(0, 0, 192, 80)
+	glColor(0, 0, 0, 0.5)
+	glRect(0, 0, 128, 80)
 		-- Highlight
 	glColor(1, 1, 0, 0.5)
-        if commanderDefID == armcomDefID then
-            glRect(1, 1, 63, 63)
-        elseif commanderDefID == corcomDefID then
-            glRect(65, 1, 127, 63)
-        elseif commanderDefID == tllcomDefID then
-            glRect(129, 1, 191, 63)
-        end
-        
-        -- Icons
-        glColor(1, 1, 1, 1)
-        glTexture('LuaUI/Images/ARM.png')
-        glTexRect(8, 8, 56, 56)
-        glTexture('LuaUI/Images/CORE.png')
-        glTexRect(72, 8, 120, 56)
-        glTexture('LuaUI/Images/TLL.png')
-        glTexRect(136, 8, 184, 56)
-        glTexture(false)
-        
-        -- Text
-        glBeginText()
-            glText('Select Desired Faction', 95, 64, 12, 'cd')
-            glText('ARM', 32, 0, 12, 'cd')
-            glText('CORE', 96, 0, 12, 'cd')
-            glText('TLL', 160, 0, 12, 'cd')
-        glEndText()
+	if commanderDefID == armcomDefID then
+		glRect(1, 1, 63, 63)
+	else
+		glTexRect(65, 1, 127, 63)
+	end
+		-- Icons
+	glColor(1, 1, 1, 1)
+	glTexture('LuaUI/Images/ARM.png')
+	glTexRect(8, 8, 56, 56)
+	glTexture('LuaUI/Images/CORE.png')
+	glTexRect(72, 8, 120, 56)
+	glTexture(false)
+		-- Text
+	glBeginText()
+		glText('Choose Your Faction', 64, 64, 12, 'cd')
+		glText('ARM', 32, 0, 12, 'cd')
+		glText('CORE', 96, 0, 12, 'cd')
+	glEndText()
 end
 
 
@@ -187,8 +166,6 @@ function widget:MousePress(mx, my, mButton)
 				newCom = armcomDefID
 			elseif mx < px + 128 then
 				newCom = corcomDefID
-			elseif mx < px + 192 then
-				newCom = tllcomDefID
 			end
 			if newCom then
 				commanderDefID = newCom
