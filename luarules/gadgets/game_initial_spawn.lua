@@ -47,7 +47,7 @@ local tllcomDefID = UnitDefNames.tllcom.id
 local validStartUnits = {
     [armcomDefID] = true,
     [corcomDefID] = true,
-    [tllcomDefID] = true,
+    --[tllcomDefID] = true,
 
 }
 local spawnTeams = {} -- spawnTeams[teamID] = allyID
