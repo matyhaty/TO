@@ -1,4 +1,4 @@
-# Totoal Obliteration
+# Total Obliteration
 
 Very early Beta stages of TO.
 
@@ -13,8 +13,8 @@ Join the Total Obliteration Server and everything will download for you
 
 ## What Total Obliteration is:
 
-- Its a mod similar to BA nd TA 
-- Its focus is on simplicity, without too many tech paths
+- It's a mod similar to BA nd TA 
+- It's focus is on simplicity, without too many tech paths
 - Designed to be nicely balanced
 - Designed to be friendly to experienced and new players
 - Designed to run on the latest engine versions
@@ -23,7 +23,7 @@ Join the Total Obliteration Server and everything will download for you
 
 - This is not a replacement nor is it meant to play like BA
 - This is not a replacement nor is it meant to play like TA
-- Do not compare Total Obliteration to other things, it is its own thing, even if similar.
+- Do not compare Total Obliteration to other things, it is it's own thing, even if similar.
 
 ## Bugs & Constructuve Feedback
 
