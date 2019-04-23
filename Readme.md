@@ -25,7 +25,7 @@ Join the Total Obliteration Server and everything will download for you
 - This is not a replacement nor is it meant to play like TA
 - Do not compare Total Obliteration to other things, it is it's own thing, even if similar.
 
-## Bugs & Constructuve Feedback
+## Bugs & Constructive Feedback
 
 - Please raise a issue in Git hub.  We do not use the forums for any bugs or feedback reporting.
 
